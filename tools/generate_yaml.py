@@ -200,7 +200,7 @@ def screen_accueil():
 # =============================================================================
 # 2. Nouvelle demande : déclaration de plusieurs échantillons
 # =============================================================================
-EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Lignee: ""}'
+EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: ""}'
 
 
 def screen_nouvelle():
@@ -213,17 +213,13 @@ def screen_nouvelle():
                 f"{{{field}: {expr}}})")
 
     # ---- Bloc 1 : informations communes -----------------------------------
-    c1_y, c1_h = 108, 196
-    col_w = "(Parent.Width - 64 - 48 - 64) / 3"
+    c1_y, c1_h = 108, 124
+    col_w = "(Parent.Width - 64 - 48 - 32) / 2"
     def col_x(i):
         return f"{M + 24} + {i} * ({col_w} + 32)" if i else str(M + 24)
 
     common = [
-        ("txtTitre", "Titre / projet", '""', "Ex. : Projet X – lot de novembre"),
         ("txtDemandeur", "Nom du demandeur", "User().FullName", "Nom du demandeur"),
-        ("txtFournisseur", "Nom du fournisseur", '""', "Fournisseur"),
-        ("txtAdrFournisseur", "Adresse du fournisseur", '""', "Adresse du fournisseur"),
-        ("txtAdrExpediteur", "Adresse de l'expéditeur", '""', "Adresse de l'expéditeur"),
         ("txtCommentaires", "Commentaires", '""', "Commentaire (facultatif)"),
     ]
     children = header(p, '"Nouvelle demande"',
@@ -235,7 +231,7 @@ def screen_nouvelle():
               M + 24, c1_y + 12, 800, 30, size=14, color=NAVY, bold=True),
     ]
     for i, (n, lab, default, hint) in enumerate(common):
-        r, c = divmod(i, 3)
+        r, c = divmod(i, 2)
         y = c1_y + 50 + r * 72
         children.append(label(f"{p}_lbl{n[3:]}", f'"{lab}"', col_x(c), y, col_w, 22,
                               size=11, color=INDIGO500, bold=True))
@@ -258,18 +254,17 @@ def screen_nouvelle():
 
     # Colonnes du tableau (en fraction de la largeur disponible)
     cols = [  # (clé, titre, fraction)
-        ("Nom", "Nom échantillon *", 0.22),
-        ("Ref", "Référence commerciale", 0.17),
-        ("TypeSub", "Type de substance", 0.17),
-        ("Source", "Source tissu", 0.15),
-        ("Lignee", "Lignée cellulaire", 0.17),
+        ("Nom", "Nom échantillon *", 0.32),
+        ("Ref", "Référence commerciale", 0.24),
+        ("TypeSub", "Type de substance", 0.22),
+        ("Source", "Source tissu", 0.22),
     ]
     tbl_x = M + 24
     num_w, act_w, gap = 40, 96, 10
     avail = f"(Parent.Width - {2 * M + 48 + num_w + act_w} - {gap * len(cols)})"
     xs, x_expr = {}, f"{tbl_x + num_w}"
     for key, _, frac in cols:
-        xs[key] = (x_expr, f"{avail} * {frac / 0.88:.4f}")
+        xs[key] = (x_expr, f"{avail} * {frac:.4f}")
         x_expr = f"{xs[key][0]} + {xs[key][1]} + {gap}"
 
     head_y = c2_y + 52
@@ -288,8 +283,6 @@ def screen_nouvelle():
 
     row_h = 56
     in_y = 10
-    lignee_known = ("!IsBlank(LookUp('x_Référentiel Lignées', "
-                    "Title = Trim(nd_txtLignee.Text)))")
     cells = [
         label(f"{p}_lblNum",
               "CountRows(Filter(colEchantillons, Id <= ThisItem.Id))",
@@ -320,23 +313,11 @@ def screen_nouvelle():
         text_input(f"{p}_txtSource", "ThisItem.Source", gx("Source"), in_y,
                    xs["Source"][1], hint="Source tissu",
                    onchange=sync("Source", "Self.Text")),
-        text_input(f"{p}_txtLignee", "ThisItem.Lignee", gx("Lignee"), in_y,
-                   f"{xs['Lignee'][1]} - 34", hint="Lignée cellulaire",
-                   onchange=sync("Lignee", "Self.Text")),
-        icon(f"{p}_icoLignee",
-             f"If({lignee_known}, Icon.CheckBadge, Icon.Warning)",
-             f"{gx('Lignee')} + {xs['Lignee'][1]} - 28", in_y + 6, 24,
-             f"If({lignee_known}, {GREEN}, {CORAL})",
-             tooltip="",
-             Tooltip=f'If({lignee_known}, "Lignée connue du référentiel", '
-                     '"Nouvelle lignée : non présente dans le référentiel")',
-             Visible="!IsBlank(Trim(nd_txtLignee.Text))"),
         icon(f"{p}_icoDupliquer", "Icon.Copy",
              "Parent.TemplateWidth - 84", in_y + 2, 32, NAVY,
              onselect=(f"Collect(colEchantillons, {{Id: varNextId, "
                        "Nom: nd_txtNom.Text & \" (copie)\", Ref: nd_txtRef.Text, "
-                       "TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text, "
-                       "Lignee: nd_txtLignee.Text});\nSet(varNextId, varNextId + 1)"),
+                       "TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text}});\nSet(varNextId, varNextId + 1)"),
              tooltip="Dupliquer cette ligne",
              PaddingTop=4, PaddingBottom=4, PaddingLeft=4, PaddingRight=4),
         icon(f"{p}_icoSupprimer", "Icon.Trash",
@@ -360,9 +341,6 @@ def screen_nouvelle():
     }, children=cells, variant="Vertical"))
 
     # ---- Pied de page : avertissement + boutons ---------------------------
-    nb_new = ("CountRows(Filter(nd_galEchantillons.AllItems, "
-              "!IsBlank(Trim(nd_txtLignee.Text)) && IsBlank(LookUp('x_Référentiel Lignées', "
-              "Title = Trim(nd_txtLignee.Text)))))")
     submit = f"""Set(varTentative, true);
 If(
     CountRows(Filter(nd_galEchantillons.AllItems, IsBlank(Trim(nd_txtNom.Text)))) > 0,
@@ -376,15 +354,11 @@ If(
                 'x_Demandes CODECOH',
                 Defaults('x_Demandes CODECOH'),
                 {{
-                    Titre: If(IsBlank(Trim(nd_txtTitre.Text)), Trim(nd_txtNom.Text), Trim(nd_txtTitre.Text)),
+                    Titre: Trim(nd_txtNom.Text),
                     'Nom échantillon': Trim(nd_txtNom.Text),
                     'Référence commerciale': nd_txtRef.Text,
                     'Type de substance': nd_cbType.Selected,
                     'Source tissu': nd_txtSource.Text,
-                    'Lignée cellulaire': Trim(nd_txtLignee.Text),
-                    'Nom fournisseur': nd_txtFournisseur.Text,
-                    'Adresse fournisseur': nd_txtAdrFournisseur.Text,
-                    'Adresse expéditeur': nd_txtAdrExpediteur.Text,
                     'Nom demandeur': nd_txtDemandeur.Text,
                     Commentaires: nd_txtCommentaires.Text
                 }}
@@ -401,13 +375,6 @@ If(
 )"""
     fy = f"Parent.Height - {footer_h - 12}"
     children += [
-        icon(f"{p}_icoInfo", "Icon.Warning", M, f"{fy} + 10", 24, CORAL,
-             tooltip="Nouvelles lignées", Visible=f"{nb_new} > 0"),
-        label(f"{p}_lblInfo",
-              f'{nb_new} & " nouvelle(s) lignée(s) hors référentiel : pensez à joindre '
-              'la documentation (certificat, fiche fournisseur) à la demande."',
-              M + 32, fy, "Parent.Width - 640", 44, size=11, color=CORAL,
-              Visible=f"{nb_new} > 0"),
         button(f"{p}_btnAnnuler", '"Annuler"', "Parent.Width - 452", fy, 140, 44,
                "Navigate(ScrAccueil, ScreenTransition.UnCover)", primary=False),
         button(f"{p}_btnEnvoyer",
@@ -421,11 +388,7 @@ Set(varEnvoiEnCours, false);
 Set(varNextId, 1);
 ClearCollect(colEchantillons, {EMPTY_ROW});
 Set(varNextId, 2);
-Reset(nd_txtTitre);
 Reset(nd_txtDemandeur);
-Reset(nd_txtFournisseur);
-Reset(nd_txtAdrFournisseur);
-Reset(nd_txtAdrExpediteur);
 Reset(nd_txtCommentaires)"""
     return render_screen("ScrNouvelleDemande",
                          {"Fill": INDIGO50, "LoadingSpinnerColor": NAVY,
@@ -439,9 +402,10 @@ Reset(nd_txtCommentaires)"""
 def screen_mes_demandes():
     M = 32
     cells = [
-        label("Title1", "ThisItem.Titre", 24, 10, "Parent.TemplateWidth - 340", 28,
+        label("Title1", "ThisItem.'Nom échantillon'", 24, 10, "Parent.TemplateWidth - 340", 28,
               size=14, color=NAVY, bold=True, OnSelect="Select(Parent)"),
-        label("Subtitle1", "ThisItem.'Nom échantillon'", 24, 40,
+        label("Subtitle1",
+              "Concatenate(ThisItem.'Type de substance'.Value, If(!IsBlank(ThisItem.'Référence commerciale'), \" · Réf. \" & ThisItem.'Référence commerciale'))", 24, 40,
               "Parent.TemplateWidth - 340", 24, size=12, color=TEXT,
               OnSelect="Select(Parent)"),
         label("md_lblDate", '"Créée le " & Text(ThisItem.Created, "dd/mm/yyyy")',

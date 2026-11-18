@@ -27,7 +27,7 @@ table{width:100%;border-collapse:collapse;font-size:14px}th{background:var(--i50
 td{height:56px;padding:0 5px;border-bottom:1px solid var(--i200)}td .in{width:100%}
 .num{color:var(--i500);font-weight:bold;text-align:center;width:40px}
 .ok{color:var(--green);font-weight:bold}.warn{color:var(--coral);font-weight:bold}
-.act{width:96px;font-size:20px;color:var(--navy)}.act span+span{color:var(--coral);margin-left:14px}
+.act{width:96px;min-width:96px;white-space:nowrap;font-size:20px;color:var(--navy)}.act span+span{color:var(--coral);margin-left:14px}
 .footer{position:absolute;bottom:16px;left:32px;right:32px;display:flex;align-items:center;gap:16px}
 .footer .msg{flex:1;color:var(--coral);font-size:14px}
 .list .row{display:flex;align-items:center;height:72px;border-bottom:1px solid var(--i200);padding:0 24px}
@@ -52,21 +52,17 @@ td{height:56px;padding:0 5px;border-bottom:1px solid var(--i200)}td .in{width:10
 <div class="screen">
  <div class="hdr"><div class="logo">logo ABC</div><div><h1>Nouvelle demande</h1><p>Renseignez les informations communes, puis ajoutez autant d'échantillons que nécessaire</p></div><div class="btn back">←  Accueil</div></div>
  <div class="card"><h3>1. Informations communes à tous les échantillons</h3>
-  <div class="grid">
-   <div class="f"><label>Titre / projet</label><div class="in v">Projet ONCO-12 – lot novembre</div></div>
+  <div class="grid" style="grid-template-columns:repeat(2,1fr)">
    <div class="f"><label>Nom du demandeur</label><div class="in v">Romain Dufraiche</div></div>
-   <div class="f"><label>Nom du fournisseur</label><div class="in v">ATCC</div></div>
-   <div class="f"><label>Adresse du fournisseur</label><div class="in v">10801 University Blvd, Manassas, USA</div></div>
-   <div class="f"><label>Adresse de l'expéditeur</label><div class="in">Adresse de l'expéditeur</div></div>
    <div class="f"><label>Commentaires</label><div class="in">Commentaire (facultatif)</div></div>
   </div></div>
- <div class="card" style="height:330px"><h3>2. Échantillons (3) <span class="btn">+  Ajouter un échantillon</span></h3>
-  <table><tr><th>#</th><th>Nom échantillon *</th><th>Référence commerciale</th><th>Type de substance</th><th>Source tissu</th><th>Lignée cellulaire</th><th></th></tr>
-  <tr><td class="num">1</td><td><div class="in v">HeLa – stock A</div></td><td><div class="in v">CCL-2</div></td><td><div class="in v">Lignée cellulaire ▾</div></td><td><div class="in v">Col utérin</div></td><td><div class="in v">HeLa &nbsp;<span class="ok">✔</span></div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
-  <tr><td class="num">2</td><td><div class="in v">HEK293 – stock B</div></td><td><div class="in v">CRL-1573</div></td><td><div class="in v">Lignée cellulaire ▾</div></td><td><div class="in v">Rein</div></td><td><div class="in v">HEK293 &nbsp;<span class="ok">✔</span></div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
-  <tr><td class="num">3</td><td><div class="in v">Organoïde X</div></td><td><div class="in">Réf. commerciale</div></td><td><div class="in">Choisir… ▾</div></td><td><div class="in v">Côlon</div></td><td><div class="in v">ORG-X1 &nbsp;<span class="warn">⚠</span></div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
+ <div class="card" style="height:400px"><h3>2. Échantillons (3) <span class="btn">+  Ajouter un échantillon</span></h3>
+  <table><tr><th>#</th><th style="width:32%">Nom échantillon *</th><th style="width:24%">Référence commerciale</th><th style="width:20%">Type de substance</th><th style="width:20%">Source tissu</th><th></th></tr>
+  <tr><td class="num">1</td><td><div class="in v">HeLa – stock A</div></td><td><div class="in v">CCL-2</div></td><td><div class="in v">Lignée cellulaire ▾</div></td><td><div class="in v">Col utérin</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
+  <tr><td class="num">2</td><td><div class="in v">HEK293 – stock B</div></td><td><div class="in v">CRL-1573</div></td><td><div class="in v">Lignée cellulaire ▾</div></td><td><div class="in v">Rein</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
+  <tr><td class="num">3</td><td><div class="in v">Organoïde X</div></td><td><div class="in">Réf. commerciale</div></td><td><div class="in">Choisir… ▾</div></td><td><div class="in v">Côlon</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
   </table></div>
- <div class="footer"><div class="msg">⚠ 1 nouvelle(s) lignée(s) hors référentiel : pensez à joindre la documentation (certificat, fiche fournisseur) à la demande.</div><div class="btn" style="width:140px;height:44px">Annuler</div><div class="btn pri" style="width:264px;height:44px">Envoyer 3 demande(s)</div></div>
+ <div class="footer"><div class="msg"></div><div class="btn" style="width:140px;height:44px">Annuler</div><div class="btn pri" style="width:264px;height:44px">Envoyer 3 demande(s)</div></div>
 </div>
 
 <div class="cap">3 · Mes demandes — même contenu, charte Servier + recherche</div>
@@ -74,9 +70,9 @@ td{height:56px;padding:0 5px;border-bottom:1px solid var(--i200)}td .in{width:10
  <div class="hdr"><div class="logo">logo ABC</div><div><h1>Mes demandes</h1><p>Retrouvez toutes les demandes que vous avez déposées</p></div><div class="btn back">←  Accueil</div></div>
  <div style="display:flex;justify-content:space-between;margin:16px 32px 0"><div class="in" style="width:420px">Rechercher un échantillon…  🔍</div><div class="btn pri" style="width:220px">+  Nouvelle demande</div></div>
  <div class="card list" style="padding:0;height:560px">
-  <div class="row sel"><div class="l"><b>Projet ONCO-12 – lot novembre</b><div>HeLa – stock A</div></div><div class="r"><div class="d">Créée le 18/11/2026</div><div class="warn">En cours de traitement</div></div><div class="chev">›</div></div>
-  <div class="row"><div class="l"><b>Projet ONCO-12 – lot novembre</b><div>HEK293 – stock B</div></div><div class="r"><div class="d">Créée le 18/11/2026</div><div class="warn">En cours de traitement</div></div><div class="chev">›</div></div>
-  <div class="row"><div class="l"><b>Étude NEURO-3</b><div>Sérum de lapin</div></div><div class="r"><div class="d">Créée le 02/10/2026</div><div class="ok">N° CODECOH : 2026-0147</div></div><div class="chev">›</div></div>
+  <div class="row sel"><div class="l"><b>HeLa – stock A</b><div>Lignée cellulaire · Réf. CCL-2</div></div><div class="r"><div class="d">Créée le 18/11/2026</div><div class="warn">En cours de traitement</div></div><div class="chev">›</div></div>
+  <div class="row"><div class="l"><b>HEK293 – stock B</b><div>Lignée cellulaire · Réf. CRL-1573</div></div><div class="r"><div class="d">Créée le 18/11/2026</div><div class="warn">En cours de traitement</div></div><div class="chev">›</div></div>
+  <div class="row"><div class="l"><b>Sérum de lapin</b><div>Sérum</div></div><div class="r"><div class="d">Créée le 02/10/2026</div><div class="ok">N° CODECOH : 2026-0147</div></div><div class="chev">›</div></div>
  </div>
 </div>
 </body></html>

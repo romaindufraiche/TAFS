@@ -8,8 +8,8 @@ Sources de données (inchangées) : listes SharePoint `x_Demandes CODECOH` et `x
 | Écran | Avant | Après |
 |---|---|---|
 | **Accueil** | 3 boutons (Nouvelle demande, Mes demandes, Administration), fond bleu | **2 tuiles** (Nouvelle demande, Mes demandes), **plus d'administration**, en-tête blanc avec logo et liseré corail, message « Bonjour <nom> » |
-| **Nouvelle demande** | Formulaire pour **1 seul** échantillon | **Plusieurs échantillons à la fois** : un bloc « informations communes » (titre/projet, demandeur, fournisseur, adresses, commentaire) puis un tableau avec une ligne par échantillon. Chaque ligne a des boutons *Dupliquer* et *Supprimer*. Un seul clic sur **Envoyer N demande(s)** crée N lignes dans SharePoint |
-| **Mes demandes** | Liste simple | Même liste aux couleurs Servier, avec une recherche par nom d'échantillon, la date et le statut (n° CODECOH ou « En cours de traitement »), et un bouton « Nouvelle demande » |
+| **Nouvelle demande** | Formulaire pour **1 seul** échantillon | **Plusieurs échantillons à la fois** : un bloc « informations communes » (demandeur, commentaire) puis un tableau avec une ligne par échantillon (nom, référence commerciale, type de substance, source tissu). Chaque ligne a des boutons *Dupliquer* et *Supprimer*. Un seul clic sur **Envoyer N demande(s)** crée N lignes dans SharePoint. Les champs Titre, Nom fournisseur, Adresse fournisseur, Adresse expéditeur et Lignée cellulaire **ne sont plus demandés** |
+| **Mes demandes** | Liste simple | Même liste aux couleurs Servier : nom de l'échantillon, type et référence, date, statut (n° CODECOH ou « En cours de traitement »), recherche par nom et bouton « Nouvelle demande » |
 | **Administration** | Écran `ScrAdmin` | **Supprimé** |
 | **Détail demande** | inchangé | inchangé (il suffit d'adapter les couleurs, voir l'étape 5) |
 
@@ -23,7 +23,7 @@ Les couleurs sont reprises du thème du site servier.com.
 | Survol / texte secondaire | Indigo 500 `#7088B6` | `RGBA(112, 136, 182, 1)` |
 | Bordures | Indigo 200 `#D4DEF2` | `RGBA(212, 222, 242, 1)` |
 | Fond d'écran | Indigo 50 `#EBEBF9` | `RGBA(235, 235, 249, 1)` |
-| Succès (lignée connue) | Vert `#3F7E12` | `RGBA(63, 126, 18, 1)` |
+| Succès (n° CODECOH attribué) | Vert `#3F7E12` | `RGBA(63, 126, 18, 1)` |
 | Police | Arial | `Font.Arial` |
 
 > Si votre service communication vous a fourni une charte officielle (codes couleurs exacts, police), il suffit de modifier les constantes en haut de `tools/generate_yaml.py` puis de relancer `python3 tools/generate_yaml.py`.
@@ -93,19 +93,13 @@ Sélectionnez `ScrDetailDemande` puis :
 
 ## Fonctionnement de l'écran multi-échantillons (pour la maintenance)
 
-- Les lignes du tableau sont stockées dans la collection locale `colEchantillons` (`Id, Nom, Ref, TypeSub, Source, Lignee`). Elle est réinitialisée à chaque ouverture de l'écran (`OnVisible`).
+- Les lignes du tableau sont stockées dans la collection locale `colEchantillons` (`Id, Nom, Ref, TypeSub, Source`). Elle est réinitialisée à chaque ouverture de l'écran (`OnVisible`).
 - **Ajouter** fait un `Collect` d'une ligne vide. **Dupliquer** recopie la ligne en ajoutant « (copie) » au nom. **Supprimer** fait un `Remove`, et reste désactivé s'il ne reste qu'une ligne.
-- La pastille ✔ ou ⚠ à côté de la lignée vérifie sa présence dans `x_Référentiel Lignées` (colonne *Titre*).
 - **Envoyer** :
   1. vérifie que chaque ligne a un nom (sinon, la bordure passe en corail et un message s'affiche) ;
   2. fait `ForAll(nd_galEchantillons.AllItems, Patch('x_Demandes CODECOH', Defaults(...), {...}))`, c'est-à-dire une ligne SharePoint par échantillon, avec les informations communes recopiées sur chaque ligne ;
-  3. *Titre* = le titre/projet saisi, ou le nom de l'échantillon si le titre est vide. Toutes les lignes d'un même lot portent donc le même titre et se retrouvent facilement ;
+  3. le champ n'est plus saisi : la colonne SharePoint *Titre* (souvent obligatoire) reçoit automatiquement le **nom de l'échantillon**. *Nom fournisseur*, *Adresse fournisseur*, *Adresse expéditeur* et *Lignée cellulaire* restent vides. Si l'une de ces colonnes est marquée « obligatoire » dans la liste SharePoint, il faut décocher cette option (Paramètres de la liste → colonne → *Exiger que cette colonne contienne des informations* = Non), sinon l'envoi échouera ;
   4. affiche un message de succès, ou le message d'erreur SharePoint.
-
-### Limite connue : pièces jointes
-L'ancien formulaire demandait une pièce jointe quand la lignée était nouvelle. Une fonction `Patch` ne peut pas envoyer de pièces jointes SharePoint. L'écran se contente donc d'**avertir** l'utilisateur (message corail en bas). Si la pièce jointe doit rester obligatoire, deux solutions simples :
-- ajouter une carte *Pièces jointes* au formulaire `Form2` de l'écran Détail (mode Édition) pour les joindre après coup ;
-- ou faire un petit flux Power Automate déclenché à la création, qui relance le demandeur.
 
 ### Régénérer le YAML
 ```bash

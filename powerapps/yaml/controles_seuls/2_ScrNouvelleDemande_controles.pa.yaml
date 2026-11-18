@@ -83,7 +83,7 @@
       BorderStyle: =BorderStyle.Solid
       BorderThickness: =1
       Fill: =RGBA(255, 255, 255, 1)
-      Height: =196
+      Height: =124
       Width: =Parent.Width - 64
       X: =32
       Y: =108
@@ -99,43 +99,6 @@
       Width: =800
       X: =56
       Y: =120
-- nd_lblTitre:
-    Control: Label@2.5.1
-    Properties:
-      Color: =RGBA(112, 136, 182, 1)
-      Font: =Font.Arial
-      FontWeight: =FontWeight.Bold
-      Height: =22
-      Size: =11
-      Text: ="Titre / projet"
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
-      X: =56
-      Y: =158
-- nd_txtTitre:
-    Control: Classic/TextInput@2.3.2
-    Properties:
-      AccessibleLabel: |-
-        ="Ex. : Projet X – lot de novembre"
-      BorderColor: =RGBA(212, 222, 242, 1)
-      BorderThickness: =1
-      Color: =RGBA(49, 49, 49, 1)
-      Default: =""
-      Fill: =RGBA(255, 255, 255, 1)
-      FocusedBorderColor: =RGBA(36, 34, 106, 1)
-      FocusedBorderThickness: =2
-      Font: =Font.Arial
-      Height: =36
-      HintText: |-
-        ="Ex. : Projet X – lot de novembre"
-      HoverBorderColor: =RGBA(112, 136, 182, 1)
-      RadiusBottomLeft: =4
-      RadiusBottomRight: =4
-      RadiusTopLeft: =4
-      RadiusTopRight: =4
-      Size: =12
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
-      X: =56
-      Y: =182
 - nd_lblDemandeur:
     Control: Label@2.5.1
     Properties:
@@ -145,8 +108,8 @@
       Height: =22
       Size: =11
       Text: ="Nom du demandeur"
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
-      X: =56 + 1 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
+      Width: =(Parent.Width - 64 - 48 - 32) / 2
+      X: =56
       Y: =158
 - nd_txtDemandeur:
     Control: Classic/TextInput@2.3.2
@@ -168,114 +131,9 @@
       RadiusTopLeft: =4
       RadiusTopRight: =4
       Size: =12
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
-      X: =56 + 1 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
-      Y: =182
-- nd_lblFournisseur:
-    Control: Label@2.5.1
-    Properties:
-      Color: =RGBA(112, 136, 182, 1)
-      Font: =Font.Arial
-      FontWeight: =FontWeight.Bold
-      Height: =22
-      Size: =11
-      Text: ="Nom du fournisseur"
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
-      X: =56 + 2 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
-      Y: =158
-- nd_txtFournisseur:
-    Control: Classic/TextInput@2.3.2
-    Properties:
-      AccessibleLabel: ="Fournisseur"
-      BorderColor: =RGBA(212, 222, 242, 1)
-      BorderThickness: =1
-      Color: =RGBA(49, 49, 49, 1)
-      Default: =""
-      Fill: =RGBA(255, 255, 255, 1)
-      FocusedBorderColor: =RGBA(36, 34, 106, 1)
-      FocusedBorderThickness: =2
-      Font: =Font.Arial
-      Height: =36
-      HintText: ="Fournisseur"
-      HoverBorderColor: =RGBA(112, 136, 182, 1)
-      RadiusBottomLeft: =4
-      RadiusBottomRight: =4
-      RadiusTopLeft: =4
-      RadiusTopRight: =4
-      Size: =12
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
-      X: =56 + 2 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
-      Y: =182
-- nd_lblAdrFournisseur:
-    Control: Label@2.5.1
-    Properties:
-      Color: =RGBA(112, 136, 182, 1)
-      Font: =Font.Arial
-      FontWeight: =FontWeight.Bold
-      Height: =22
-      Size: =11
-      Text: ="Adresse du fournisseur"
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      Width: =(Parent.Width - 64 - 48 - 32) / 2
       X: =56
-      Y: =230
-- nd_txtAdrFournisseur:
-    Control: Classic/TextInput@2.3.2
-    Properties:
-      AccessibleLabel: ="Adresse du fournisseur"
-      BorderColor: =RGBA(212, 222, 242, 1)
-      BorderThickness: =1
-      Color: =RGBA(49, 49, 49, 1)
-      Default: =""
-      Fill: =RGBA(255, 255, 255, 1)
-      FocusedBorderColor: =RGBA(36, 34, 106, 1)
-      FocusedBorderThickness: =2
-      Font: =Font.Arial
-      Height: =36
-      HintText: ="Adresse du fournisseur"
-      HoverBorderColor: =RGBA(112, 136, 182, 1)
-      RadiusBottomLeft: =4
-      RadiusBottomRight: =4
-      RadiusTopLeft: =4
-      RadiusTopRight: =4
-      Size: =12
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
-      X: =56
-      Y: =254
-- nd_lblAdrExpediteur:
-    Control: Label@2.5.1
-    Properties:
-      Color: =RGBA(112, 136, 182, 1)
-      Font: =Font.Arial
-      FontWeight: =FontWeight.Bold
-      Height: =22
-      Size: =11
-      Text: ="Adresse de l'expéditeur"
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
-      X: =56 + 1 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
-      Y: =230
-- nd_txtAdrExpediteur:
-    Control: Classic/TextInput@2.3.2
-    Properties:
-      AccessibleLabel: ="Adresse de l'expéditeur"
-      BorderColor: =RGBA(212, 222, 242, 1)
-      BorderThickness: =1
-      Color: =RGBA(49, 49, 49, 1)
-      Default: =""
-      Fill: =RGBA(255, 255, 255, 1)
-      FocusedBorderColor: =RGBA(36, 34, 106, 1)
-      FocusedBorderThickness: =2
-      Font: =Font.Arial
-      Height: =36
-      HintText: ="Adresse de l'expéditeur"
-      HoverBorderColor: =RGBA(112, 136, 182, 1)
-      RadiusBottomLeft: =4
-      RadiusBottomRight: =4
-      RadiusTopLeft: =4
-      RadiusTopRight: =4
-      Size: =12
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
-      X: =56 + 1 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
-      Y: =254
+      Y: =182
 - nd_lblCommentaires:
     Control: Label@2.5.1
     Properties:
@@ -285,9 +143,9 @@
       Height: =22
       Size: =11
       Text: ="Commentaires"
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
-      X: =56 + 2 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
-      Y: =230
+      Width: =(Parent.Width - 64 - 48 - 32) / 2
+      X: =56 + 1 * ((Parent.Width - 64 - 48 - 32) / 2 + 32)
+      Y: =158
 - nd_txtCommentaires:
     Control: Classic/TextInput@2.3.2
     Properties:
@@ -308,9 +166,9 @@
       RadiusTopLeft: =4
       RadiusTopRight: =4
       Size: =12
-      Width: =(Parent.Width - 64 - 48 - 64) / 3
-      X: =56 + 2 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
-      Y: =254
+      Width: =(Parent.Width - 64 - 48 - 32) / 2
+      X: =56 + 1 * ((Parent.Width - 64 - 48 - 32) / 2 + 32)
+      Y: =182
 - nd_cardEch:
     Control: Rectangle@2.3.0
     Properties:
@@ -318,10 +176,10 @@
       BorderStyle: =BorderStyle.Solid
       BorderThickness: =1
       Fill: =RGBA(255, 255, 255, 1)
-      Height: =Parent.Height - 400
+      Height: =Parent.Height - 328
       Width: =Parent.Width - 64
       X: =32
-      Y: =320
+      Y: =248
 - nd_lblEch:
     Control: Label@2.5.1
     Properties:
@@ -333,7 +191,7 @@
       Text: ="2. Échantillons (" & CountRows(colEchantillons) & ")"
       Width: =600
       X: =56
-      Y: =332
+      Y: =260
 - nd_btnAjouter:
     Control: Classic/Button@2.2.0
     Properties:
@@ -352,7 +210,7 @@
       HoverColor: =RGBA(36, 34, 106, 1)
       HoverFill: =RGBA(235, 235, 249, 1)
       OnSelect: |-
-        =Collect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Lignee: ""});
+        =Collect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: ""});
         Set(varNextId, varNextId + 1)
       PressedColor: =RGBA(255, 255, 255, 1)
       PressedFill: =RGBA(36, 34, 106, 1)
@@ -364,7 +222,7 @@
       Text: ="+  Ajouter un échantillon"
       Width: =230
       X: =Parent.Width - 286
-      Y: =328
+      Y: =256
 - nd_rectEntete:
     Control: Rectangle@2.3.0
     Properties:
@@ -372,7 +230,7 @@
       Height: =32
       Width: =Parent.Width - 112
       X: =56
-      Y: =372
+      Y: =300
 - nd_lblColNum:
     Control: Label@2.5.1
     Properties:
@@ -386,7 +244,7 @@
         ="#"
       Width: =40
       X: =56
-      Y: =372
+      Y: =300
 - nd_lblColNom:
     Control: Label@2.5.1
     Properties:
@@ -396,9 +254,9 @@
       Height: =32
       Size: =11
       Text: ="Nom échantillon *"
-      Width: =(Parent.Width - 248 - 50) * 0.2500
+      Width: =(Parent.Width - 248 - 40) * 0.3200
       X: =96
-      Y: =372
+      Y: =300
 - nd_lblColRef:
     Control: Label@2.5.1
     Properties:
@@ -408,9 +266,9 @@
       Height: =32
       Size: =11
       Text: ="Référence commerciale"
-      Width: =(Parent.Width - 248 - 50) * 0.1932
-      X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10
-      Y: =372
+      Width: =(Parent.Width - 248 - 40) * 0.2400
+      X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10
+      Y: =300
 - nd_lblColTypeSub:
     Control: Label@2.5.1
     Properties:
@@ -420,9 +278,9 @@
       Height: =32
       Size: =11
       Text: ="Type de substance"
-      Width: =(Parent.Width - 248 - 50) * 0.1932
-      X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10
-      Y: =372
+      Width: =(Parent.Width - 248 - 40) * 0.2200
+      X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10 + (Parent.Width - 248 - 40) * 0.2400 + 10
+      Y: =300
 - nd_lblColSource:
     Control: Label@2.5.1
     Properties:
@@ -432,21 +290,9 @@
       Height: =32
       Size: =11
       Text: ="Source tissu"
-      Width: =(Parent.Width - 248 - 50) * 0.1705
-      X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10
-      Y: =372
-- nd_lblColLignee:
-    Control: Label@2.5.1
-    Properties:
-      Color: =RGBA(36, 34, 106, 1)
-      Font: =Font.Arial
-      FontWeight: =FontWeight.Bold
-      Height: =32
-      Size: =11
-      Text: ="Lignée cellulaire"
-      Width: =(Parent.Width - 248 - 50) * 0.1932
-      X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1705 + 10
-      Y: =372
+      Width: =(Parent.Width - 248 - 40) * 0.2200
+      X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10 + (Parent.Width - 248 - 40) * 0.2400 + 10 + (Parent.Width - 248 - 40) * 0.2200 + 10
+      Y: =300
 - nd_galEchantillons:
     Control: Gallery@2.15.0
     Variant: Vertical
@@ -454,7 +300,7 @@
       AccessibleLabel: ="Liste des échantillons à déclarer"
       BorderThickness: =0
       Fill: =RGBA(0, 0, 0, 0)
-      Height: =Parent.Height - 500
+      Height: =Parent.Height - 428
       Items: =colEchantillons
       ShowScrollbar: =true
       TemplateFill: =RGBA(255, 255, 255, 1)
@@ -462,7 +308,7 @@
       TemplateSize: =56
       Width: =Parent.Width - 112
       X: =56
-      Y: =408
+      Y: =336
     Children:
       - nd_lblNum:
           Control: Label@2.5.1
@@ -499,7 +345,7 @@
             RadiusTopLeft: =4
             RadiusTopRight: =4
             Size: =12
-            Width: =(Parent.Width - 248 - 50) * 0.2500
+            Width: =(Parent.Width - 248 - 40) * 0.3200
             X: =96 - 56
             Y: =10
       - nd_txtRef:
@@ -524,8 +370,8 @@
             RadiusTopLeft: =4
             RadiusTopRight: =4
             Size: =12
-            Width: =(Parent.Width - 248 - 50) * 0.1932
-            X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 - 56
+            Width: =(Parent.Width - 248 - 40) * 0.2400
+            X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10 - 56
             Y: =10
       - nd_cbType:
           Control: Classic/ComboBox@2.4.0
@@ -557,8 +403,8 @@
             SelectionColor: =RGBA(255, 255, 255, 1)
             SelectionFill: =RGBA(36, 34, 106, 1)
             Size: =12
-            Width: =(Parent.Width - 248 - 50) * 0.1932
-            X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 - 56
+            Width: =(Parent.Width - 248 - 40) * 0.2200
+            X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10 + (Parent.Width - 248 - 40) * 0.2400 + 10 - 56
             Y: =10
       - nd_txtSource:
           Control: Classic/TextInput@2.3.2
@@ -582,47 +428,9 @@
             RadiusTopLeft: =4
             RadiusTopRight: =4
             Size: =12
-            Width: =(Parent.Width - 248 - 50) * 0.1705
-            X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 - 56
+            Width: =(Parent.Width - 248 - 40) * 0.2200
+            X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10 + (Parent.Width - 248 - 40) * 0.2400 + 10 + (Parent.Width - 248 - 40) * 0.2200 + 10 - 56
             Y: =10
-      - nd_txtLignee:
-          Control: Classic/TextInput@2.3.2
-          Properties:
-            AccessibleLabel: ="Lignée cellulaire"
-            BorderColor: =RGBA(212, 222, 242, 1)
-            BorderThickness: =1
-            Color: =RGBA(49, 49, 49, 1)
-            Default: =ThisItem.Lignee
-            Fill: =RGBA(255, 255, 255, 1)
-            FocusedBorderColor: =RGBA(36, 34, 106, 1)
-            FocusedBorderThickness: =2
-            Font: =Font.Arial
-            Height: =36
-            HintText: ="Lignée cellulaire"
-            HoverBorderColor: =RGBA(112, 136, 182, 1)
-            OnChange: |-
-              =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Lignee: Self.Text})
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            Size: =12
-            Width: =(Parent.Width - 248 - 50) * 0.1932 - 34
-            X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1705 + 10 - 56
-            Y: =10
-      - nd_icoLignee:
-          Control: Classic/Icon@2.5.0
-          Properties:
-            AccessibleLabel: =Self.Tooltip
-            Color: =If(!IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))), RGBA(63, 126, 18, 1), RGBA(212, 66, 51, 1))
-            Height: =24
-            Icon: =If(!IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))), Icon.CheckBadge, Icon.Warning)
-            Tooltip: |-
-              =If(!IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))), "Lignée connue du référentiel", "Nouvelle lignée : non présente dans le référentiel")
-            Visible: =!IsBlank(Trim(nd_txtLignee.Text))
-            Width: =24
-            X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1705 + 10 - 56 + (Parent.Width - 248 - 50) * 0.1932 - 28
-            Y: =16
       - nd_icoDupliquer:
           Control: Classic/Icon@2.5.0
           Properties:
@@ -631,7 +439,7 @@
             Height: =32
             Icon: =Icon.Copy
             OnSelect: |-
-              =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text, Lignee: nd_txtLignee.Text});
+              =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text}});
               Set(varNextId, varNextId + 1)
             PaddingBottom: =4
             PaddingLeft: =4
@@ -667,32 +475,6 @@
             Width: =Parent.TemplateWidth
             X: =0
             Y: =Parent.TemplateHeight - 1
-- nd_icoInfo:
-    Control: Classic/Icon@2.5.0
-    Properties:
-      AccessibleLabel: =Self.Tooltip
-      Color: =RGBA(212, 66, 51, 1)
-      Height: =24
-      Icon: =Icon.Warning
-      Tooltip: ="Nouvelles lignées"
-      Visible: =CountRows(Filter(nd_galEchantillons.AllItems, !IsBlank(Trim(nd_txtLignee.Text)) && IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))))) > 0
-      Width: =24
-      X: =32
-      Y: =Parent.Height - 60 + 10
-- nd_lblInfo:
-    Control: Label@2.5.1
-    Properties:
-      Color: =RGBA(212, 66, 51, 1)
-      Font: =Font.Arial
-      FontWeight: =FontWeight.Normal
-      Height: =44
-      Size: =11
-      Text: |-
-        =CountRows(Filter(nd_galEchantillons.AllItems, !IsBlank(Trim(nd_txtLignee.Text)) && IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))))) & " nouvelle(s) lignée(s) hors référentiel : pensez à joindre la documentation (certificat, fiche fournisseur) à la demande."
-      Visible: =CountRows(Filter(nd_galEchantillons.AllItems, !IsBlank(Trim(nd_txtLignee.Text)) && IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))))) > 0
-      Width: =Parent.Width - 640
-      X: =64
-      Y: =Parent.Height - 60
 - nd_btnAnnuler:
     Control: Classic/Button@2.2.0
     Properties:
@@ -754,15 +536,11 @@
                         'x_Demandes CODECOH',
                         Defaults('x_Demandes CODECOH'),
                         {
-                            Titre: If(IsBlank(Trim(nd_txtTitre.Text)), Trim(nd_txtNom.Text), Trim(nd_txtTitre.Text)),
+                            Titre: Trim(nd_txtNom.Text),
                             'Nom échantillon': Trim(nd_txtNom.Text),
                             'Référence commerciale': nd_txtRef.Text,
                             'Type de substance': nd_cbType.Selected,
                             'Source tissu': nd_txtSource.Text,
-                            'Lignée cellulaire': Trim(nd_txtLignee.Text),
-                            'Nom fournisseur': nd_txtFournisseur.Text,
-                            'Adresse fournisseur': nd_txtAdrFournisseur.Text,
-                            'Adresse expéditeur': nd_txtAdrExpediteur.Text,
                             'Nom demandeur': nd_txtDemandeur.Text,
                             Commentaires: nd_txtCommentaires.Text
                         }

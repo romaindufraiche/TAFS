@@ -8,11 +8,7 @@ RGBA(36, 34, 106, 1)
 Set(varTentative, false);
 Set(varEnvoiEnCours, false);
 Set(varNextId, 1);
-ClearCollect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Lignee: ""});
+ClearCollect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: ""});
 Set(varNextId, 2);
-Reset(nd_txtTitre);
 Reset(nd_txtDemandeur);
-Reset(nd_txtFournisseur);
-Reset(nd_txtAdrFournisseur);
-Reset(nd_txtAdrExpediteur);
 Reset(nd_txtCommentaires)

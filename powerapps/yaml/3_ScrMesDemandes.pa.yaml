@@ -189,7 +189,7 @@ Screens:
                   Height: =28
                   OnSelect: =Select(Parent)
                   Size: =14
-                  Text: =ThisItem.Titre
+                  Text: =ThisItem.'Nom échantillon'
                   Width: =Parent.TemplateWidth - 340
                   X: =24
                   Y: =10
@@ -202,7 +202,7 @@ Screens:
                   Height: =24
                   OnSelect: =Select(Parent)
                   Size: =12
-                  Text: =ThisItem.'Nom échantillon'
+                  Text: =Concatenate(ThisItem.'Type de substance'.Value, If(!IsBlank(ThisItem.'Référence commerciale'), " · Réf. " & ThisItem.'Référence commerciale'))
                   Width: =Parent.TemplateWidth - 340
                   X: =24
                   Y: =40
