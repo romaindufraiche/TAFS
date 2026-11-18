@@ -219,7 +219,7 @@ def screen_nouvelle():
         return f"{M + 24} + {i} * ({col_w} + 32)" if i else str(M + 24)
 
     common = [
-        ("txtDemandeur", "Nom du demandeur", "User().FullName", "Nom du demandeur"),
+        ("txtDemandeur", "Demandeur", "User().FullName", "Demandeur"),
         ("txtCommentaires", "Commentaires", '""', "Commentaire (facultatif)"),
     ]
     children = header(p, '"Nouvelle demande"',
@@ -254,10 +254,10 @@ def screen_nouvelle():
 
     # Colonnes du tableau (en fraction de la largeur disponible)
     cols = [  # (clé, titre, fraction)
-        ("Nom", "Nom échantillon *", 0.32),
+        ("Nom", "Nom/type échantillon *", 0.32),
         ("Ref", "Référence commerciale", 0.24),
         ("TypeSub", "Type de substance", 0.22),
-        ("Source", "Source tissu", 0.22),
+        ("Source", "Tissue Source", 0.22),
     ]
     tbl_x = M + 24
     num_w, act_w, gap = 40, 96, 10
@@ -311,7 +311,7 @@ def screen_nouvelle():
             "PressedFill": NAVY, "PressedColor": WHITE,
             "AccessibleLabel": '"Type de substance"'}),
         text_input(f"{p}_txtSource", "ThisItem.Source", gx("Source"), in_y,
-                   xs["Source"][1], hint="Source tissu",
+                   xs["Source"][1], hint="Tissue Source",
                    onchange=sync("Source", "Self.Text")),
         icon(f"{p}_icoDupliquer", "Icon.Copy",
              "Parent.TemplateWidth - 84", in_y + 2, 32, NAVY,
@@ -355,12 +355,12 @@ If(
                 'x_Demandes CODECOH',
                 Defaults('x_Demandes CODECOH'),
                 {{
-                    Titre: Trim(nd_txtNom.Text),
-                    'Nom échantillon': Trim(nd_txtNom.Text),
-                    'Référence commerciale': nd_txtRef.Text,
-                    'Type de substance': nd_cbType.Selected,
-                    'Source tissu': nd_txtSource.Text,
-                    'Nom demandeur': nd_txtDemandeur.Text,
+                    Title: Trim(nd_txtNom.Text),
+                    Nom_x00e9_chantillon: Trim(nd_txtNom.Text),
+                    R_x00e9_f_x00e9_rencecommerciale: nd_txtRef.Text,
+                    Tyoedesubstance: nd_cbType.Selected,
+                    Sourcetissu: nd_txtSource.Text,
+                    Nomdemandeur: nd_txtDemandeur.Text,
                     Commentaires: nd_txtCommentaires.Text
                 }}
             )
@@ -403,20 +403,20 @@ Reset(nd_txtCommentaires)"""
 def screen_mes_demandes():
     M = 32
     cells = [
-        label("Title1", "ThisItem.'Nom échantillon'", 24, 10, "Parent.TemplateWidth - 340", 28,
+        label("Title1", "ThisItem.Nom_x00e9_chantillon", 24, 10, "Parent.TemplateWidth - 340", 28,
               size=14, color=NAVY, bold=True, OnSelect="Select(Parent)"),
         label("Subtitle1",
-              "Concatenate(ThisItem.'Type de substance'.Value, If(!IsBlank(ThisItem.'Référence commerciale'), \" · Réf. \" & ThisItem.'Référence commerciale'))", 24, 40,
+              "Concatenate(ThisItem.Tyoedesubstance.Value, If(!IsBlank(ThisItem.R_x00e9_f_x00e9_rencecommerciale), \" · Réf. \" & ThisItem.R_x00e9_f_x00e9_rencecommerciale))", 24, 40,
               "Parent.TemplateWidth - 340", 24, size=12, color=TEXT,
               OnSelect="Select(Parent)"),
         label("md_lblDate", '"Créée le " & Text(ThisItem.Created, "dd/mm/yyyy")',
               "Parent.TemplateWidth - 300", 10, 220, 24, size=11, color=INDIGO500,
               Align="Align.Right", OnSelect="Select(Parent)"),
         label("md_lblCodecoh",
-              'If(IsBlank(ThisItem.\'Numéro CODECOH\'), "En cours de traitement", '
-              '"N° CODECOH : " & ThisItem.\'Numéro CODECOH\')',
+              'If(IsBlank(ThisItem.Num_x00e9_roCODECOH), "En cours de traitement", '
+              '"N° CODECOH : " & ThisItem.Num_x00e9_roCODECOH)',
               "Parent.TemplateWidth - 300", 38, 220, 24, size=11,
-              color=f"If(IsBlank(ThisItem.'Numéro CODECOH'), {CORAL}, {GREEN})",
+              color=f"If(IsBlank(ThisItem.Num_x00e9_roCODECOH), {CORAL}, {GREEN})",
               bold=True, Align="Align.Right", OnSelect="Select(Parent)"),
         icon("NextArrow1", "Icon.ChevronRight", "Parent.TemplateWidth - 64", 18, 40,
              NAVY, onselect="Navigate(ScrDetailDemande, ScreenTransition.Cover)",
@@ -439,7 +439,7 @@ def screen_mes_demandes():
     Filter(
         'x_Demandes CODECOH',
         Author.Email = User().Email,
-        IsBlank(md_txtRecherche.Text) || StartsWith('Nom échantillon', md_txtRecherche.Text)
+        IsBlank(md_txtRecherche.Text) || StartsWith(Nom_x00e9_chantillon, md_txtRecherche.Text)
     ),
     "ID",
     SortOrder.Descending
@@ -466,28 +466,28 @@ def screen_detail():
         return f'If(IsBlank({expr}), "—", Text({expr}))'
 
     fields = [
-        ("Nom échantillon", val(f"{sel}.'Nom échantillon'")),
-        ("Référence commerciale", val(f"{sel}.'Référence commerciale'")),
-        ("Type de substance", val(f"{sel}.'Type de substance'.Value")),
-        ("Source tissu", val(f"{sel}.'Source tissu'")),
-        ("Nom du demandeur", val(f"{sel}.'Nom demandeur'")),
+        ("Nom/type échantillon", val(f"{sel}.Nom_x00e9_chantillon")),
+        ("Référence commerciale", val(f"{sel}.R_x00e9_f_x00e9_rencecommerciale")),
+        ("Type de substance", val(f"{sel}.Tyoedesubstance.Value")),
+        ("Tissue Source", val(f"{sel}.Sourcetissu")),
+        ("Demandeur", val(f"{sel}.Nomdemandeur")),
         ("Date de la demande", f'Text({sel}.Created, "dd/mm/yyyy hh:mm")'),
         ("Commentaires", val(f"{sel}.Commentaires")),
     ]
     suivi = [
-        ("Numéro CODECOH", val(f"{sel}.'Numéro CODECOH'")),
-        ("Type autorisation / déclaration", val(f"{sel}.'Type autorisation/déclaration'")),
-        ("Date d'initialisation de la déclaration", val(f"{sel}.'Date d''initialisation de la déclaration'")),
-        ("Date de dépôt de la déclaration", val(f"{sel}.'Date de dépôt de la déclaration'")),
-        ("Date de réception de l'AR", val(f"{sel}.'Date de récéption de l''AR'")),
-        ("Date de validation de la déclaration", val(f"{sel}.'Date de validation de la déclaration'")),
+        ("Numéro CODECOH", val(f"{sel}.Num_x00e9_roCODECOH")),
+        ("N° d'autorisation", val(f"{sel}.Typeautorisation_x002f_d_x00e9_c")),
+        ("Date d'initialisation de la déclaration", val(f"{sel}.Datedinitialisationdelad_x00e9_c")),
+        ("Date de dépôt de la déclaration", val(f"{sel}.Dateded_x00e9_p_x00f4_tdelad_x00")),
+        ("Date de réception de l'AR", val(f"{sel}.Dateder_x00e9_c_x00e9_ptiondelAR")),
+        ("Date validation de la déclaration", val(f"{sel}.Datedevalidationdelad_x00e9_clar")),
     ]
     col_w = "(Parent.Width - 64 - 32) / 2"
     x2 = f"{M} + {col_w} + 32"
     top = 112
     card_h = f"Parent.Height - {top + 32}"
     children = header("dd", '"Détail de la demande"',
-                      f"{sel}.'Nom échantillon'", back_to="ScrMesDemandes",
+                      f"{sel}.Nom_x00e9_chantillon", back_to="ScrMesDemandes",
                       back_text="←  Mes demandes")
     children += [
         card("dd_cardInfos", M, top, col_w, card_h),
@@ -497,10 +497,10 @@ def screen_detail():
         label("dd_lblSuivi", '"Suivi de la déclaration CODECOH"', f"{x2} + 24",
               top + 14, f"{col_w} - 48", 30, size=15, color=NAVY, bold=True),
         label("dd_lblStatut",
-              f'If(IsBlank({sel}.\'Numéro CODECOH\'), "En cours de traitement", "Déclaration enregistrée")',
+              f'If(IsBlank({sel}.Num_x00e9_roCODECOH), "En cours de traitement", "Déclaration enregistrée")',
               f"{x2} + {col_w} - 244", top + 16, 220, 26, size=11, bold=True,
               color=WHITE, Align="Align.Center",
-              Fill=f"If(IsBlank({sel}.'Numéro CODECOH'), {CORAL}, {GREEN})"),
+              Fill=f"If(IsBlank({sel}.Num_x00e9_roCODECOH), {CORAL}, {GREEN})"),
     ]
     for prefix, x, items in (("I", M, fields), ("S", x2, suivi)):
         for i, (lab, expr) in enumerate(items):

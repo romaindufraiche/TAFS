@@ -107,14 +107,14 @@
       FontWeight: =FontWeight.Bold
       Height: =22
       Size: =11
-      Text: ="Nom du demandeur"
+      Text: ="Demandeur"
       Width: =(Parent.Width - 64 - 48 - 32) / 2
       X: =56
       Y: =158
 - nd_txtDemandeur:
     Control: Classic/TextInput@2.3.2
     Properties:
-      AccessibleLabel: ="Nom du demandeur"
+      AccessibleLabel: ="Demandeur"
       BorderColor: =RGBA(212, 222, 242, 1)
       BorderThickness: =1
       Color: =RGBA(49, 49, 49, 1)
@@ -124,7 +124,7 @@
       FocusedBorderThickness: =2
       Font: =Font.Arial
       Height: =36
-      HintText: ="Nom du demandeur"
+      HintText: ="Demandeur"
       HoverBorderColor: =RGBA(112, 136, 182, 1)
       RadiusBottomLeft: =4
       RadiusBottomRight: =4
@@ -253,7 +253,7 @@
       FontWeight: =FontWeight.Bold
       Height: =32
       Size: =11
-      Text: ="Nom échantillon *"
+      Text: ="Nom/type échantillon *"
       Width: =(Parent.Width - 248 - 40) * 0.3200
       X: =96
       Y: =300
@@ -289,7 +289,7 @@
       FontWeight: =FontWeight.Bold
       Height: =32
       Size: =11
-      Text: ="Source tissu"
+      Text: ="Tissue Source"
       Width: =(Parent.Width - 248 - 40) * 0.2200
       X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10 + (Parent.Width - 248 - 40) * 0.2400 + 10 + (Parent.Width - 248 - 40) * 0.2200 + 10
       Y: =300
@@ -409,7 +409,7 @@
       - nd_txtSource:
           Control: Classic/TextInput@2.3.2
           Properties:
-            AccessibleLabel: ="Source tissu"
+            AccessibleLabel: ="Tissue Source"
             BorderColor: =RGBA(212, 222, 242, 1)
             BorderThickness: =1
             Color: =RGBA(49, 49, 49, 1)
@@ -419,7 +419,7 @@
             FocusedBorderThickness: =2
             Font: =Font.Arial
             Height: =36
-            HintText: ="Source tissu"
+            HintText: ="Tissue Source"
             HoverBorderColor: =RGBA(112, 136, 182, 1)
             OnChange: |-
               =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Source: Self.Text})
@@ -536,12 +536,12 @@
                         'x_Demandes CODECOH',
                         Defaults('x_Demandes CODECOH'),
                         {
-                            Titre: Trim(nd_txtNom.Text),
-                            'Nom échantillon': Trim(nd_txtNom.Text),
-                            'Référence commerciale': nd_txtRef.Text,
-                            'Type de substance': nd_cbType.Selected,
-                            'Source tissu': nd_txtSource.Text,
-                            'Nom demandeur': nd_txtDemandeur.Text,
+                            Title: Trim(nd_txtNom.Text),
+                            Nom_x00e9_chantillon: Trim(nd_txtNom.Text),
+                            R_x00e9_f_x00e9_rencecommerciale: nd_txtRef.Text,
+                            Tyoedesubstance: nd_cbType.Selected,
+                            Sourcetissu: nd_txtSource.Text,
+                            Nomdemandeur: nd_txtDemandeur.Text,
                             Commentaires: nd_txtCommentaires.Text
                         }
                     )

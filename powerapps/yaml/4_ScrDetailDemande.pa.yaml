@@ -49,7 +49,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =26
             Size: =12
-            Text: =Gallery1.Selected.'Nom échantillon'
+            Text: =Gallery1.Selected.Nom_x00e9_chantillon
             Width: =900
             X: =148
             Y: =50
@@ -133,12 +133,12 @@ Screens:
           Properties:
             Align: =Align.Center
             Color: =RGBA(255, 255, 255, 1)
-            Fill: =If(IsBlank(Gallery1.Selected.'Numéro CODECOH'), RGBA(212, 66, 51, 1), RGBA(63, 126, 18, 1))
+            Fill: =If(IsBlank(Gallery1.Selected.Num_x00e9_roCODECOH), RGBA(212, 66, 51, 1), RGBA(63, 126, 18, 1))
             Font: =Font.Arial
             FontWeight: =FontWeight.Bold
             Height: =26
             Size: =11
-            Text: =If(IsBlank(Gallery1.Selected.'Numéro CODECOH'), "En cours de traitement", "Déclaration enregistrée")
+            Text: =If(IsBlank(Gallery1.Selected.Num_x00e9_roCODECOH), "En cours de traitement", "Déclaration enregistrée")
             Width: =220
             X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + (Parent.Width - 64 - 32) / 2 - 244
             Y: =128
@@ -150,7 +150,7 @@ Screens:
             FontWeight: =FontWeight.Bold
             Height: =22
             Size: =11
-            Text: ="Nom échantillon"
+            Text: ="Nom/type échantillon"
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + 24
             Y: =168
@@ -162,7 +162,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =30
             Size: =13
-            Text: =If(IsBlank(Gallery1.Selected.'Nom échantillon'), "—", Text(Gallery1.Selected.'Nom échantillon'))
+            Text: =If(IsBlank(Gallery1.Selected.Nom_x00e9_chantillon), "—", Text(Gallery1.Selected.Nom_x00e9_chantillon))
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + 24
             Y: =190
@@ -186,7 +186,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =30
             Size: =13
-            Text: =If(IsBlank(Gallery1.Selected.'Référence commerciale'), "—", Text(Gallery1.Selected.'Référence commerciale'))
+            Text: =If(IsBlank(Gallery1.Selected.R_x00e9_f_x00e9_rencecommerciale), "—", Text(Gallery1.Selected.R_x00e9_f_x00e9_rencecommerciale))
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + 24
             Y: =254
@@ -210,7 +210,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =30
             Size: =13
-            Text: =If(IsBlank(Gallery1.Selected.'Type de substance'.Value), "—", Text(Gallery1.Selected.'Type de substance'.Value))
+            Text: =If(IsBlank(Gallery1.Selected.Tyoedesubstance.Value), "—", Text(Gallery1.Selected.Tyoedesubstance.Value))
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + 24
             Y: =318
@@ -222,7 +222,7 @@ Screens:
             FontWeight: =FontWeight.Bold
             Height: =22
             Size: =11
-            Text: ="Source tissu"
+            Text: ="Tissue Source"
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + 24
             Y: =360
@@ -234,7 +234,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =30
             Size: =13
-            Text: =If(IsBlank(Gallery1.Selected.'Source tissu'), "—", Text(Gallery1.Selected.'Source tissu'))
+            Text: =If(IsBlank(Gallery1.Selected.Sourcetissu), "—", Text(Gallery1.Selected.Sourcetissu))
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + 24
             Y: =382
@@ -246,7 +246,7 @@ Screens:
             FontWeight: =FontWeight.Bold
             Height: =22
             Size: =11
-            Text: ="Nom du demandeur"
+            Text: ="Demandeur"
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + 24
             Y: =424
@@ -258,7 +258,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =30
             Size: =13
-            Text: =If(IsBlank(Gallery1.Selected.'Nom demandeur'), "—", Text(Gallery1.Selected.'Nom demandeur'))
+            Text: =If(IsBlank(Gallery1.Selected.Nomdemandeur), "—", Text(Gallery1.Selected.Nomdemandeur))
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + 24
             Y: =446
@@ -331,7 +331,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =30
             Size: =13
-            Text: =If(IsBlank(Gallery1.Selected.'Numéro CODECOH'), "—", Text(Gallery1.Selected.'Numéro CODECOH'))
+            Text: =If(IsBlank(Gallery1.Selected.Num_x00e9_roCODECOH), "—", Text(Gallery1.Selected.Num_x00e9_roCODECOH))
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
             Y: =190
@@ -343,7 +343,7 @@ Screens:
             FontWeight: =FontWeight.Bold
             Height: =22
             Size: =11
-            Text: ="Type autorisation / déclaration"
+            Text: ="N° d'autorisation"
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
             Y: =232
@@ -355,7 +355,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =30
             Size: =13
-            Text: =If(IsBlank(Gallery1.Selected.'Type autorisation/déclaration'), "—", Text(Gallery1.Selected.'Type autorisation/déclaration'))
+            Text: =If(IsBlank(Gallery1.Selected.Typeautorisation_x002f_d_x00e9_c), "—", Text(Gallery1.Selected.Typeautorisation_x002f_d_x00e9_c))
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
             Y: =254
@@ -379,7 +379,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =30
             Size: =13
-            Text: =If(IsBlank(Gallery1.Selected.'Date d''initialisation de la déclaration'), "—", Text(Gallery1.Selected.'Date d''initialisation de la déclaration'))
+            Text: =If(IsBlank(Gallery1.Selected.Datedinitialisationdelad_x00e9_c), "—", Text(Gallery1.Selected.Datedinitialisationdelad_x00e9_c))
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
             Y: =318
@@ -403,7 +403,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =30
             Size: =13
-            Text: =If(IsBlank(Gallery1.Selected.'Date de dépôt de la déclaration'), "—", Text(Gallery1.Selected.'Date de dépôt de la déclaration'))
+            Text: =If(IsBlank(Gallery1.Selected.Dateded_x00e9_p_x00f4_tdelad_x00), "—", Text(Gallery1.Selected.Dateded_x00e9_p_x00f4_tdelad_x00))
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
             Y: =382
@@ -427,7 +427,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =30
             Size: =13
-            Text: =If(IsBlank(Gallery1.Selected.'Date de récéption de l''AR'), "—", Text(Gallery1.Selected.'Date de récéption de l''AR'))
+            Text: =If(IsBlank(Gallery1.Selected.Dateder_x00e9_c_x00e9_ptiondelAR), "—", Text(Gallery1.Selected.Dateder_x00e9_c_x00e9_ptiondelAR))
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
             Y: =446
@@ -439,7 +439,7 @@ Screens:
             FontWeight: =FontWeight.Bold
             Height: =22
             Size: =11
-            Text: ="Date de validation de la déclaration"
+            Text: ="Date validation de la déclaration"
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
             Y: =488
@@ -451,7 +451,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =30
             Size: =13
-            Text: =If(IsBlank(Gallery1.Selected.'Date de validation de la déclaration'), "—", Text(Gallery1.Selected.'Date de validation de la déclaration'))
+            Text: =If(IsBlank(Gallery1.Selected.Datedevalidationdelad_x00e9_clar), "—", Text(Gallery1.Selected.Datedevalidationdelad_x00e9_clar))
             Width: =(Parent.Width - 64 - 32) / 2 - 48
             X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
             Y: =510

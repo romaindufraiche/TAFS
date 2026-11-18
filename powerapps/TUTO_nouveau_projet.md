@@ -105,7 +105,7 @@ Pour chaque écran, ouvrez le fichier `…_proprietes_ecran.txt` correspondant. 
 | Croix rouges sur de nombreuses formules | Un nom ne correspond pas. Vérifiez les noms des 4 écrans, de la source `x_Demandes CODECOH` et du média `logo ABC` |
 | Erreur sur `Navigate(ScrDetailDemande…)` ou `Gallery1` | `ScrDetailDemande` n'existe pas encore, ou la galerie a été renommée `Gallery1_1` : renommez-la `Gallery1` |
 | Erreur sur `ThisItem.Created` ou `.Created` | Selon la langue du site, remplacez `Created` par `Créé` |
-| Erreur sur une colonne (ex. `'Source tissu'`) | Le nom affiché de la colonne SharePoint est différent. Tapez `ThisItem.` dans la formule et choisissez le bon nom dans la liste proposée |
+| Erreur sur une colonne | Les formules utilisent les **noms internes** SharePoint (ex. `Nom_x00e9_chantillon`), qui ne changent pas quand on renomme une colonne. Une erreur signifie donc que la colonne a été **supprimée** ou que son **type** a changé. Panneau Données → `…` → **Actualiser**, puis vérifiez |
 | L'envoi échoue avec « champ obligatoire » | Une colonne retirée du formulaire (Nom fournisseur, Adresses, Lignée cellulaire) est obligatoire dans SharePoint. Allez dans Paramètres de la liste → la colonne → *Exiger que cette colonne contienne des informations* = **Non** |
 | Le tableau des échantillons est vide (aucune ligne) | La propriété `OnVisible` de `ScrNouvelleDemande` n'a pas été collée (étape 6) |
 | Le menu « Coller le code » n'apparaît pas | Rechargez Studio sur Edge ou Chrome à jour, puis essayez **Ctrl+V** sur l'écran sélectionné |
