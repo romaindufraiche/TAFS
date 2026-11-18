@@ -536,33 +536,30 @@ Screens:
                   Notify("Chaque échantillon doit avoir un Nom/type échantillon.", NotificationType.Error),
                   Set(varEnvoiEnCours, true);
                   Clear(colCrees);
-                  IfError(
-                      ForAll(
-                          nd_galEchantillons.AllItems,
-                          Collect(
-                              colCrees,
-                              Patch(
-                                  'x_Demandes CODECOH',
-                                  Defaults('x_Demandes CODECOH'),
-                                  {
-                                      'Nom/type échantillon': Trim(nd_txtNom.Text),
-                                      'Référence commerciale': nd_txtRef.Text,
-                                      'Tissue Source': nd_txtSource.Text,
-                                      Pathologie: nd_txtPatho.Text,
-                                      Demandeur: nd_txtDemandeur.Text,
-                                      Commentaires: nd_txtCommentaires.Text
-                                  }
-                              )
+                  ForAll(
+                      nd_galEchantillons.AllItems,
+                      Collect(
+                          colCrees,
+                          Patch(
+                              'x_Demandes CODECOH',
+                              Defaults('x_Demandes CODECOH'),
+                              {
+                                  'Nom/type échantillon': Trim(nd_txtNom.Text),
+                                  'Référence commerciale': nd_txtRef.Text,
+                                  'Tissue Source': nd_txtSource.Text,
+                                  Pathologie: nd_txtPatho.Text,
+                                  Demandeur: nd_txtDemandeur.Text,
+                                  Commentaires: nd_txtCommentaires.Text
+                              }
                           )
-                      ),
-                      Notify("Erreur SharePoint : " & FirstError.Message, NotificationType.Error)
+                      )
                   );
                   Set(varEnvoiEnCours, false);
                   If(
-                      CountRows(colCrees) = CountRows(nd_galEchantillons.AllItems),
+                      IsEmpty(Errors('x_Demandes CODECOH')),
                       Notify(CountRows(colCrees) & " échantillon(s) déclaré(s) avec succès.", NotificationType.Success);
                       Navigate(ScrMesDemandes, ScreenTransition.Fade),
-                      Notify("Envoi incomplet : " & CountRows(colCrees) & " / " & CountRows(nd_galEchantillons.AllItems) & " échantillon(s) enregistré(s). " & IfError(First(Errors('x_Demandes CODECOH')).Message, ""), NotificationType.Error)
+                      Notify("Erreur SharePoint : " & First(Errors('x_Demandes CODECOH')).Message, NotificationType.Error)
                   )
               )
             PressedColor: =RGBA(255, 255, 255, 1)

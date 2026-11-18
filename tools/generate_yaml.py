@@ -350,33 +350,30 @@ If(
     Notify("Chaque échantillon doit avoir un Nom/type échantillon.", NotificationType.Error),
     Set(varEnvoiEnCours, true);
     Clear(colCrees);
-    IfError(
-        ForAll(
-            nd_galEchantillons.AllItems,
-            Collect(
-                colCrees,
-                Patch(
-                    'x_Demandes CODECOH',
-                    Defaults('x_Demandes CODECOH'),
-                    {{
-                        {C_NOM}: Trim(nd_txtNom.Text),
-                        {C_REF}: nd_txtRef.Text,
-                        {C_TISSU}: nd_txtSource.Text,
-                        {C_PATHO}: nd_txtPatho.Text,
-                        {C_DEMANDEUR}: nd_txtDemandeur.Text,
-                        {C_COMM}: nd_txtCommentaires.Text
-                    }}
-                )
+    ForAll(
+        nd_galEchantillons.AllItems,
+        Collect(
+            colCrees,
+            Patch(
+                'x_Demandes CODECOH',
+                Defaults('x_Demandes CODECOH'),
+                {{
+                    {C_NOM}: Trim(nd_txtNom.Text),
+                    {C_REF}: nd_txtRef.Text,
+                    {C_TISSU}: nd_txtSource.Text,
+                    {C_PATHO}: nd_txtPatho.Text,
+                    {C_DEMANDEUR}: nd_txtDemandeur.Text,
+                    {C_COMM}: nd_txtCommentaires.Text
+                }}
             )
-        ),
-        Notify("Erreur SharePoint : " & FirstError.Message, NotificationType.Error)
+        )
     );
     Set(varEnvoiEnCours, false);
     If(
-        CountRows(colCrees) = CountRows(nd_galEchantillons.AllItems),
+        IsEmpty(Errors('x_Demandes CODECOH')),
         Notify(CountRows(colCrees) & " échantillon(s) déclaré(s) avec succès.", NotificationType.Success);
         Navigate(ScrMesDemandes, ScreenTransition.Fade),
-        Notify("Envoi incomplet : " & CountRows(colCrees) & " / " & CountRows(nd_galEchantillons.AllItems) & " échantillon(s) enregistré(s). " & IfError(First(Errors('x_Demandes CODECOH')).Message, ""), NotificationType.Error)
+        Notify("Erreur SharePoint : " & First(Errors('x_Demandes CODECOH')).Message, NotificationType.Error)
     )
 )"""
     fy = f"Parent.Height - {footer_h - 12}"
@@ -527,6 +524,11 @@ def main():
     for name, content in files.items():
         (OUT / name).write_text(content, encoding="utf-8")
         print("écrit", OUT / name)
+    # Bouton Envoyer seul (à recoller via « Coller le code », indépendant de la langue)
+    for c in SCREENS["ScrNouvelleDemande"][1]:
+        if c["name"] == "nd_btnEnvoyer":
+            (OUT / "controles_seuls" / "2_bouton_Envoyer.pa.yaml").write_text(
+                "\n".join(render_ctrl(c, 0)) + "\n", encoding="utf-8")
     # Variante « contrôles seuls » : à coller dans un écran vide existant
     for i, (name, (props, children)) in enumerate(SCREENS.items(), 1):
         lines = []
