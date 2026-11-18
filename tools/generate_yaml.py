@@ -206,7 +206,7 @@ C_DEMANDEUR = "Demandeur"
 C_NOM = "'Nom/type échantillon'"
 C_REF = "'Référence commerciale'"
 C_TISSU = "'Tissue Source'"
-C_PATHO = "Pathologie"
+C_PATHO = "Tyoedesubstance"   # « Pathologie » : colonne Choix (ancienne « Type de substance »), nom interne
 C_AUTORISATION = "'N° d''autorisation'"
 C_INIT = "'Date d''initialisation de la déclaration'"
 C_DEPOT = "'Date de dépôt de la déclaration'"
@@ -311,14 +311,27 @@ def screen_nouvelle():
         text_input(f"{p}_txtSource", "ThisItem.Source", gx("Source"), in_y,
                    xs["Source"][1], hint="Tissue Source",
                    onchange=sync("Source", "Self.Text")),
-        text_input(f"{p}_txtPatho", "ThisItem.Patho", gx("Patho"), in_y,
-                   xs["Patho"][1], hint="Pathologie",
-                   onchange=sync("Patho", "Self.Text")),
+        ctrl(f"{p}_cbPatho", "Classic/ComboBox@2.4.0", {
+            "Items": f"Choices([@'x_Demandes CODECOH'].{C_PATHO})",
+            "DefaultSelectedItems": f"Filter(Choices([@'x_Demandes CODECOH'].{C_PATHO}), Value = ThisItem.Patho)",
+            "DisplayFields": '["Value"]', "SearchFields": '["Value"]',
+            "SelectMultiple": "false", "IsSearchable": "true",
+            "InputTextPlaceholder": '"Choisir…"',
+            "OnChange": sync("Patho", "Self.Selected.Value"),
+            "X": gx("Patho"), "Y": in_y, "Width": xs["Patho"][1], "Height": 36,
+            "Font": FONT, "Size": 12, "Color": TEXT, "Fill": WHITE,
+            "BorderColor": INDIGO200, "HoverBorderColor": INDIGO500,
+            "ChevronBackground": WHITE, "ChevronFill": NAVY,
+            "ChevronHoverBackground": INDIGO50, "ChevronHoverFill": NAVY,
+            "SelectionFill": NAVY, "SelectionColor": WHITE,
+            "HoverFill": INDIGO50, "HoverColor": TEXT,
+            "PressedFill": NAVY, "PressedColor": WHITE,
+            "AccessibleLabel": '"Pathologie"'}),
         icon(f"{p}_icoDupliquer", "Icon.Copy",
              "Parent.TemplateWidth - 84", in_y + 2, 32, NAVY,
              onselect=(f"Collect(colEchantillons, {{Id: varNextId, "
                        "Nom: nd_txtNom.Text & \" (copie)\", Ref: nd_txtRef.Text, "
-                       "Source: nd_txtSource.Text, Patho: nd_txtPatho.Text});\nSet(varNextId, varNextId + 1)"),
+                       "Source: nd_txtSource.Text, Patho: nd_cbPatho.Selected.Value});\nSet(varNextId, varNextId + 1)"),
              tooltip="Dupliquer cette ligne",
              PaddingTop=4, PaddingBottom=4, PaddingLeft=4, PaddingRight=4),
         icon(f"{p}_icoSupprimer", "Icon.Trash",
@@ -361,7 +374,7 @@ If(
                     {C_NOM}: Trim(nd_txtNom.Text),
                     {C_REF}: nd_txtRef.Text,
                     {C_TISSU}: nd_txtSource.Text,
-                    {C_PATHO}: nd_txtPatho.Text,
+                    {C_PATHO}: nd_cbPatho.Selected,
                     {C_DEMANDEUR}: nd_txtDemandeur.Text,
                     {C_COMM}: nd_txtCommentaires.Text
                 }}
@@ -408,7 +421,7 @@ def screen_mes_demandes():
         label("Title1", f"ThisItem.{C_NOM}", 24, 10, "Parent.TemplateWidth - 340", 28,
               size=14, color=NAVY, bold=True, OnSelect="Select(Parent)"),
         label("Subtitle1",
-              f'Concatenate(If(IsBlank(ThisItem.{C_REF}), "", "Réf. " & ThisItem.{C_REF}), If(IsBlank(ThisItem.{C_PATHO}), "", "  ·  " & ThisItem.{C_PATHO}))', 24, 40,
+              f'Concatenate(If(IsBlank(ThisItem.{C_REF}), "", "Réf. " & ThisItem.{C_REF}), If(IsBlank(ThisItem.{C_PATHO}.Value), "", "  ·  " & ThisItem.{C_PATHO}.Value))', 24, 40,
               "Parent.TemplateWidth - 340", 24, size=12, color=TEXT,
               OnSelect="Select(Parent)"),
         label("md_lblCodecoh",
@@ -468,7 +481,7 @@ def screen_detail():
         ("Nom/type échantillon", val(f"{sel}.{C_NOM}")),
         ("Référence commerciale", val(f"{sel}.{C_REF}")),
         ("Tissue Source", val(f"{sel}.{C_TISSU}")),
-        ("Pathologie", val(f"{sel}.{C_PATHO}")),
+        ("Pathologie", val(f"{sel}.{C_PATHO}.Value")),
         ("Demandeur", val(f"{sel}.{C_DEMANDEUR}")),
         ("Commentaires", val(f"{sel}.{C_COMM}")),
     ]

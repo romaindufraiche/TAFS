@@ -35,7 +35,7 @@
                             'Nom/type échantillon': Trim(nd_txtNom.Text),
                             'Référence commerciale': nd_txtRef.Text,
                             'Tissue Source': nd_txtSource.Text,
-                            Pathologie: nd_txtPatho.Text,
+                            Tyoedesubstance: nd_cbPatho.Selected,
                             Demandeur: nd_txtDemandeur.Text,
                             Commentaires: nd_txtCommentaires.Text
                         }

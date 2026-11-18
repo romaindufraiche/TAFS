@@ -203,7 +203,7 @@ Screens:
                   Height: =24
                   OnSelect: =Select(Parent)
                   Size: =12
-                  Text: =Concatenate(If(IsBlank(ThisItem.'Référence commerciale'), "", "Réf. " & ThisItem.'Référence commerciale'), If(IsBlank(ThisItem.Pathologie), "", "  ·  " & ThisItem.Pathologie))
+                  Text: =Concatenate(If(IsBlank(ThisItem.'Référence commerciale'), "", "Réf. " & ThisItem.'Référence commerciale'), If(IsBlank(ThisItem.Tyoedesubstance.Value), "", "  ·  " & ThisItem.Tyoedesubstance.Value))
                   Width: =Parent.TemplateWidth - 340
                   X: =24
                   Y: =40

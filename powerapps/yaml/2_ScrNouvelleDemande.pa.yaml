@@ -412,27 +412,35 @@ Screens:
                   Width: =(Parent.Width - 248 - 40) * 0.2300
                   X: =96 + (Parent.Width - 248 - 40) * 0.3100 + 10 + (Parent.Width - 248 - 40) * 0.2300 + 10 - 56
                   Y: =10
-            - nd_txtPatho:
-                Control: Classic/TextInput@2.3.2
+            - nd_cbPatho:
+                Control: Classic/ComboBox@2.4.0
                 Properties:
                   AccessibleLabel: ="Pathologie"
                   BorderColor: =RGBA(212, 222, 242, 1)
-                  BorderThickness: =1
+                  ChevronBackground: =RGBA(255, 255, 255, 1)
+                  ChevronFill: =RGBA(36, 34, 106, 1)
+                  ChevronHoverBackground: =RGBA(235, 235, 249, 1)
+                  ChevronHoverFill: =RGBA(36, 34, 106, 1)
                   Color: =RGBA(49, 49, 49, 1)
-                  Default: =ThisItem.Patho
+                  DefaultSelectedItems: =Filter(Choices([@'x_Demandes CODECOH'].Tyoedesubstance), Value = ThisItem.Patho)
+                  DisplayFields: =["Value"]
                   Fill: =RGBA(255, 255, 255, 1)
-                  FocusedBorderColor: =RGBA(36, 34, 106, 1)
-                  FocusedBorderThickness: =2
                   Font: =Font.Arial
                   Height: =36
-                  HintText: ="Pathologie"
                   HoverBorderColor: =RGBA(112, 136, 182, 1)
+                  HoverColor: =RGBA(49, 49, 49, 1)
+                  HoverFill: =RGBA(235, 235, 249, 1)
+                  InputTextPlaceholder: ="Choisir…"
+                  IsSearchable: =true
+                  Items: =Choices([@'x_Demandes CODECOH'].Tyoedesubstance)
                   OnChange: |-
-                    =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Patho: Self.Text})
-                  RadiusBottomLeft: =4
-                  RadiusBottomRight: =4
-                  RadiusTopLeft: =4
-                  RadiusTopRight: =4
+                    =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Patho: Self.Selected.Value})
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(36, 34, 106, 1)
+                  SearchFields: =["Value"]
+                  SelectMultiple: =false
+                  SelectionColor: =RGBA(255, 255, 255, 1)
+                  SelectionFill: =RGBA(36, 34, 106, 1)
                   Size: =12
                   Width: =(Parent.Width - 248 - 40) * 0.2300
                   X: =96 + (Parent.Width - 248 - 40) * 0.3100 + 10 + (Parent.Width - 248 - 40) * 0.2300 + 10 + (Parent.Width - 248 - 40) * 0.2300 + 10 - 56
@@ -445,7 +453,7 @@ Screens:
                   Height: =32
                   Icon: =Icon.Copy
                   OnSelect: |-
-                    =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, Source: nd_txtSource.Text, Patho: nd_txtPatho.Text});
+                    =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, Source: nd_txtSource.Text, Patho: nd_cbPatho.Selected.Value});
                     Set(varNextId, varNextId + 1)
                   PaddingBottom: =4
                   PaddingLeft: =4
@@ -547,7 +555,7 @@ Screens:
                                   'Nom/type échantillon': Trim(nd_txtNom.Text),
                                   'Référence commerciale': nd_txtRef.Text,
                                   'Tissue Source': nd_txtSource.Text,
-                                  Pathologie: nd_txtPatho.Text,
+                                  Tyoedesubstance: nd_cbPatho.Selected,
                                   Demandeur: nd_txtDemandeur.Text,
                                   Commentaires: nd_txtCommentaires.Text
                               }

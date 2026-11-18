@@ -228,7 +228,7 @@
       FontWeight: =FontWeight.Normal
       Height: =30
       Size: =13
-      Text: =If(IsBlank(Gallery1.Selected.Pathologie), "—", Text(Gallery1.Selected.Pathologie))
+      Text: =If(IsBlank(Gallery1.Selected.Tyoedesubstance.Value), "—", Text(Gallery1.Selected.Tyoedesubstance.Value))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + 24
       Y: =372
