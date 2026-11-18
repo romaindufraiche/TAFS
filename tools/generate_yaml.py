@@ -317,7 +317,7 @@ def screen_nouvelle():
              "Parent.TemplateWidth - 84", in_y + 2, 32, NAVY,
              onselect=(f"Collect(colEchantillons, {{Id: varNextId, "
                        "Nom: nd_txtNom.Text & \" (copie)\", Ref: nd_txtRef.Text, "
-                       "TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text}});\nSet(varNextId, varNextId + 1)"),
+                       "TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text});\nSet(varNextId, varNextId + 1)"),
              tooltip="Dupliquer cette ligne",
              PaddingTop=4, PaddingBottom=4, PaddingLeft=4, PaddingRight=4),
         icon(f"{p}_icoSupprimer", "Icon.Trash",
@@ -333,8 +333,9 @@ def screen_nouvelle():
     gal_y = head_y + 36
     children.append(ctrl(f"{p}_galEchantillons", "Gallery@2.15.0", {
         "Items": "colEchantillons",
-        "X": tbl_x, "Y": gal_y, "Width": "Parent.Width - 112",
-        "Height": f"Parent.Height - {gal_y + footer_h + 20}",
+        "X": tbl_x, "Y": f"{p}_rectEntete.Y + {p}_rectEntete.Height + 4",
+        "Width": "Parent.Width - 112",
+        "Height": f"Parent.Height - Self.Y - {footer_h + 20}",
         "TemplateSize": row_h, "TemplatePadding": 0,
         "Fill": TRANSPARENT, "TemplateFill": WHITE, "ShowScrollbar": "true",
         "BorderThickness": 0, "AccessibleLabel": '"Liste des échantillons à déclarer"',

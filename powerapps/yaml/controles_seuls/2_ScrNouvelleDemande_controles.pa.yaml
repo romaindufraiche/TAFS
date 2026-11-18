@@ -300,7 +300,7 @@
       AccessibleLabel: ="Liste des échantillons à déclarer"
       BorderThickness: =0
       Fill: =RGBA(0, 0, 0, 0)
-      Height: =Parent.Height - 428
+      Height: =Parent.Height - Self.Y - 92
       Items: =colEchantillons
       ShowScrollbar: =true
       TemplateFill: =RGBA(255, 255, 255, 1)
@@ -308,7 +308,7 @@
       TemplateSize: =56
       Width: =Parent.Width - 112
       X: =56
-      Y: =336
+      Y: =nd_rectEntete.Y + nd_rectEntete.Height + 4
     Children:
       - nd_lblNum:
           Control: Label@2.5.1
@@ -439,7 +439,7 @@
             Height: =32
             Icon: =Icon.Copy
             OnSelect: |-
-              =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text}});
+              =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text});
               Set(varNextId, varNextId + 1)
             PaddingBottom: =4
             PaddingLeft: =4
