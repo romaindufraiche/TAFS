@@ -168,7 +168,7 @@ Screens:
                   Filter(
                       'x_Demandes CODECOH',
                       Author.Email = User().Email,
-                      IsBlank(md_txtRecherche.Text) || StartsWith(Nom_x00e9_chantillon, md_txtRecherche.Text)
+                      IsBlank(md_txtRecherche.Text) || StartsWith('Nom/type échantillon', md_txtRecherche.Text)
                   ),
                   "ID",
                   SortOrder.Descending
@@ -190,7 +190,7 @@ Screens:
                   Height: =28
                   OnSelect: =Select(Parent)
                   Size: =14
-                  Text: =ThisItem.Nom_x00e9_chantillon
+                  Text: =ThisItem.'Nom/type échantillon'
                   Width: =Parent.TemplateWidth - 340
                   X: =24
                   Y: =10
@@ -203,39 +203,25 @@ Screens:
                   Height: =24
                   OnSelect: =Select(Parent)
                   Size: =12
-                  Text: =Concatenate(ThisItem.Tyoedesubstance.Value, If(!IsBlank(ThisItem.R_x00e9_f_x00e9_rencecommerciale), " · Réf. " & ThisItem.R_x00e9_f_x00e9_rencecommerciale))
+                  Text: =Concatenate(If(IsBlank(ThisItem.'Référence commerciale'), "", "Réf. " & ThisItem.'Référence commerciale'), If(IsBlank(ThisItem.Pathologie), "", "  ·  " & ThisItem.Pathologie))
                   Width: =Parent.TemplateWidth - 340
                   X: =24
                   Y: =40
-            - md_lblDate:
-                Control: Label@2.5.1
-                Properties:
-                  Align: =Align.Right
-                  Color: =RGBA(112, 136, 182, 1)
-                  Font: =Font.Arial
-                  FontWeight: =FontWeight.Normal
-                  Height: =24
-                  OnSelect: =Select(Parent)
-                  Size: =11
-                  Text: ="Créée le " & Text(ThisItem.Created, "dd/mm/yyyy")
-                  Width: =220
-                  X: =Parent.TemplateWidth - 300
-                  Y: =10
             - md_lblCodecoh:
                 Control: Label@2.5.1
                 Properties:
                   Align: =Align.Right
-                  Color: =If(IsBlank(ThisItem.Num_x00e9_roCODECOH), RGBA(212, 66, 51, 1), RGBA(63, 126, 18, 1))
+                  Color: =If(IsBlank(ThisItem.'Numéro CODECOH'), RGBA(212, 66, 51, 1), RGBA(63, 126, 18, 1))
                   Font: =Font.Arial
                   FontWeight: =FontWeight.Bold
                   Height: =24
                   OnSelect: =Select(Parent)
                   Size: =11
                   Text: |-
-                    =If(IsBlank(ThisItem.Num_x00e9_roCODECOH), "En cours de traitement", "N° CODECOH : " & ThisItem.Num_x00e9_roCODECOH)
+                    =If(IsBlank(ThisItem.'Numéro CODECOH'), "En cours de traitement", "N° CODECOH : " & ThisItem.'Numéro CODECOH')
                   Width: =220
                   X: =Parent.TemplateWidth - 300
-                  Y: =38
+                  Y: =24
             - NextArrow1:
                 Control: Classic/Icon@2.5.0
                 Properties:

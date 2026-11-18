@@ -53,14 +53,14 @@ td{height:56px;padding:0 5px;border-bottom:1px solid var(--i200)}td .in{width:10
  <div class="hdr"><div class="logo">logo ABC</div><div><h1>Nouvelle demande</h1><p>Renseignez les informations communes, puis ajoutez autant d'échantillons que nécessaire</p></div><div class="btn back">←  Accueil</div></div>
  <div class="card"><h3>1. Informations communes à tous les échantillons</h3>
   <div class="grid" style="grid-template-columns:repeat(2,1fr)">
-   <div class="f"><label>Nom du demandeur</label><div class="in v">Romain Dufraiche</div></div>
+   <div class="f"><label>Demandeur</label><div class="in v">Romain Dufraiche</div></div>
    <div class="f"><label>Commentaires</label><div class="in">Commentaire (facultatif)</div></div>
   </div></div>
  <div class="card" style="height:400px"><h3>2. Échantillons (3) <span class="btn">+  Ajouter un échantillon</span></h3>
-  <table><tr><th>#</th><th style="width:32%">Nom échantillon *</th><th style="width:24%">Référence commerciale</th><th style="width:20%">Type de substance</th><th style="width:20%">Source tissu</th><th></th></tr>
-  <tr><td class="num">1</td><td><div class="in v">HeLa – stock A</div></td><td><div class="in v">CCL-2</div></td><td><div class="in v">Lignée cellulaire ▾</div></td><td><div class="in v">Col utérin</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
-  <tr><td class="num">2</td><td><div class="in v">HEK293 – stock B</div></td><td><div class="in v">CRL-1573</div></td><td><div class="in v">Lignée cellulaire ▾</div></td><td><div class="in v">Rein</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
-  <tr><td class="num">3</td><td><div class="in v">Organoïde X</div></td><td><div class="in">Réf. commerciale</div></td><td><div class="in">Choisir… ▾</div></td><td><div class="in v">Côlon</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
+  <table><tr><th>#</th><th style="width:30%">Nom/type échantillon *</th><th style="width:22%">Référence commerciale</th><th style="width:22%">Tissue Source</th><th style="width:22%">Pathologie</th><th></th></tr>
+  <tr><td class="num">1</td><td><div class="in v">HeLa – lignée cellulaire</div></td><td><div class="in v">CCL-2</div></td><td><div class="in v">Col utérin</div></td><td><div class="in v">Adénocarcinome</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
+  <tr><td class="num">2</td><td><div class="in v">HEK293 – lignée cellulaire</div></td><td><div class="in v">CRL-1573</div></td><td><div class="in v">Rein</div></td><td><div class="in">Pathologie</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
+  <tr><td class="num">3</td><td><div class="in v">Sérum de lapin</div></td><td><div class="in">Réf. commerciale</div></td><td><div class="in v">Sang</div></td><td><div class="in">Pathologie</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
   </table></div>
  <div class="footer"><div class="msg"></div><div class="btn" style="width:140px;height:44px">Annuler</div><div class="btn pri" style="width:264px;height:44px">Envoyer 3 demande(s)</div></div>
 </div>
@@ -70,9 +70,9 @@ td{height:56px;padding:0 5px;border-bottom:1px solid var(--i200)}td .in{width:10
  <div class="hdr"><div class="logo">logo ABC</div><div><h1>Mes demandes</h1><p>Retrouvez toutes les demandes que vous avez déposées</p></div><div class="btn back">←  Accueil</div></div>
  <div style="display:flex;justify-content:space-between;margin:16px 32px 0"><div class="in" style="width:420px">Rechercher un échantillon…  🔍</div><div class="btn pri" style="width:220px">+  Nouvelle demande</div></div>
  <div class="card list" style="padding:0;height:560px">
-  <div class="row sel"><div class="l"><b>HeLa – stock A</b><div>Lignée cellulaire · Réf. CCL-2</div></div><div class="r"><div class="d">Créée le 18/11/2026</div><div class="warn">En cours de traitement</div></div><div class="chev">›</div></div>
-  <div class="row"><div class="l"><b>HEK293 – stock B</b><div>Lignée cellulaire · Réf. CRL-1573</div></div><div class="r"><div class="d">Créée le 18/11/2026</div><div class="warn">En cours de traitement</div></div><div class="chev">›</div></div>
-  <div class="row"><div class="l"><b>Sérum de lapin</b><div>Sérum</div></div><div class="r"><div class="d">Créée le 02/10/2026</div><div class="ok">N° CODECOH : 2026-0147</div></div><div class="chev">›</div></div>
+  <div class="row sel"><div class="l"><b>HeLa – lignée cellulaire</b><div>Réf. CCL-2  ·  Adénocarcinome</div></div><div class="r"><div class="warn">En cours de traitement</div></div><div class="chev">›</div></div>
+  <div class="row"><div class="l"><b>HEK293 – lignée cellulaire</b><div>Réf. CRL-1573</div></div><div class="r"><div class="warn">En cours de traitement</div></div><div class="chev">›</div></div>
+  <div class="row"><div class="l"><b>Sérum de lapin</b><div></div></div><div class="r"><div class="ok">N° CODECOH : 2026-0147</div></div><div class="chev">›</div></div>
  </div>
 </div>
 </body></html>

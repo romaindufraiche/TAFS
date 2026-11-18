@@ -1,14 +1,14 @@
 # Portail CODECOH (app « ABC ») : refonte charte Servier et déclaration multi-échantillons
 
 Source : l'export Power Apps du dossier Drive `transfert` (package `.zip` décompressé : `manifest.json` + `N11f08592-…-document.msapp`).
-Sources de données (inchangées) : listes SharePoint `x_Demandes CODECOH` et `x_Référentiel Lignées` du site *ABC-ANIMALSBIOLOGICSCOMPLIANCE*.
+Sources de données (inchangées) : liste SharePoint `x_Demandes CODECOH` du site *ABC-ANIMALSBIOLOGICSCOMPLIANCE*.
 
 ## Ce qui change
 
 | Écran | Avant | Après |
 |---|---|---|
 | **Accueil** | 3 boutons (Nouvelle demande, Mes demandes, Administration), fond bleu | **2 tuiles** (Nouvelle demande, Mes demandes), **plus d'administration**, en-tête blanc avec logo et liseré corail, message « Bonjour <nom> » |
-| **Nouvelle demande** | Formulaire pour **1 seul** échantillon | **Plusieurs échantillons à la fois** : un bloc « informations communes » (demandeur, commentaire) puis un tableau avec une ligne par échantillon (nom, référence commerciale, type de substance, source tissu). Chaque ligne a des boutons *Dupliquer* et *Supprimer*. Un seul clic sur **Envoyer N demande(s)** crée N lignes dans SharePoint. Les champs Titre, Nom fournisseur, Adresse fournisseur, Adresse expéditeur et Lignée cellulaire **ne sont plus demandés** |
+| **Nouvelle demande** | Formulaire pour **1 seul** échantillon | **Plusieurs échantillons à la fois** : informations communes (*Demandeur*, *Commentaires*) puis un tableau avec une ligne par échantillon (*Nom/type échantillon*, *Référence commerciale*, *Tissue Source*, *Pathologie*), avec les boutons *Dupliquer* et *Supprimer*. **Envoyer N demande(s)** crée N lignes dans SharePoint |
 | **Mes demandes** | Liste simple | Même liste aux couleurs Servier : nom de l'échantillon, type et référence, date, statut (n° CODECOH ou « En cours de traitement »), recherche par nom et bouton « Nouvelle demande » |
 | **Administration** | Écran `ScrAdmin` | **Supprimé** |
 | **Détail demande** | Formulaire | Fiche en lecture seule aux couleurs Servier : bloc *Échantillon* et bloc *Suivi de la déclaration CODECOH* (`4_ScrDetailDemande.pa.yaml`, utile pour repartir de zéro) |
@@ -98,12 +98,12 @@ Sélectionnez `ScrDetailDemande` puis :
 
 ## Fonctionnement de l'écran multi-échantillons (pour la maintenance)
 
-- Les lignes du tableau sont stockées dans la collection locale `colEchantillons` (`Id, Nom, Ref, TypeSub, Source`). Elle est réinitialisée à chaque ouverture de l'écran (`OnVisible`).
+- Les lignes du tableau sont stockées dans la collection locale `colEchantillons` (`Id, Nom, Ref, Source, Patho`). Elle est réinitialisée à chaque ouverture de l'écran (`OnVisible`).
 - **Ajouter** fait un `Collect` d'une ligne vide. **Dupliquer** recopie la ligne en ajoutant « (copie) » au nom. **Supprimer** fait un `Remove`, et reste désactivé s'il ne reste qu'une ligne.
 - **Envoyer** :
   1. vérifie que chaque ligne a un nom (sinon, la bordure passe en corail et un message s'affiche) ;
   2. fait `ForAll(nd_galEchantillons.AllItems, Patch('x_Demandes CODECOH', Defaults(...), {...}))`, c'est-à-dire une ligne SharePoint par échantillon, avec les informations communes recopiées sur chaque ligne ;
-  3. le champ n'est plus saisi : la colonne SharePoint *Titre* (souvent obligatoire) reçoit automatiquement le **nom de l'échantillon**. *Nom fournisseur*, *Adresse fournisseur*, *Adresse expéditeur* et *Lignée cellulaire* restent vides. Si l'une de ces colonnes est marquée « obligatoire » dans la liste SharePoint, il faut décocher cette option (Paramètres de la liste → colonne → *Exiger que cette colonne contienne des informations* = Non), sinon l'envoi échouera ;
+  3. seules les colonnes visibles dans la liste sont utilisées. Colonnes **remplies** : *Nom/type échantillon*, *Référence commerciale*, *Tissue Source*, *Pathologie*, *Demandeur*, *Commentaires*. Colonnes **affichées dans le détail** : *Numéro CODECOH*, *N° d'autorisation* et les dates de la déclaration. Si une colonne non remplie par l'app (ex. *Numéro CODECOH*, *Coordonnées fournisseur*) est obligatoire dans SharePoint, rendez-la facultative ;
   4. affiche un message de succès, ou le message d'erreur SharePoint.
 
 ### Régénérer le YAML

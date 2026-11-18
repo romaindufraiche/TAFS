@@ -104,8 +104,8 @@ Pour chaque écran, ouvrez le fichier `…_proprietes_ecran.txt` correspondant. 
 |---|---|
 | Croix rouges sur de nombreuses formules | Un nom ne correspond pas. Vérifiez les noms des 4 écrans, de la source `x_Demandes CODECOH` et du média `logo ABC` |
 | Erreur sur `Navigate(ScrDetailDemande…)` ou `Gallery1` | `ScrDetailDemande` n'existe pas encore, ou la galerie a été renommée `Gallery1_1` : renommez-la `Gallery1` |
-| Erreur sur `ThisItem.Created` ou `.Created` | Selon la langue du site, remplacez `Created` par `Créé` |
-| Erreur sur une colonne | Les formules utilisent les **noms internes** SharePoint (ex. `Nom_x00e9_chantillon`), qui ne changent pas quand on renomme une colonne. Une erreur signifie donc que la colonne a été **supprimée** ou que son **type** a changé. Panneau Données → `…` → **Actualiser**, puis vérifiez |
-| L'envoi échoue avec « champ obligatoire » | Une colonne retirée du formulaire (Nom fournisseur, Adresses, Lignée cellulaire) est obligatoire dans SharePoint. Allez dans Paramètres de la liste → la colonne → *Exiger que cette colonne contienne des informations* = **Non** |
+| Erreur sur une colonne | Les formules utilisent les noms de colonnes **exactement** comme dans SharePoint : `Nom/type échantillon`, `Référence commerciale`, `Tissue Source`, `Pathologie`, `Demandeur`, `Commentaires`, `Numéro CODECOH`, `N° d'autorisation` et les dates de la déclaration. Si une colonne est renommée, il faut corriger la formule (le vérificateur d'application indique où). Panneau Données → `…` → **Actualiser** après toute modification de la liste |
+| L'envoi échoue avec « champ obligatoire » | Une colonne que l'app ne remplit pas (*Numéro CODECOH*, *Coordonnées fournisseur*, *N° d'autorisation*, dates) est obligatoire dans SharePoint. Allez dans Paramètres de la liste → la colonne → *Exiger que cette colonne contienne des informations* = **Non** |
 | Le tableau des échantillons est vide (aucune ligne) | La propriété `OnVisible` de `ScrNouvelleDemande` n'a pas été collée (étape 6) |
 | Le menu « Coller le code » n'apparaît pas | Rechargez Studio sur Edge ou Chrome à jour, puis essayez **Ctrl+V** sur l'écran sélectionné |
+| Erreur de type sur *Pathologie* | L'app la saisit en texte libre. Si la colonne est de type *Choix* dans SharePoint, dites-le-moi pour la transformer en liste déroulante |

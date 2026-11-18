@@ -200,7 +200,21 @@ def screen_accueil():
 # =============================================================================
 # 2. Nouvelle demande : déclaration de plusieurs échantillons
 # =============================================================================
-EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: ""}'
+# Colonnes de la liste « x_Demandes CODECOH » (noms affichés, tels que dans SharePoint)
+C_NUM = "'Numéro CODECOH'"
+C_DEMANDEUR = "Demandeur"
+C_NOM = "'Nom/type échantillon'"
+C_REF = "'Référence commerciale'"
+C_TISSU = "'Tissue Source'"
+C_PATHO = "Pathologie"
+C_AUTORISATION = "'N° d''autorisation'"
+C_INIT = "'Date d''initialisation de la déclaration'"
+C_DEPOT = "'Date de dépôt de la déclaration'"
+C_AR = "Dateder_x00e9_c_x00e9_ptiondelAR"   # « Date de récéption de l'AR » (nom interne : évite le souci d'accent)
+C_VALID1 = "'Date validation de la déclaration'"
+C_VALID2 = "'Date de validation de la déclaration'"
+C_COMM = "Commentaires"
+EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", Source: "", Patho: ""}'
 
 
 def screen_nouvelle():
@@ -254,10 +268,10 @@ def screen_nouvelle():
 
     # Colonnes du tableau (en fraction de la largeur disponible)
     cols = [  # (clé, titre, fraction)
-        ("Nom", "Nom/type échantillon *", 0.32),
-        ("Ref", "Référence commerciale", 0.24),
-        ("TypeSub", "Type de substance", 0.22),
-        ("Source", "Tissue Source", 0.22),
+        ("Nom", "Nom/type échantillon *", 0.31),
+        ("Ref", "Référence commerciale", 0.23),
+        ("Source", "Tissue Source", 0.23),
+        ("Patho", "Pathologie", 0.23),
     ]
     tbl_x = M + 24
     num_w, act_w, gap = 40, 96, 10
@@ -294,30 +308,17 @@ def screen_nouvelle():
                    BorderColor=f"If(varTentative && IsBlank(Trim(Self.Text)), {CORAL}, {INDIGO200})"),
         text_input(f"{p}_txtRef", "ThisItem.Ref", gx("Ref"), in_y, xs["Ref"][1],
                    hint="Réf. commerciale", onchange=sync("Ref", "Self.Text")),
-        ctrl(f"{p}_cbType", "Classic/ComboBox@2.4.0", {
-            "Items": "Choices([@'x_Demandes CODECOH'].Tyoedesubstance)",
-            "DefaultSelectedItems": "Filter(Choices([@'x_Demandes CODECOH'].Tyoedesubstance), Value = ThisItem.TypeSub)",
-            "DisplayFields": '["Value"]', "SearchFields": '["Value"]',
-            "SelectMultiple": "false", "IsSearchable": "false",
-            "InputTextPlaceholder": '"Choisir…"',
-            "OnChange": sync("TypeSub", "Self.Selected.Value"),
-            "X": gx("TypeSub"), "Y": in_y, "Width": xs["TypeSub"][1], "Height": 36,
-            "Font": FONT, "Size": 12, "Color": TEXT, "Fill": WHITE,
-            "BorderColor": INDIGO200, "HoverBorderColor": INDIGO500,
-            "ChevronBackground": WHITE, "ChevronFill": NAVY,
-            "ChevronHoverBackground": INDIGO50, "ChevronHoverFill": NAVY,
-            "SelectionFill": NAVY, "SelectionColor": WHITE,
-            "HoverFill": INDIGO50, "HoverColor": TEXT,
-            "PressedFill": NAVY, "PressedColor": WHITE,
-            "AccessibleLabel": '"Type de substance"'}),
         text_input(f"{p}_txtSource", "ThisItem.Source", gx("Source"), in_y,
                    xs["Source"][1], hint="Tissue Source",
                    onchange=sync("Source", "Self.Text")),
+        text_input(f"{p}_txtPatho", "ThisItem.Patho", gx("Patho"), in_y,
+                   xs["Patho"][1], hint="Pathologie",
+                   onchange=sync("Patho", "Self.Text")),
         icon(f"{p}_icoDupliquer", "Icon.Copy",
              "Parent.TemplateWidth - 84", in_y + 2, 32, NAVY,
              onselect=(f"Collect(colEchantillons, {{Id: varNextId, "
                        "Nom: nd_txtNom.Text & \" (copie)\", Ref: nd_txtRef.Text, "
-                       "TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text});\nSet(varNextId, varNextId + 1)"),
+                       "Source: nd_txtSource.Text, Patho: nd_txtPatho.Text});\nSet(varNextId, varNextId + 1)"),
              tooltip="Dupliquer cette ligne",
              PaddingTop=4, PaddingBottom=4, PaddingLeft=4, PaddingRight=4),
         icon(f"{p}_icoSupprimer", "Icon.Trash",
@@ -355,13 +356,12 @@ If(
                 'x_Demandes CODECOH',
                 Defaults('x_Demandes CODECOH'),
                 {{
-                    Title: Trim(nd_txtNom.Text),
-                    Nom_x00e9_chantillon: Trim(nd_txtNom.Text),
-                    R_x00e9_f_x00e9_rencecommerciale: nd_txtRef.Text,
-                    Tyoedesubstance: nd_cbType.Selected,
-                    Sourcetissu: nd_txtSource.Text,
-                    Nomdemandeur: nd_txtDemandeur.Text,
-                    Commentaires: nd_txtCommentaires.Text
+                    {C_NOM}: Trim(nd_txtNom.Text),
+                    {C_REF}: nd_txtRef.Text,
+                    {C_TISSU}: nd_txtSource.Text,
+                    {C_PATHO}: nd_txtPatho.Text,
+                    {C_DEMANDEUR}: nd_txtDemandeur.Text,
+                    {C_COMM}: nd_txtCommentaires.Text
                 }}
             )
         )
@@ -403,20 +403,17 @@ Reset(nd_txtCommentaires)"""
 def screen_mes_demandes():
     M = 32
     cells = [
-        label("Title1", "ThisItem.Nom_x00e9_chantillon", 24, 10, "Parent.TemplateWidth - 340", 28,
+        label("Title1", f"ThisItem.{C_NOM}", 24, 10, "Parent.TemplateWidth - 340", 28,
               size=14, color=NAVY, bold=True, OnSelect="Select(Parent)"),
         label("Subtitle1",
-              "Concatenate(ThisItem.Tyoedesubstance.Value, If(!IsBlank(ThisItem.R_x00e9_f_x00e9_rencecommerciale), \" · Réf. \" & ThisItem.R_x00e9_f_x00e9_rencecommerciale))", 24, 40,
+              f'Concatenate(If(IsBlank(ThisItem.{C_REF}), "", "Réf. " & ThisItem.{C_REF}), If(IsBlank(ThisItem.{C_PATHO}), "", "  ·  " & ThisItem.{C_PATHO}))', 24, 40,
               "Parent.TemplateWidth - 340", 24, size=12, color=TEXT,
               OnSelect="Select(Parent)"),
-        label("md_lblDate", '"Créée le " & Text(ThisItem.Created, "dd/mm/yyyy")',
-              "Parent.TemplateWidth - 300", 10, 220, 24, size=11, color=INDIGO500,
-              Align="Align.Right", OnSelect="Select(Parent)"),
         label("md_lblCodecoh",
-              'If(IsBlank(ThisItem.Num_x00e9_roCODECOH), "En cours de traitement", '
-              '"N° CODECOH : " & ThisItem.Num_x00e9_roCODECOH)',
-              "Parent.TemplateWidth - 300", 38, 220, 24, size=11,
-              color=f"If(IsBlank(ThisItem.Num_x00e9_roCODECOH), {CORAL}, {GREEN})",
+              f'If(IsBlank(ThisItem.{C_NUM}), "En cours de traitement", '
+              f'"N° CODECOH : " & ThisItem.{C_NUM})',
+              "Parent.TemplateWidth - 300", 24, 220, 24, size=11,
+              color=f"If(IsBlank(ThisItem.{C_NUM}), {CORAL}, {GREEN})",
               bold=True, Align="Align.Right", OnSelect="Select(Parent)"),
         icon("NextArrow1", "Icon.ChevronRight", "Parent.TemplateWidth - 64", 18, 40,
              NAVY, onselect="Navigate(ScrDetailDemande, ScreenTransition.Cover)",
@@ -435,11 +432,11 @@ def screen_mes_demandes():
                220, 40, "Navigate(ScrNouvelleDemande, ScreenTransition.Cover)"),
         card("md_cardListe", M, 164, "Parent.Width - 64", "Parent.Height - 196"),
         ctrl("Gallery1", "Gallery@2.15.0", {
-            "Items": """SortByColumns(
+            "Items": f"""SortByColumns(
     Filter(
         'x_Demandes CODECOH',
         Author.Email = User().Email,
-        IsBlank(md_txtRecherche.Text) || StartsWith(Nom_x00e9_chantillon, md_txtRecherche.Text)
+        IsBlank(md_txtRecherche.Text) || StartsWith({C_NOM}, md_txtRecherche.Text)
     ),
     "ID",
     SortOrder.Descending
@@ -466,28 +463,28 @@ def screen_detail():
         return f'If(IsBlank({expr}), "—", Text({expr}))'
 
     fields = [
-        ("Nom/type échantillon", val(f"{sel}.Nom_x00e9_chantillon")),
-        ("Référence commerciale", val(f"{sel}.R_x00e9_f_x00e9_rencecommerciale")),
-        ("Type de substance", val(f"{sel}.Tyoedesubstance.Value")),
-        ("Tissue Source", val(f"{sel}.Sourcetissu")),
-        ("Demandeur", val(f"{sel}.Nomdemandeur")),
-        ("Date de la demande", f'Text({sel}.Created, "dd/mm/yyyy hh:mm")'),
-        ("Commentaires", val(f"{sel}.Commentaires")),
+        ("Nom/type échantillon", val(f"{sel}.{C_NOM}")),
+        ("Référence commerciale", val(f"{sel}.{C_REF}")),
+        ("Tissue Source", val(f"{sel}.{C_TISSU}")),
+        ("Pathologie", val(f"{sel}.{C_PATHO}")),
+        ("Demandeur", val(f"{sel}.{C_DEMANDEUR}")),
+        ("Commentaires", val(f"{sel}.{C_COMM}")),
     ]
     suivi = [
-        ("Numéro CODECOH", val(f"{sel}.Num_x00e9_roCODECOH")),
-        ("N° d'autorisation", val(f"{sel}.Typeautorisation_x002f_d_x00e9_c")),
-        ("Date d'initialisation de la déclaration", val(f"{sel}.Datedinitialisationdelad_x00e9_c")),
-        ("Date de dépôt de la déclaration", val(f"{sel}.Dateded_x00e9_p_x00f4_tdelad_x00")),
-        ("Date de réception de l'AR", val(f"{sel}.Dateder_x00e9_c_x00e9_ptiondelAR")),
-        ("Date validation de la déclaration", val(f"{sel}.Datedevalidationdelad_x00e9_clar")),
+        ("Numéro CODECOH", val(f"{sel}.{C_NUM}")),
+        ("N° d'autorisation", val(f"{sel}.{C_AUTORISATION}")),
+        ("Date d'initialisation de la déclaration", val(f"{sel}.{C_INIT}")),
+        ("Date de dépôt de la déclaration", val(f"{sel}.{C_DEPOT}")),
+        ("Date de réception de l'AR", val(f"{sel}.{C_AR}")),
+        ("Date validation de la déclaration", val(f"{sel}.{C_VALID1}")),
+        ("Date de validation de la déclaration", val(f"{sel}.{C_VALID2}")),
     ]
     col_w = "(Parent.Width - 64 - 32) / 2"
     x2 = f"{M} + {col_w} + 32"
     top = 112
     card_h = f"Parent.Height - {top + 32}"
     children = header("dd", '"Détail de la demande"',
-                      f"{sel}.Nom_x00e9_chantillon", back_to="ScrMesDemandes",
+                      f"{sel}.{C_NOM}", back_to="ScrMesDemandes",
                       back_text="←  Mes demandes")
     children += [
         card("dd_cardInfos", M, top, col_w, card_h),
@@ -497,14 +494,14 @@ def screen_detail():
         label("dd_lblSuivi", '"Suivi de la déclaration CODECOH"', f"{x2} + 24",
               top + 14, f"{col_w} - 48", 30, size=15, color=NAVY, bold=True),
         label("dd_lblStatut",
-              f'If(IsBlank({sel}.Num_x00e9_roCODECOH), "En cours de traitement", "Déclaration enregistrée")',
+              f'If(IsBlank({sel}.{C_NUM}), "En cours de traitement", "Déclaration enregistrée")',
               f"{x2} + {col_w} - 244", top + 16, 220, 26, size=11, bold=True,
               color=WHITE, Align="Align.Center",
-              Fill=f"If(IsBlank({sel}.Num_x00e9_roCODECOH), {CORAL}, {GREEN})"),
+              Fill=f"If(IsBlank({sel}.{C_NUM}), {CORAL}, {GREEN})"),
     ]
     for prefix, x, items in (("I", M, fields), ("S", x2, suivi)):
         for i, (lab, expr) in enumerate(items):
-            y = top + 56 + i * 64
+            y = top + 52 + i * 62
             children.append(label(f"dd_lblK{prefix}{i + 1}", f'"{lab}"', f"{x} + 24", y,
                                   f"{col_w} - 48", 22, size=11, color=INDIGO500,
                                   bold=True))

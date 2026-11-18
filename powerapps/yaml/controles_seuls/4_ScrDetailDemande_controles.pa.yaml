@@ -43,7 +43,7 @@
       FontWeight: =FontWeight.Normal
       Height: =26
       Size: =12
-      Text: =Gallery1.Selected.Nom_x00e9_chantillon
+      Text: =Gallery1.Selected.'Nom/type échantillon'
       Width: =900
       X: =148
       Y: =50
@@ -127,12 +127,12 @@
     Properties:
       Align: =Align.Center
       Color: =RGBA(255, 255, 255, 1)
-      Fill: =If(IsBlank(Gallery1.Selected.Num_x00e9_roCODECOH), RGBA(212, 66, 51, 1), RGBA(63, 126, 18, 1))
+      Fill: =If(IsBlank(Gallery1.Selected.'Numéro CODECOH'), RGBA(212, 66, 51, 1), RGBA(63, 126, 18, 1))
       Font: =Font.Arial
       FontWeight: =FontWeight.Bold
       Height: =26
       Size: =11
-      Text: =If(IsBlank(Gallery1.Selected.Num_x00e9_roCODECOH), "En cours de traitement", "Déclaration enregistrée")
+      Text: =If(IsBlank(Gallery1.Selected.'Numéro CODECOH'), "En cours de traitement", "Déclaration enregistrée")
       Width: =220
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + (Parent.Width - 64 - 32) / 2 - 244
       Y: =128
@@ -147,7 +147,7 @@
       Text: ="Nom/type échantillon"
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + 24
-      Y: =168
+      Y: =164
 - dd_lblVI1:
     Control: Label@2.5.1
     Properties:
@@ -156,10 +156,10 @@
       FontWeight: =FontWeight.Normal
       Height: =30
       Size: =13
-      Text: =If(IsBlank(Gallery1.Selected.Nom_x00e9_chantillon), "—", Text(Gallery1.Selected.Nom_x00e9_chantillon))
+      Text: =If(IsBlank(Gallery1.Selected.'Nom/type échantillon'), "—", Text(Gallery1.Selected.'Nom/type échantillon'))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + 24
-      Y: =190
+      Y: =186
 - dd_lblKI2:
     Control: Label@2.5.1
     Properties:
@@ -171,7 +171,7 @@
       Text: ="Référence commerciale"
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + 24
-      Y: =232
+      Y: =226
 - dd_lblVI2:
     Control: Label@2.5.1
     Properties:
@@ -180,35 +180,11 @@
       FontWeight: =FontWeight.Normal
       Height: =30
       Size: =13
-      Text: =If(IsBlank(Gallery1.Selected.R_x00e9_f_x00e9_rencecommerciale), "—", Text(Gallery1.Selected.R_x00e9_f_x00e9_rencecommerciale))
+      Text: =If(IsBlank(Gallery1.Selected.'Référence commerciale'), "—", Text(Gallery1.Selected.'Référence commerciale'))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + 24
-      Y: =254
+      Y: =248
 - dd_lblKI3:
-    Control: Label@2.5.1
-    Properties:
-      Color: =RGBA(112, 136, 182, 1)
-      Font: =Font.Arial
-      FontWeight: =FontWeight.Bold
-      Height: =22
-      Size: =11
-      Text: ="Type de substance"
-      Width: =(Parent.Width - 64 - 32) / 2 - 48
-      X: =32 + 24
-      Y: =296
-- dd_lblVI3:
-    Control: Label@2.5.1
-    Properties:
-      Color: =RGBA(49, 49, 49, 1)
-      Font: =Font.Arial
-      FontWeight: =FontWeight.Normal
-      Height: =30
-      Size: =13
-      Text: =If(IsBlank(Gallery1.Selected.Tyoedesubstance.Value), "—", Text(Gallery1.Selected.Tyoedesubstance.Value))
-      Width: =(Parent.Width - 64 - 32) / 2 - 48
-      X: =32 + 24
-      Y: =318
-- dd_lblKI4:
     Control: Label@2.5.1
     Properties:
       Color: =RGBA(112, 136, 182, 1)
@@ -219,7 +195,31 @@
       Text: ="Tissue Source"
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + 24
-      Y: =360
+      Y: =288
+- dd_lblVI3:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(49, 49, 49, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =30
+      Size: =13
+      Text: =If(IsBlank(Gallery1.Selected.'Tissue Source'), "—", Text(Gallery1.Selected.'Tissue Source'))
+      Width: =(Parent.Width - 64 - 32) / 2 - 48
+      X: =32 + 24
+      Y: =310
+- dd_lblKI4:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =22
+      Size: =11
+      Text: ="Pathologie"
+      Width: =(Parent.Width - 64 - 32) / 2 - 48
+      X: =32 + 24
+      Y: =350
 - dd_lblVI4:
     Control: Label@2.5.1
     Properties:
@@ -228,10 +228,10 @@
       FontWeight: =FontWeight.Normal
       Height: =30
       Size: =13
-      Text: =If(IsBlank(Gallery1.Selected.Sourcetissu), "—", Text(Gallery1.Selected.Sourcetissu))
+      Text: =If(IsBlank(Gallery1.Selected.Pathologie), "—", Text(Gallery1.Selected.Pathologie))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + 24
-      Y: =382
+      Y: =372
 - dd_lblKI5:
     Control: Label@2.5.1
     Properties:
@@ -243,7 +243,7 @@
       Text: ="Demandeur"
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + 24
-      Y: =424
+      Y: =412
 - dd_lblVI5:
     Control: Label@2.5.1
     Properties:
@@ -252,36 +252,11 @@
       FontWeight: =FontWeight.Normal
       Height: =30
       Size: =13
-      Text: =If(IsBlank(Gallery1.Selected.Nomdemandeur), "—", Text(Gallery1.Selected.Nomdemandeur))
+      Text: =If(IsBlank(Gallery1.Selected.Demandeur), "—", Text(Gallery1.Selected.Demandeur))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + 24
-      Y: =446
+      Y: =434
 - dd_lblKI6:
-    Control: Label@2.5.1
-    Properties:
-      Color: =RGBA(112, 136, 182, 1)
-      Font: =Font.Arial
-      FontWeight: =FontWeight.Bold
-      Height: =22
-      Size: =11
-      Text: ="Date de la demande"
-      Width: =(Parent.Width - 64 - 32) / 2 - 48
-      X: =32 + 24
-      Y: =488
-- dd_lblVI6:
-    Control: Label@2.5.1
-    Properties:
-      Color: =RGBA(49, 49, 49, 1)
-      Font: =Font.Arial
-      FontWeight: =FontWeight.Normal
-      Height: =30
-      Size: =13
-      Text: |-
-        =Text(Gallery1.Selected.Created, "dd/mm/yyyy hh:mm")
-      Width: =(Parent.Width - 64 - 32) / 2 - 48
-      X: =32 + 24
-      Y: =510
-- dd_lblKI7:
     Control: Label@2.5.1
     Properties:
       Color: =RGBA(112, 136, 182, 1)
@@ -292,8 +267,8 @@
       Text: ="Commentaires"
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + 24
-      Y: =552
-- dd_lblVI7:
+      Y: =474
+- dd_lblVI6:
     Control: Label@2.5.1
     Properties:
       Color: =RGBA(49, 49, 49, 1)
@@ -304,7 +279,7 @@
       Text: =If(IsBlank(Gallery1.Selected.Commentaires), "—", Text(Gallery1.Selected.Commentaires))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + 24
-      Y: =574
+      Y: =496
 - dd_lblKS1:
     Control: Label@2.5.1
     Properties:
@@ -316,7 +291,7 @@
       Text: ="Numéro CODECOH"
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =168
+      Y: =164
 - dd_lblVS1:
     Control: Label@2.5.1
     Properties:
@@ -325,10 +300,10 @@
       FontWeight: =FontWeight.Normal
       Height: =30
       Size: =13
-      Text: =If(IsBlank(Gallery1.Selected.Num_x00e9_roCODECOH), "—", Text(Gallery1.Selected.Num_x00e9_roCODECOH))
+      Text: =If(IsBlank(Gallery1.Selected.'Numéro CODECOH'), "—", Text(Gallery1.Selected.'Numéro CODECOH'))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =190
+      Y: =186
 - dd_lblKS2:
     Control: Label@2.5.1
     Properties:
@@ -340,7 +315,7 @@
       Text: ="N° d'autorisation"
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =232
+      Y: =226
 - dd_lblVS2:
     Control: Label@2.5.1
     Properties:
@@ -349,10 +324,10 @@
       FontWeight: =FontWeight.Normal
       Height: =30
       Size: =13
-      Text: =If(IsBlank(Gallery1.Selected.Typeautorisation_x002f_d_x00e9_c), "—", Text(Gallery1.Selected.Typeautorisation_x002f_d_x00e9_c))
+      Text: =If(IsBlank(Gallery1.Selected.'N° d''autorisation'), "—", Text(Gallery1.Selected.'N° d''autorisation'))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =254
+      Y: =248
 - dd_lblKS3:
     Control: Label@2.5.1
     Properties:
@@ -364,7 +339,7 @@
       Text: ="Date d'initialisation de la déclaration"
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =296
+      Y: =288
 - dd_lblVS3:
     Control: Label@2.5.1
     Properties:
@@ -373,10 +348,10 @@
       FontWeight: =FontWeight.Normal
       Height: =30
       Size: =13
-      Text: =If(IsBlank(Gallery1.Selected.Datedinitialisationdelad_x00e9_c), "—", Text(Gallery1.Selected.Datedinitialisationdelad_x00e9_c))
+      Text: =If(IsBlank(Gallery1.Selected.'Date d''initialisation de la déclaration'), "—", Text(Gallery1.Selected.'Date d''initialisation de la déclaration'))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =318
+      Y: =310
 - dd_lblKS4:
     Control: Label@2.5.1
     Properties:
@@ -388,7 +363,7 @@
       Text: ="Date de dépôt de la déclaration"
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =360
+      Y: =350
 - dd_lblVS4:
     Control: Label@2.5.1
     Properties:
@@ -397,10 +372,10 @@
       FontWeight: =FontWeight.Normal
       Height: =30
       Size: =13
-      Text: =If(IsBlank(Gallery1.Selected.Dateded_x00e9_p_x00f4_tdelad_x00), "—", Text(Gallery1.Selected.Dateded_x00e9_p_x00f4_tdelad_x00))
+      Text: =If(IsBlank(Gallery1.Selected.'Date de dépôt de la déclaration'), "—", Text(Gallery1.Selected.'Date de dépôt de la déclaration'))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =382
+      Y: =372
 - dd_lblKS5:
     Control: Label@2.5.1
     Properties:
@@ -412,7 +387,7 @@
       Text: ="Date de réception de l'AR"
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =424
+      Y: =412
 - dd_lblVS5:
     Control: Label@2.5.1
     Properties:
@@ -424,7 +399,7 @@
       Text: =If(IsBlank(Gallery1.Selected.Dateder_x00e9_c_x00e9_ptiondelAR), "—", Text(Gallery1.Selected.Dateder_x00e9_c_x00e9_ptiondelAR))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =446
+      Y: =434
 - dd_lblKS6:
     Control: Label@2.5.1
     Properties:
@@ -436,7 +411,7 @@
       Text: ="Date validation de la déclaration"
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =488
+      Y: =474
 - dd_lblVS6:
     Control: Label@2.5.1
     Properties:
@@ -445,7 +420,31 @@
       FontWeight: =FontWeight.Normal
       Height: =30
       Size: =13
-      Text: =If(IsBlank(Gallery1.Selected.Datedevalidationdelad_x00e9_clar), "—", Text(Gallery1.Selected.Datedevalidationdelad_x00e9_clar))
+      Text: =If(IsBlank(Gallery1.Selected.'Date validation de la déclaration'), "—", Text(Gallery1.Selected.'Date validation de la déclaration'))
       Width: =(Parent.Width - 64 - 32) / 2 - 48
       X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
-      Y: =510
+      Y: =496
+- dd_lblKS7:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =22
+      Size: =11
+      Text: ="Date de validation de la déclaration"
+      Width: =(Parent.Width - 64 - 32) / 2 - 48
+      X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
+      Y: =536
+- dd_lblVS7:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(49, 49, 49, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =30
+      Size: =13
+      Text: =If(IsBlank(Gallery1.Selected.'Date de validation de la déclaration'), "—", Text(Gallery1.Selected.'Date de validation de la déclaration'))
+      Width: =(Parent.Width - 64 - 32) / 2 - 48
+      X: =32 + (Parent.Width - 64 - 32) / 2 + 32 + 24
+      Y: =558

@@ -7,7 +7,7 @@ Screens:
         =Set(varTentative, false);
         Set(varEnvoiEnCours, false);
         Set(varNextId, 1);
-        ClearCollect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: ""});
+        ClearCollect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", Source: "", Patho: ""});
         Set(varNextId, 2);
         Reset(nd_txtDemandeur);
         Reset(nd_txtCommentaires)
@@ -224,7 +224,7 @@ Screens:
             HoverColor: =RGBA(36, 34, 106, 1)
             HoverFill: =RGBA(235, 235, 249, 1)
             OnSelect: |-
-              =Collect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: ""});
+              =Collect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", Source: "", Patho: ""});
               Set(varNextId, varNextId + 1)
             PressedColor: =RGBA(255, 255, 255, 1)
             PressedFill: =RGBA(36, 34, 106, 1)
@@ -268,7 +268,7 @@ Screens:
             Height: =32
             Size: =11
             Text: ="Nom/type échantillon *"
-            Width: =(Parent.Width - 248 - 40) * 0.3200
+            Width: =(Parent.Width - 248 - 40) * 0.3100
             X: =96
             Y: =300
       - nd_lblColRef:
@@ -280,20 +280,8 @@ Screens:
             Height: =32
             Size: =11
             Text: ="Référence commerciale"
-            Width: =(Parent.Width - 248 - 40) * 0.2400
-            X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10
-            Y: =300
-      - nd_lblColTypeSub:
-          Control: Label@2.5.1
-          Properties:
-            Color: =RGBA(36, 34, 106, 1)
-            Font: =Font.Arial
-            FontWeight: =FontWeight.Bold
-            Height: =32
-            Size: =11
-            Text: ="Type de substance"
-            Width: =(Parent.Width - 248 - 40) * 0.2200
-            X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10 + (Parent.Width - 248 - 40) * 0.2400 + 10
+            Width: =(Parent.Width - 248 - 40) * 0.2300
+            X: =96 + (Parent.Width - 248 - 40) * 0.3100 + 10
             Y: =300
       - nd_lblColSource:
           Control: Label@2.5.1
@@ -304,8 +292,20 @@ Screens:
             Height: =32
             Size: =11
             Text: ="Tissue Source"
-            Width: =(Parent.Width - 248 - 40) * 0.2200
-            X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10 + (Parent.Width - 248 - 40) * 0.2400 + 10 + (Parent.Width - 248 - 40) * 0.2200 + 10
+            Width: =(Parent.Width - 248 - 40) * 0.2300
+            X: =96 + (Parent.Width - 248 - 40) * 0.3100 + 10 + (Parent.Width - 248 - 40) * 0.2300 + 10
+            Y: =300
+      - nd_lblColPatho:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(36, 34, 106, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =32
+            Size: =11
+            Text: ="Pathologie"
+            Width: =(Parent.Width - 248 - 40) * 0.2300
+            X: =96 + (Parent.Width - 248 - 40) * 0.3100 + 10 + (Parent.Width - 248 - 40) * 0.2300 + 10 + (Parent.Width - 248 - 40) * 0.2300 + 10
             Y: =300
       - nd_galEchantillons:
           Control: Gallery@2.15.0
@@ -359,7 +359,7 @@ Screens:
                   RadiusTopLeft: =4
                   RadiusTopRight: =4
                   Size: =12
-                  Width: =(Parent.Width - 248 - 40) * 0.3200
+                  Width: =(Parent.Width - 248 - 40) * 0.3100
                   X: =96 - 56
                   Y: =10
             - nd_txtRef:
@@ -384,41 +384,8 @@ Screens:
                   RadiusTopLeft: =4
                   RadiusTopRight: =4
                   Size: =12
-                  Width: =(Parent.Width - 248 - 40) * 0.2400
-                  X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10 - 56
-                  Y: =10
-            - nd_cbType:
-                Control: Classic/ComboBox@2.4.0
-                Properties:
-                  AccessibleLabel: ="Type de substance"
-                  BorderColor: =RGBA(212, 222, 242, 1)
-                  ChevronBackground: =RGBA(255, 255, 255, 1)
-                  ChevronFill: =RGBA(36, 34, 106, 1)
-                  ChevronHoverBackground: =RGBA(235, 235, 249, 1)
-                  ChevronHoverFill: =RGBA(36, 34, 106, 1)
-                  Color: =RGBA(49, 49, 49, 1)
-                  DefaultSelectedItems: =Filter(Choices([@'x_Demandes CODECOH'].Tyoedesubstance), Value = ThisItem.TypeSub)
-                  DisplayFields: =["Value"]
-                  Fill: =RGBA(255, 255, 255, 1)
-                  Font: =Font.Arial
-                  Height: =36
-                  HoverBorderColor: =RGBA(112, 136, 182, 1)
-                  HoverColor: =RGBA(49, 49, 49, 1)
-                  HoverFill: =RGBA(235, 235, 249, 1)
-                  InputTextPlaceholder: ="Choisir…"
-                  IsSearchable: =false
-                  Items: =Choices([@'x_Demandes CODECOH'].Tyoedesubstance)
-                  OnChange: |-
-                    =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {TypeSub: Self.Selected.Value})
-                  PressedColor: =RGBA(255, 255, 255, 1)
-                  PressedFill: =RGBA(36, 34, 106, 1)
-                  SearchFields: =["Value"]
-                  SelectMultiple: =false
-                  SelectionColor: =RGBA(255, 255, 255, 1)
-                  SelectionFill: =RGBA(36, 34, 106, 1)
-                  Size: =12
-                  Width: =(Parent.Width - 248 - 40) * 0.2200
-                  X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10 + (Parent.Width - 248 - 40) * 0.2400 + 10 - 56
+                  Width: =(Parent.Width - 248 - 40) * 0.2300
+                  X: =96 + (Parent.Width - 248 - 40) * 0.3100 + 10 - 56
                   Y: =10
             - nd_txtSource:
                 Control: Classic/TextInput@2.3.2
@@ -442,8 +409,33 @@ Screens:
                   RadiusTopLeft: =4
                   RadiusTopRight: =4
                   Size: =12
-                  Width: =(Parent.Width - 248 - 40) * 0.2200
-                  X: =96 + (Parent.Width - 248 - 40) * 0.3200 + 10 + (Parent.Width - 248 - 40) * 0.2400 + 10 + (Parent.Width - 248 - 40) * 0.2200 + 10 - 56
+                  Width: =(Parent.Width - 248 - 40) * 0.2300
+                  X: =96 + (Parent.Width - 248 - 40) * 0.3100 + 10 + (Parent.Width - 248 - 40) * 0.2300 + 10 - 56
+                  Y: =10
+            - nd_txtPatho:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  AccessibleLabel: ="Pathologie"
+                  BorderColor: =RGBA(212, 222, 242, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(49, 49, 49, 1)
+                  Default: =ThisItem.Patho
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FocusedBorderColor: =RGBA(36, 34, 106, 1)
+                  FocusedBorderThickness: =2
+                  Font: =Font.Arial
+                  Height: =36
+                  HintText: ="Pathologie"
+                  HoverBorderColor: =RGBA(112, 136, 182, 1)
+                  OnChange: |-
+                    =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Patho: Self.Text})
+                  RadiusBottomLeft: =4
+                  RadiusBottomRight: =4
+                  RadiusTopLeft: =4
+                  RadiusTopRight: =4
+                  Size: =12
+                  Width: =(Parent.Width - 248 - 40) * 0.2300
+                  X: =96 + (Parent.Width - 248 - 40) * 0.3100 + 10 + (Parent.Width - 248 - 40) * 0.2300 + 10 + (Parent.Width - 248 - 40) * 0.2300 + 10 - 56
                   Y: =10
             - nd_icoDupliquer:
                 Control: Classic/Icon@2.5.0
@@ -453,7 +445,7 @@ Screens:
                   Height: =32
                   Icon: =Icon.Copy
                   OnSelect: |-
-                    =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text});
+                    =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, Source: nd_txtSource.Text, Patho: nd_txtPatho.Text});
                     Set(varNextId, varNextId + 1)
                   PaddingBottom: =4
                   PaddingLeft: =4
@@ -550,12 +542,11 @@ Screens:
                               'x_Demandes CODECOH',
                               Defaults('x_Demandes CODECOH'),
                               {
-                                  Title: Trim(nd_txtNom.Text),
-                                  Nom_x00e9_chantillon: Trim(nd_txtNom.Text),
-                                  R_x00e9_f_x00e9_rencecommerciale: nd_txtRef.Text,
-                                  Tyoedesubstance: nd_cbType.Selected,
-                                  Sourcetissu: nd_txtSource.Text,
-                                  Nomdemandeur: nd_txtDemandeur.Text,
+                                  'Nom/type échantillon': Trim(nd_txtNom.Text),
+                                  'Référence commerciale': nd_txtRef.Text,
+                                  'Tissue Source': nd_txtSource.Text,
+                                  Pathologie: nd_txtPatho.Text,
+                                  Demandeur: nd_txtDemandeur.Text,
                                   Commentaires: nd_txtCommentaires.Text
                               }
                           )
