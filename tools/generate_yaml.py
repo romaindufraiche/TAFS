@@ -343,7 +343,8 @@ def screen_nouvelle():
     }, children=cells, variant="Vertical"))
 
     # ---- Pied de page : avertissement + boutons ---------------------------
-    submit = f"""Set(varTentative, true);
+    submit = f"""Notify("Envoi de " & CountRows(nd_galEchantillons.AllItems) & " échantillon(s) en cours…", NotificationType.Information);
+Set(varTentative, true);
 If(
     CountRows(Filter(nd_galEchantillons.AllItems, IsBlank(Trim(nd_txtNom.Text)))) > 0,
     Notify("Chaque échantillon doit avoir un Nom/type échantillon.", NotificationType.Error),
@@ -374,7 +375,8 @@ If(
     If(
         CountRows(colCrees) = CountRows(nd_galEchantillons.AllItems),
         Notify(CountRows(colCrees) & " échantillon(s) déclaré(s) avec succès.", NotificationType.Success);
-        Navigate(ScrMesDemandes, ScreenTransition.Fade)
+        Navigate(ScrMesDemandes, ScreenTransition.Fade),
+        Notify("Envoi incomplet : " & CountRows(colCrees) & " / " & CountRows(nd_galEchantillons.AllItems) & " échantillon(s) enregistré(s). " & IfError(First(Errors('x_Demandes CODECOH')).Message, ""), NotificationType.Error)
     )
 )"""
     fy = f"Parent.Height - {footer_h - 12}"
