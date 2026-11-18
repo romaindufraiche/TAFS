@@ -346,32 +346,35 @@ def screen_nouvelle():
     submit = f"""Set(varTentative, true);
 If(
     CountRows(Filter(nd_galEchantillons.AllItems, IsBlank(Trim(nd_txtNom.Text)))) > 0,
-    Notify("Chaque échantillon doit avoir un nom.", NotificationType.Error),
+    Notify("Chaque échantillon doit avoir un Nom/type échantillon.", NotificationType.Error),
     Set(varEnvoiEnCours, true);
-    ClearCollect(
-        colCrees,
+    Clear(colCrees);
+    IfError(
         ForAll(
             nd_galEchantillons.AllItems,
-            Patch(
-                'x_Demandes CODECOH',
-                Defaults('x_Demandes CODECOH'),
-                {{
-                    {C_NOM}: Trim(nd_txtNom.Text),
-                    {C_REF}: nd_txtRef.Text,
-                    {C_TISSU}: nd_txtSource.Text,
-                    {C_PATHO}: nd_txtPatho.Text,
-                    {C_DEMANDEUR}: nd_txtDemandeur.Text,
-                    {C_COMM}: nd_txtCommentaires.Text
-                }}
+            Collect(
+                colCrees,
+                Patch(
+                    'x_Demandes CODECOH',
+                    Defaults('x_Demandes CODECOH'),
+                    {{
+                        {C_NOM}: Trim(nd_txtNom.Text),
+                        {C_REF}: nd_txtRef.Text,
+                        {C_TISSU}: nd_txtSource.Text,
+                        {C_PATHO}: nd_txtPatho.Text,
+                        {C_DEMANDEUR}: nd_txtDemandeur.Text,
+                        {C_COMM}: nd_txtCommentaires.Text
+                    }}
+                )
             )
-        )
+        ),
+        Notify("Erreur SharePoint : " & FirstError.Message, NotificationType.Error)
     );
     Set(varEnvoiEnCours, false);
     If(
-        IsEmpty(Errors('x_Demandes CODECOH')),
+        CountRows(colCrees) = CountRows(nd_galEchantillons.AllItems),
         Notify(CountRows(colCrees) & " échantillon(s) déclaré(s) avec succès.", NotificationType.Success);
-        Navigate(ScrMesDemandes, ScreenTransition.Fade),
-        Notify("Erreur lors de l'enregistrement : " & First(Errors('x_Demandes CODECOH')).Message, NotificationType.Error)
+        Navigate(ScrMesDemandes, ScreenTransition.Fade)
     )
 )"""
     fy = f"Parent.Height - {footer_h - 12}"

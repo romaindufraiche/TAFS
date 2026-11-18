@@ -532,32 +532,35 @@ Screens:
               =Set(varTentative, true);
               If(
                   CountRows(Filter(nd_galEchantillons.AllItems, IsBlank(Trim(nd_txtNom.Text)))) > 0,
-                  Notify("Chaque échantillon doit avoir un nom.", NotificationType.Error),
+                  Notify("Chaque échantillon doit avoir un Nom/type échantillon.", NotificationType.Error),
                   Set(varEnvoiEnCours, true);
-                  ClearCollect(
-                      colCrees,
+                  Clear(colCrees);
+                  IfError(
                       ForAll(
                           nd_galEchantillons.AllItems,
-                          Patch(
-                              'x_Demandes CODECOH',
-                              Defaults('x_Demandes CODECOH'),
-                              {
-                                  'Nom/type échantillon': Trim(nd_txtNom.Text),
-                                  'Référence commerciale': nd_txtRef.Text,
-                                  'Tissue Source': nd_txtSource.Text,
-                                  Pathologie: nd_txtPatho.Text,
-                                  Demandeur: nd_txtDemandeur.Text,
-                                  Commentaires: nd_txtCommentaires.Text
-                              }
+                          Collect(
+                              colCrees,
+                              Patch(
+                                  'x_Demandes CODECOH',
+                                  Defaults('x_Demandes CODECOH'),
+                                  {
+                                      'Nom/type échantillon': Trim(nd_txtNom.Text),
+                                      'Référence commerciale': nd_txtRef.Text,
+                                      'Tissue Source': nd_txtSource.Text,
+                                      Pathologie: nd_txtPatho.Text,
+                                      Demandeur: nd_txtDemandeur.Text,
+                                      Commentaires: nd_txtCommentaires.Text
+                                  }
+                              )
                           )
-                      )
+                      ),
+                      Notify("Erreur SharePoint : " & FirstError.Message, NotificationType.Error)
                   );
                   Set(varEnvoiEnCours, false);
                   If(
-                      IsEmpty(Errors('x_Demandes CODECOH')),
+                      CountRows(colCrees) = CountRows(nd_galEchantillons.AllItems),
                       Notify(CountRows(colCrees) & " échantillon(s) déclaré(s) avec succès.", NotificationType.Success);
-                      Navigate(ScrMesDemandes, ScreenTransition.Fade),
-                      Notify("Erreur lors de l'enregistrement : " & First(Errors('x_Demandes CODECOH')).Message, NotificationType.Error)
+                      Navigate(ScrMesDemandes, ScreenTransition.Fade)
                   )
               )
             PressedColor: =RGBA(255, 255, 255, 1)
