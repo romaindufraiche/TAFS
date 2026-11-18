@@ -1,0 +1,790 @@
+- nd_rectHeader:
+    Control: Rectangle@2.3.0
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      Height: =88
+      Width: =Parent.Width
+      X: =0
+      Y: =0
+- nd_rectAccent:
+    Control: Rectangle@2.3.0
+    Properties:
+      Fill: =RGBA(212, 66, 51, 1)
+      Height: =4
+      Width: =Parent.Width
+      X: =0
+      Y: =88
+- nd_imgLogo:
+    Control: Image@2.2.3
+    Properties:
+      Height: =64
+      Image: ='logo ABC'
+      ImagePosition: =ImagePosition.Fit
+      Width: =96
+      X: =32
+      Y: =12
+- nd_lblTitre:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =36
+      Size: =20
+      Text: ="Nouvelle demande"
+      Width: =900
+      X: =148
+      Y: =14
+- nd_lblSousTitre:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =26
+      Size: =12
+      Text: ="Renseignez les informations communes, puis ajoutez autant d'échantillons que nécessaire"
+      Width: =900
+      X: =148
+      Y: =50
+- nd_btnAccueil:
+    Control: Classic/Button@2.2.0
+    Properties:
+      BorderColor: =RGBA(36, 34, 106, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      Color: =RGBA(36, 34, 106, 1)
+      DisabledBorderColor: =RGBA(212, 222, 242, 1)
+      DisabledColor: =RGBA(255, 255, 255, 1)
+      DisabledFill: =RGBA(212, 222, 242, 1)
+      Fill: =RGBA(255, 255, 255, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =38
+      HoverBorderColor: =RGBA(36, 34, 106, 1)
+      HoverColor: =RGBA(36, 34, 106, 1)
+      HoverFill: =RGBA(235, 235, 249, 1)
+      OnSelect: =Navigate(ScrAccueil, ScreenTransition.UnCover)
+      PressedColor: =RGBA(255, 255, 255, 1)
+      PressedFill: =RGBA(36, 34, 106, 1)
+      RadiusBottomLeft: =4
+      RadiusBottomRight: =4
+      RadiusTopLeft: =4
+      RadiusTopRight: =4
+      Size: =13
+      Text: ="←  Accueil"
+      Width: =140
+      X: =Parent.Width - 172
+      Y: =26
+- nd_cardCommun:
+    Control: Rectangle@2.3.0
+    Properties:
+      BorderColor: =RGBA(212, 222, 242, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      Fill: =RGBA(255, 255, 255, 1)
+      Height: =196
+      Width: =Parent.Width - 64
+      X: =32
+      Y: =108
+- nd_lblCommun:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =30
+      Size: =14
+      Text: ="1. Informations communes à tous les échantillons"
+      Width: =800
+      X: =56
+      Y: =120
+- nd_lblTitre:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =22
+      Size: =11
+      Text: ="Titre / projet"
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56
+      Y: =158
+- nd_txtTitre:
+    Control: Classic/TextInput@2.3.2
+    Properties:
+      AccessibleLabel: |-
+        ="Ex. : Projet X – lot de novembre"
+      BorderColor: =RGBA(212, 222, 242, 1)
+      BorderThickness: =1
+      Color: =RGBA(49, 49, 49, 1)
+      Default: =""
+      Fill: =RGBA(255, 255, 255, 1)
+      FocusedBorderColor: =RGBA(36, 34, 106, 1)
+      FocusedBorderThickness: =2
+      Font: =Font.Arial
+      Height: =36
+      HintText: |-
+        ="Ex. : Projet X – lot de novembre"
+      HoverBorderColor: =RGBA(112, 136, 182, 1)
+      RadiusBottomLeft: =4
+      RadiusBottomRight: =4
+      RadiusTopLeft: =4
+      RadiusTopRight: =4
+      Size: =12
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56
+      Y: =182
+- nd_lblDemandeur:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =22
+      Size: =11
+      Text: ="Nom du demandeur"
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56 + 1 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
+      Y: =158
+- nd_txtDemandeur:
+    Control: Classic/TextInput@2.3.2
+    Properties:
+      AccessibleLabel: ="Nom du demandeur"
+      BorderColor: =RGBA(212, 222, 242, 1)
+      BorderThickness: =1
+      Color: =RGBA(49, 49, 49, 1)
+      Default: =User().FullName
+      Fill: =RGBA(255, 255, 255, 1)
+      FocusedBorderColor: =RGBA(36, 34, 106, 1)
+      FocusedBorderThickness: =2
+      Font: =Font.Arial
+      Height: =36
+      HintText: ="Nom du demandeur"
+      HoverBorderColor: =RGBA(112, 136, 182, 1)
+      RadiusBottomLeft: =4
+      RadiusBottomRight: =4
+      RadiusTopLeft: =4
+      RadiusTopRight: =4
+      Size: =12
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56 + 1 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
+      Y: =182
+- nd_lblFournisseur:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =22
+      Size: =11
+      Text: ="Nom du fournisseur"
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56 + 2 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
+      Y: =158
+- nd_txtFournisseur:
+    Control: Classic/TextInput@2.3.2
+    Properties:
+      AccessibleLabel: ="Fournisseur"
+      BorderColor: =RGBA(212, 222, 242, 1)
+      BorderThickness: =1
+      Color: =RGBA(49, 49, 49, 1)
+      Default: =""
+      Fill: =RGBA(255, 255, 255, 1)
+      FocusedBorderColor: =RGBA(36, 34, 106, 1)
+      FocusedBorderThickness: =2
+      Font: =Font.Arial
+      Height: =36
+      HintText: ="Fournisseur"
+      HoverBorderColor: =RGBA(112, 136, 182, 1)
+      RadiusBottomLeft: =4
+      RadiusBottomRight: =4
+      RadiusTopLeft: =4
+      RadiusTopRight: =4
+      Size: =12
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56 + 2 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
+      Y: =182
+- nd_lblAdrFournisseur:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =22
+      Size: =11
+      Text: ="Adresse du fournisseur"
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56
+      Y: =230
+- nd_txtAdrFournisseur:
+    Control: Classic/TextInput@2.3.2
+    Properties:
+      AccessibleLabel: ="Adresse du fournisseur"
+      BorderColor: =RGBA(212, 222, 242, 1)
+      BorderThickness: =1
+      Color: =RGBA(49, 49, 49, 1)
+      Default: =""
+      Fill: =RGBA(255, 255, 255, 1)
+      FocusedBorderColor: =RGBA(36, 34, 106, 1)
+      FocusedBorderThickness: =2
+      Font: =Font.Arial
+      Height: =36
+      HintText: ="Adresse du fournisseur"
+      HoverBorderColor: =RGBA(112, 136, 182, 1)
+      RadiusBottomLeft: =4
+      RadiusBottomRight: =4
+      RadiusTopLeft: =4
+      RadiusTopRight: =4
+      Size: =12
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56
+      Y: =254
+- nd_lblAdrExpediteur:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =22
+      Size: =11
+      Text: ="Adresse de l'expéditeur"
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56 + 1 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
+      Y: =230
+- nd_txtAdrExpediteur:
+    Control: Classic/TextInput@2.3.2
+    Properties:
+      AccessibleLabel: ="Adresse de l'expéditeur"
+      BorderColor: =RGBA(212, 222, 242, 1)
+      BorderThickness: =1
+      Color: =RGBA(49, 49, 49, 1)
+      Default: =""
+      Fill: =RGBA(255, 255, 255, 1)
+      FocusedBorderColor: =RGBA(36, 34, 106, 1)
+      FocusedBorderThickness: =2
+      Font: =Font.Arial
+      Height: =36
+      HintText: ="Adresse de l'expéditeur"
+      HoverBorderColor: =RGBA(112, 136, 182, 1)
+      RadiusBottomLeft: =4
+      RadiusBottomRight: =4
+      RadiusTopLeft: =4
+      RadiusTopRight: =4
+      Size: =12
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56 + 1 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
+      Y: =254
+- nd_lblCommentaires:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =22
+      Size: =11
+      Text: ="Commentaires"
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56 + 2 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
+      Y: =230
+- nd_txtCommentaires:
+    Control: Classic/TextInput@2.3.2
+    Properties:
+      AccessibleLabel: ="Commentaire (facultatif)"
+      BorderColor: =RGBA(212, 222, 242, 1)
+      BorderThickness: =1
+      Color: =RGBA(49, 49, 49, 1)
+      Default: =""
+      Fill: =RGBA(255, 255, 255, 1)
+      FocusedBorderColor: =RGBA(36, 34, 106, 1)
+      FocusedBorderThickness: =2
+      Font: =Font.Arial
+      Height: =36
+      HintText: ="Commentaire (facultatif)"
+      HoverBorderColor: =RGBA(112, 136, 182, 1)
+      RadiusBottomLeft: =4
+      RadiusBottomRight: =4
+      RadiusTopLeft: =4
+      RadiusTopRight: =4
+      Size: =12
+      Width: =(Parent.Width - 64 - 48 - 64) / 3
+      X: =56 + 2 * ((Parent.Width - 64 - 48 - 64) / 3 + 32)
+      Y: =254
+- nd_cardEch:
+    Control: Rectangle@2.3.0
+    Properties:
+      BorderColor: =RGBA(212, 222, 242, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      Fill: =RGBA(255, 255, 255, 1)
+      Height: =Parent.Height - 400
+      Width: =Parent.Width - 64
+      X: =32
+      Y: =320
+- nd_lblEch:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =30
+      Size: =14
+      Text: ="2. Échantillons (" & CountRows(colEchantillons) & ")"
+      Width: =600
+      X: =56
+      Y: =332
+- nd_btnAjouter:
+    Control: Classic/Button@2.2.0
+    Properties:
+      BorderColor: =RGBA(36, 34, 106, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      Color: =RGBA(36, 34, 106, 1)
+      DisabledBorderColor: =RGBA(212, 222, 242, 1)
+      DisabledColor: =RGBA(255, 255, 255, 1)
+      DisabledFill: =RGBA(212, 222, 242, 1)
+      Fill: =RGBA(255, 255, 255, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =36
+      HoverBorderColor: =RGBA(36, 34, 106, 1)
+      HoverColor: =RGBA(36, 34, 106, 1)
+      HoverFill: =RGBA(235, 235, 249, 1)
+      OnSelect: |-
+        =Collect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Lignee: ""});
+        Set(varNextId, varNextId + 1)
+      PressedColor: =RGBA(255, 255, 255, 1)
+      PressedFill: =RGBA(36, 34, 106, 1)
+      RadiusBottomLeft: =4
+      RadiusBottomRight: =4
+      RadiusTopLeft: =4
+      RadiusTopRight: =4
+      Size: =13
+      Text: ="+  Ajouter un échantillon"
+      Width: =230
+      X: =Parent.Width - 286
+      Y: =328
+- nd_rectEntete:
+    Control: Rectangle@2.3.0
+    Properties:
+      Fill: =RGBA(235, 235, 249, 1)
+      Height: =32
+      Width: =Parent.Width - 112
+      X: =56
+      Y: =372
+- nd_lblColNum:
+    Control: Label@2.5.1
+    Properties:
+      Align: =Align.Center
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =32
+      Size: =11
+      Text: |-
+        ="#"
+      Width: =40
+      X: =56
+      Y: =372
+- nd_lblColNom:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =32
+      Size: =11
+      Text: ="Nom échantillon *"
+      Width: =(Parent.Width - 248 - 50) * 0.2500
+      X: =96
+      Y: =372
+- nd_lblColRef:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =32
+      Size: =11
+      Text: ="Référence commerciale"
+      Width: =(Parent.Width - 248 - 50) * 0.1932
+      X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10
+      Y: =372
+- nd_lblColTypeSub:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =32
+      Size: =11
+      Text: ="Type de substance"
+      Width: =(Parent.Width - 248 - 50) * 0.1932
+      X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10
+      Y: =372
+- nd_lblColSource:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =32
+      Size: =11
+      Text: ="Source tissu"
+      Width: =(Parent.Width - 248 - 50) * 0.1705
+      X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10
+      Y: =372
+- nd_lblColLignee:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =32
+      Size: =11
+      Text: ="Lignée cellulaire"
+      Width: =(Parent.Width - 248 - 50) * 0.1932
+      X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1705 + 10
+      Y: =372
+- nd_galEchantillons:
+    Control: Gallery@2.15.0
+    Variant: Vertical
+    Properties:
+      AccessibleLabel: ="Liste des échantillons à déclarer"
+      BorderThickness: =0
+      Fill: =RGBA(0, 0, 0, 0)
+      Height: =Parent.Height - 500
+      Items: =colEchantillons
+      ShowScrollbar: =true
+      TemplateFill: =RGBA(255, 255, 255, 1)
+      TemplatePadding: =0
+      TemplateSize: =56
+      Width: =Parent.Width - 112
+      X: =56
+      Y: =408
+    Children:
+      - nd_lblNum:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =RGBA(112, 136, 182, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =36
+            Size: =12
+            Text: =CountRows(Filter(colEchantillons, Id <= ThisItem.Id))
+            Width: =40
+            X: =0
+            Y: =10
+      - nd_txtNom:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="Nom de l'échantillon"
+            BorderColor: =If(varTentative && IsBlank(Trim(Self.Text)), RGBA(212, 66, 51, 1), RGBA(212, 222, 242, 1))
+            BorderThickness: =1
+            Color: =RGBA(49, 49, 49, 1)
+            Default: =ThisItem.Nom
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =RGBA(36, 34, 106, 1)
+            FocusedBorderThickness: =2
+            Font: =Font.Arial
+            Height: =36
+            HintText: ="Nom de l'échantillon"
+            HoverBorderColor: =RGBA(112, 136, 182, 1)
+            OnChange: |-
+              =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Nom: Self.Text})
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =12
+            Width: =(Parent.Width - 248 - 50) * 0.2500
+            X: =96 - 56
+            Y: =10
+      - nd_txtRef:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="Réf. commerciale"
+            BorderColor: =RGBA(212, 222, 242, 1)
+            BorderThickness: =1
+            Color: =RGBA(49, 49, 49, 1)
+            Default: =ThisItem.Ref
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =RGBA(36, 34, 106, 1)
+            FocusedBorderThickness: =2
+            Font: =Font.Arial
+            Height: =36
+            HintText: ="Réf. commerciale"
+            HoverBorderColor: =RGBA(112, 136, 182, 1)
+            OnChange: |-
+              =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Ref: Self.Text})
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =12
+            Width: =(Parent.Width - 248 - 50) * 0.1932
+            X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 - 56
+            Y: =10
+      - nd_cbType:
+          Control: Classic/ComboBox@2.4.0
+          Properties:
+            AccessibleLabel: ="Type de substance"
+            BorderColor: =RGBA(212, 222, 242, 1)
+            ChevronBackground: =RGBA(255, 255, 255, 1)
+            ChevronFill: =RGBA(36, 34, 106, 1)
+            ChevronHoverBackground: =RGBA(235, 235, 249, 1)
+            ChevronHoverFill: =RGBA(36, 34, 106, 1)
+            Color: =RGBA(49, 49, 49, 1)
+            DefaultSelectedItems: =Filter(Choices([@'x_Demandes CODECOH'].Tyoedesubstance), Value = ThisItem.TypeSub)
+            DisplayFields: =["Value"]
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.Arial
+            Height: =36
+            HoverBorderColor: =RGBA(112, 136, 182, 1)
+            HoverColor: =RGBA(49, 49, 49, 1)
+            HoverFill: =RGBA(235, 235, 249, 1)
+            InputTextPlaceholder: ="Choisir…"
+            IsSearchable: =false
+            Items: =Choices([@'x_Demandes CODECOH'].Tyoedesubstance)
+            OnChange: |-
+              =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {TypeSub: Self.Selected.Value})
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(36, 34, 106, 1)
+            SearchFields: =["Value"]
+            SelectMultiple: =false
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =RGBA(36, 34, 106, 1)
+            Size: =12
+            Width: =(Parent.Width - 248 - 50) * 0.1932
+            X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 - 56
+            Y: =10
+      - nd_txtSource:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="Source tissu"
+            BorderColor: =RGBA(212, 222, 242, 1)
+            BorderThickness: =1
+            Color: =RGBA(49, 49, 49, 1)
+            Default: =ThisItem.Source
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =RGBA(36, 34, 106, 1)
+            FocusedBorderThickness: =2
+            Font: =Font.Arial
+            Height: =36
+            HintText: ="Source tissu"
+            HoverBorderColor: =RGBA(112, 136, 182, 1)
+            OnChange: |-
+              =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Source: Self.Text})
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =12
+            Width: =(Parent.Width - 248 - 50) * 0.1705
+            X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 - 56
+            Y: =10
+      - nd_txtLignee:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="Lignée cellulaire"
+            BorderColor: =RGBA(212, 222, 242, 1)
+            BorderThickness: =1
+            Color: =RGBA(49, 49, 49, 1)
+            Default: =ThisItem.Lignee
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =RGBA(36, 34, 106, 1)
+            FocusedBorderThickness: =2
+            Font: =Font.Arial
+            Height: =36
+            HintText: ="Lignée cellulaire"
+            HoverBorderColor: =RGBA(112, 136, 182, 1)
+            OnChange: |-
+              =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Lignee: Self.Text})
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =12
+            Width: =(Parent.Width - 248 - 50) * 0.1932 - 34
+            X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1705 + 10 - 56
+            Y: =10
+      - nd_icoLignee:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            AccessibleLabel: =Self.Tooltip
+            Color: =If(!IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))), RGBA(63, 126, 18, 1), RGBA(212, 66, 51, 1))
+            Height: =24
+            Icon: =If(!IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))), Icon.CheckBadge, Icon.Warning)
+            Tooltip: |-
+              =If(!IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))), "Lignée connue du référentiel", "Nouvelle lignée : non présente dans le référentiel")
+            Visible: =!IsBlank(Trim(nd_txtLignee.Text))
+            Width: =24
+            X: =96 + (Parent.Width - 248 - 50) * 0.2500 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1932 + 10 + (Parent.Width - 248 - 50) * 0.1705 + 10 - 56 + (Parent.Width - 248 - 50) * 0.1932 - 28
+            Y: =16
+      - nd_icoDupliquer:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            AccessibleLabel: =Self.Tooltip
+            Color: =RGBA(36, 34, 106, 1)
+            Height: =32
+            Icon: =Icon.Copy
+            OnSelect: |-
+              =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text, Lignee: nd_txtLignee.Text});
+              Set(varNextId, varNextId + 1)
+            PaddingBottom: =4
+            PaddingLeft: =4
+            PaddingRight: =4
+            PaddingTop: =4
+            Tooltip: ="Dupliquer cette ligne"
+            Width: =32
+            X: =Parent.TemplateWidth - 84
+            Y: =12
+      - nd_icoSupprimer:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            AccessibleLabel: =Self.Tooltip
+            Color: =RGBA(212, 66, 51, 1)
+            DisabledColor: =RGBA(212, 222, 242, 1)
+            DisplayMode: =If(CountRows(colEchantillons) > 1, DisplayMode.Edit, DisplayMode.Disabled)
+            Height: =32
+            Icon: =Icon.Trash
+            OnSelect: =Remove(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id))
+            PaddingBottom: =4
+            PaddingLeft: =4
+            PaddingRight: =4
+            PaddingTop: =4
+            Tooltip: ="Supprimer cette ligne"
+            Width: =32
+            X: =Parent.TemplateWidth - 44
+            Y: =12
+      - nd_rectSep:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(212, 222, 242, 1)
+            Height: =1
+            Width: =Parent.TemplateWidth
+            X: =0
+            Y: =Parent.TemplateHeight - 1
+- nd_icoInfo:
+    Control: Classic/Icon@2.5.0
+    Properties:
+      AccessibleLabel: =Self.Tooltip
+      Color: =RGBA(212, 66, 51, 1)
+      Height: =24
+      Icon: =Icon.Warning
+      Tooltip: ="Nouvelles lignées"
+      Visible: =CountRows(Filter(nd_galEchantillons.AllItems, !IsBlank(Trim(nd_txtLignee.Text)) && IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))))) > 0
+      Width: =24
+      X: =32
+      Y: =Parent.Height - 60 + 10
+- nd_lblInfo:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(212, 66, 51, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =44
+      Size: =11
+      Text: |-
+        =CountRows(Filter(nd_galEchantillons.AllItems, !IsBlank(Trim(nd_txtLignee.Text)) && IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))))) & " nouvelle(s) lignée(s) hors référentiel : pensez à joindre la documentation (certificat, fiche fournisseur) à la demande."
+      Visible: =CountRows(Filter(nd_galEchantillons.AllItems, !IsBlank(Trim(nd_txtLignee.Text)) && IsBlank(LookUp('x_Référentiel Lignées', Title = Trim(nd_txtLignee.Text))))) > 0
+      Width: =Parent.Width - 640
+      X: =64
+      Y: =Parent.Height - 60
+- nd_btnAnnuler:
+    Control: Classic/Button@2.2.0
+    Properties:
+      BorderColor: =RGBA(36, 34, 106, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      Color: =RGBA(36, 34, 106, 1)
+      DisabledBorderColor: =RGBA(212, 222, 242, 1)
+      DisabledColor: =RGBA(255, 255, 255, 1)
+      DisabledFill: =RGBA(212, 222, 242, 1)
+      Fill: =RGBA(255, 255, 255, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =44
+      HoverBorderColor: =RGBA(36, 34, 106, 1)
+      HoverColor: =RGBA(36, 34, 106, 1)
+      HoverFill: =RGBA(235, 235, 249, 1)
+      OnSelect: =Navigate(ScrAccueil, ScreenTransition.UnCover)
+      PressedColor: =RGBA(255, 255, 255, 1)
+      PressedFill: =RGBA(36, 34, 106, 1)
+      RadiusBottomLeft: =4
+      RadiusBottomRight: =4
+      RadiusTopLeft: =4
+      RadiusTopRight: =4
+      Size: =13
+      Text: ="Annuler"
+      Width: =140
+      X: =Parent.Width - 452
+      Y: =Parent.Height - 60
+- nd_btnEnvoyer:
+    Control: Classic/Button@2.2.0
+    Properties:
+      BorderColor: =RGBA(212, 66, 51, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      Color: =RGBA(255, 255, 255, 1)
+      DisabledBorderColor: =RGBA(212, 222, 242, 1)
+      DisabledColor: =RGBA(255, 255, 255, 1)
+      DisabledFill: =RGBA(212, 222, 242, 1)
+      DisplayMode: =If(varEnvoiEnCours, DisplayMode.Disabled, DisplayMode.Edit)
+      Fill: =RGBA(212, 66, 51, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =44
+      HoverBorderColor: =RGBA(170, 50, 38, 1)
+      HoverColor: =RGBA(255, 255, 255, 1)
+      HoverFill: =RGBA(170, 50, 38, 1)
+      OnSelect: |-
+        =Set(varTentative, true);
+        If(
+            CountRows(Filter(nd_galEchantillons.AllItems, IsBlank(Trim(nd_txtNom.Text)))) > 0,
+            Notify("Chaque échantillon doit avoir un nom.", NotificationType.Error),
+            Set(varEnvoiEnCours, true);
+            ClearCollect(
+                colCrees,
+                ForAll(
+                    nd_galEchantillons.AllItems,
+                    Patch(
+                        'x_Demandes CODECOH',
+                        Defaults('x_Demandes CODECOH'),
+                        {
+                            Titre: If(IsBlank(Trim(nd_txtTitre.Text)), Trim(nd_txtNom.Text), Trim(nd_txtTitre.Text)),
+                            'Nom échantillon': Trim(nd_txtNom.Text),
+                            'Référence commerciale': nd_txtRef.Text,
+                            'Type de substance': nd_cbType.Selected,
+                            'Source tissu': nd_txtSource.Text,
+                            'Lignée cellulaire': Trim(nd_txtLignee.Text),
+                            'Nom fournisseur': nd_txtFournisseur.Text,
+                            'Adresse fournisseur': nd_txtAdrFournisseur.Text,
+                            'Adresse expéditeur': nd_txtAdrExpediteur.Text,
+                            'Nom demandeur': nd_txtDemandeur.Text,
+                            Commentaires: nd_txtCommentaires.Text
+                        }
+                    )
+                )
+            );
+            Set(varEnvoiEnCours, false);
+            If(
+                IsEmpty(Errors('x_Demandes CODECOH')),
+                Notify(CountRows(colCrees) & " échantillon(s) déclaré(s) avec succès.", NotificationType.Success);
+                Navigate(ScrMesDemandes, ScreenTransition.Fade),
+                Notify("Erreur lors de l'enregistrement : " & First(Errors('x_Demandes CODECOH')).Message, NotificationType.Error)
+            )
+        )
+      PressedColor: =RGBA(255, 255, 255, 1)
+      PressedFill: =RGBA(36, 34, 106, 1)
+      RadiusBottomLeft: =4
+      RadiusBottomRight: =4
+      RadiusTopLeft: =4
+      RadiusTopRight: =4
+      Size: =13
+      Text: =If(varEnvoiEnCours, "Envoi en cours…", "Envoyer " & CountRows(colEchantillons) & " demande(s)")
+      Width: =264
+      X: =Parent.Width - 296
+      Y: =Parent.Height - 60

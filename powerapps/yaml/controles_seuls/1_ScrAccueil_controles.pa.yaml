@@ -1,0 +1,214 @@
+- acc_rectHeader:
+    Control: Rectangle@2.3.0
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      Height: =88
+      Width: =Parent.Width
+      X: =0
+      Y: =0
+- acc_rectAccent:
+    Control: Rectangle@2.3.0
+    Properties:
+      Fill: =RGBA(212, 66, 51, 1)
+      Height: =4
+      Width: =Parent.Width
+      X: =0
+      Y: =88
+- acc_imgLogo:
+    Control: Image@2.2.3
+    Properties:
+      Height: =64
+      Image: ='logo ABC'
+      ImagePosition: =ImagePosition.Fit
+      Width: =96
+      X: =32
+      Y: =12
+- acc_lblTitre:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =36
+      Size: =20
+      Text: ="Portail CODECOH"
+      Width: =900
+      X: =148
+      Y: =14
+- acc_lblSousTitre:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =26
+      Size: =12
+      Text: ="Gestion des demandes d'échantillons"
+      Width: =900
+      X: =148
+      Y: =50
+- acc_lblBonjour:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =40
+      Size: =22
+      Text: ="Bonjour " & User().FullName
+      Width: =968
+      X: =(Parent.Width - 968) / 2
+      Y: =140
+- acc_lblIntro:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =30
+      Size: =13
+      Text: ="Que souhaitez-vous faire ?"
+      Width: =968
+      X: =(Parent.Width - 968) / 2
+      Y: =182
+- acc_btnNouvelle:
+    Control: Classic/Button@2.2.0
+    Properties:
+      BorderColor: =RGBA(36, 34, 106, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      Color: =RGBA(255, 255, 255, 1)
+      DisabledBorderColor: =RGBA(212, 222, 242, 1)
+      DisabledColor: =RGBA(255, 255, 255, 1)
+      DisabledFill: =RGBA(212, 222, 242, 1)
+      Fill: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =240
+      HoverBorderColor: =RGBA(112, 136, 182, 1)
+      HoverColor: =RGBA(255, 255, 255, 1)
+      HoverFill: =RGBA(112, 136, 182, 1)
+      OnSelect: =Navigate(ScrNouvelleDemande, ScreenTransition.Cover)
+      PaddingTop: =40
+      PressedColor: =RGBA(255, 255, 255, 1)
+      PressedFill: =RGBA(36, 34, 106, 1)
+      RadiusBottomLeft: =8
+      RadiusBottomRight: =8
+      RadiusTopLeft: =8
+      RadiusTopRight: =8
+      Size: =22
+      Text: ="Nouvelle demande"
+      VerticalAlign: =VerticalAlign.Middle
+      Width: =460
+      X: =(Parent.Width - 968) / 2
+      Y: =250
+- acc_icoNouvelle:
+    Control: Classic/Icon@2.5.0
+    Properties:
+      AccessibleLabel: =Self.Tooltip
+      Color: =RGBA(255, 255, 255, 1)
+      Height: =64
+      Icon: =Icon.Add
+      OnSelect: =Navigate(ScrNouvelleDemande, ScreenTransition.Cover)
+      Tooltip: ="Nouvelle demande"
+      Width: =64
+      X: =(Parent.Width - 968) / 2 + 198
+      Y: =290
+- acc_rectNouvelle:
+    Control: Rectangle@2.3.0
+    Properties:
+      Fill: =RGBA(212, 66, 51, 1)
+      Height: =4
+      Width: =60
+      X: =(Parent.Width - 968) / 2 + 200
+      Y: =462
+- acc_lblNouvelleDesc:
+    Control: Label@2.5.1
+    Properties:
+      Align: =Align.Center
+      Color: =RGBA(49, 49, 49, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =44
+      Size: =12
+      Text: ="Déclarer un ou plusieurs échantillons en une seule fois"
+      Width: =460
+      X: =(Parent.Width - 968) / 2
+      Y: =502
+- acc_btnMesDemandes:
+    Control: Classic/Button@2.2.0
+    Properties:
+      BorderColor: =RGBA(36, 34, 106, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      Color: =RGBA(255, 255, 255, 1)
+      DisabledBorderColor: =RGBA(212, 222, 242, 1)
+      DisabledColor: =RGBA(255, 255, 255, 1)
+      DisabledFill: =RGBA(212, 222, 242, 1)
+      Fill: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =240
+      HoverBorderColor: =RGBA(112, 136, 182, 1)
+      HoverColor: =RGBA(255, 255, 255, 1)
+      HoverFill: =RGBA(112, 136, 182, 1)
+      OnSelect: =Navigate(ScrMesDemandes, ScreenTransition.Cover)
+      PaddingTop: =40
+      PressedColor: =RGBA(255, 255, 255, 1)
+      PressedFill: =RGBA(36, 34, 106, 1)
+      RadiusBottomLeft: =8
+      RadiusBottomRight: =8
+      RadiusTopLeft: =8
+      RadiusTopRight: =8
+      Size: =22
+      Text: ="Mes demandes"
+      VerticalAlign: =VerticalAlign.Middle
+      Width: =460
+      X: =(Parent.Width - 968) / 2 + 508
+      Y: =250
+- acc_icoMesDemandes:
+    Control: Classic/Icon@2.5.0
+    Properties:
+      AccessibleLabel: =Self.Tooltip
+      Color: =RGBA(255, 255, 255, 1)
+      Height: =64
+      Icon: =Icon.DetailList
+      OnSelect: =Navigate(ScrMesDemandes, ScreenTransition.Cover)
+      Tooltip: ="Mes demandes"
+      Width: =64
+      X: =(Parent.Width - 968) / 2 + 508 + 198
+      Y: =290
+- acc_rectMesDemandes:
+    Control: Rectangle@2.3.0
+    Properties:
+      Fill: =RGBA(212, 66, 51, 1)
+      Height: =4
+      Width: =60
+      X: =(Parent.Width - 968) / 2 + 508 + 200
+      Y: =462
+- acc_lblMesDemandesDesc:
+    Control: Label@2.5.1
+    Properties:
+      Align: =Align.Center
+      Color: =RGBA(49, 49, 49, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =44
+      Size: =12
+      Text: ="Suivre l'état de mes déclarations CODECOH"
+      Width: =460
+      X: =(Parent.Width - 968) / 2 + 508
+      Y: =502
+- acc_lblPied:
+    Control: Label@2.5.1
+    Properties:
+      Align: =Align.Center
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =28
+      Size: =10
+      Text: ="Servier – Animals & Biologics Compliance"
+      Width: =Parent.Width
+      X: =0
+      Y: =Parent.Height - 36

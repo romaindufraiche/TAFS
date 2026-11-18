@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><title>Maquette – Portail CODECOH (charte Servier)</title>
+<style>
+:root{--navy:#24226A;--i500:#7088B6;--i200:#D4DEF2;--i50:#EBEBF9;--coral:#D44233;--green:#3F7E12;--text:#313131}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#999;color:var(--text)}
+.screen{width:1366px;height:768px;background:var(--i50);position:relative;margin:0 auto 40px;overflow:hidden}
+.cap{width:1366px;margin:24px auto 8px;color:#fff;font-weight:bold;font-size:18px}
+.hdr{height:88px;background:#fff;border-bottom:4px solid var(--coral);display:flex;align-items:center;padding:0 32px}
+.logo{width:96px;height:64px;border:1px dashed var(--i200);display:flex;align-items:center;justify-content:center;color:var(--i500);font-size:11px;margin-right:20px}
+.hdr h1{margin:0;color:var(--navy);font-size:26px}.hdr p{margin:4px 0 0;color:var(--i500);font-size:15px}
+.btn{border-radius:4px;font-weight:bold;font-size:16px;padding:0 18px;height:40px;border:1px solid var(--navy);background:#fff;color:var(--navy);display:inline-flex;align-items:center;justify-content:center}
+.btn.pri{background:var(--coral);border-color:var(--coral);color:#fff}
+.back{position:absolute;right:32px;top:26px;width:140px}
+.tiles{display:flex;gap:48px;justify-content:center;margin-top:36px}
+.tile{width:460px}.tile .t{height:240px;background:var(--navy);border-radius:8px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:28px;font-weight:bold;position:relative}
+.tile .t .ic{font-size:56px;line-height:1;margin-bottom:18px}.tile .t:after{content:"";position:absolute;bottom:24px;width:60px;height:4px;background:var(--coral)}
+.tile p{text-align:center;font-size:15px;margin:14px 0}
+.hello{width:968px;margin:48px auto 0}.hello h2{margin:0;color:var(--navy);font-size:28px}.hello p{margin:6px 0 0;color:var(--i500);font-size:17px}
+.foot{position:absolute;bottom:10px;width:100%;text-align:center;color:var(--i500);font-size:13px}
+.card{background:#fff;border:1px solid var(--i200);margin:16px 32px 0;padding:12px 24px}
+.card h3{margin:0 0 10px;color:var(--navy);font-size:18px;display:flex;justify-content:space-between;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 32px}
+.f label{display:block;font-size:14px;font-weight:bold;color:var(--i500);margin-bottom:3px}
+.in{height:36px;border:1px solid var(--i200);border-radius:4px;padding:0 10px;display:flex;align-items:center;font-size:15px;color:#888;background:#fff}
+.in.v{color:var(--text)}
+table{width:100%;border-collapse:collapse;font-size:14px}th{background:var(--i50);color:var(--navy);text-align:left;height:32px;padding:0 6px}
+td{height:56px;padding:0 5px;border-bottom:1px solid var(--i200)}td .in{width:100%}
+.num{color:var(--i500);font-weight:bold;text-align:center;width:40px}
+.ok{color:var(--green);font-weight:bold}.warn{color:var(--coral);font-weight:bold}
+.act{width:96px;font-size:20px;color:var(--navy)}.act span+span{color:var(--coral);margin-left:14px}
+.footer{position:absolute;bottom:16px;left:32px;right:32px;display:flex;align-items:center;gap:16px}
+.footer .msg{flex:1;color:var(--coral);font-size:14px}
+.list .row{display:flex;align-items:center;height:72px;border-bottom:1px solid var(--i200);padding:0 24px}
+.list .row.sel{background:var(--i50);border-left:4px solid var(--coral)}
+.list .l{flex:1}.list .l b{color:var(--navy);font-size:18px}.list .l div{font-size:15px;margin-top:4px}
+.list .r{text-align:right;font-size:14px;width:240px}.list .r .d{color:var(--i500)}
+.chev{font-size:28px;color:var(--navy);margin-left:24px}
+</style></head><body>
+
+<div class="cap">1 · Accueil — deux boutons, plus d'administration</div>
+<div class="screen">
+ <div class="hdr"><div class="logo">logo ABC</div><div><h1>Portail CODECOH</h1><p>Gestion des demandes d'échantillons</p></div></div>
+ <div class="hello"><h2>Bonjour Romain Dufraiche</h2><p>Que souhaitez-vous faire ?</p></div>
+ <div class="tiles">
+  <div class="tile"><div class="t"><div class="ic">＋</div>Nouvelle demande</div><p>Déclarer un ou plusieurs échantillons en une seule fois</p></div>
+  <div class="tile"><div class="t"><div class="ic">☰</div>Mes demandes</div><p>Suivre l'état de mes déclarations CODECOH</p></div>
+ </div>
+ <div class="foot">Servier – Animals &amp; Biologics Compliance</div>
+</div>
+
+<div class="cap">2 · Nouvelle demande — déclaration de plusieurs échantillons</div>
+<div class="screen">
+ <div class="hdr"><div class="logo">logo ABC</div><div><h1>Nouvelle demande</h1><p>Renseignez les informations communes, puis ajoutez autant d'échantillons que nécessaire</p></div><div class="btn back">←  Accueil</div></div>
+ <div class="card"><h3>1. Informations communes à tous les échantillons</h3>
+  <div class="grid">
+   <div class="f"><label>Titre / projet</label><div class="in v">Projet ONCO-12 – lot novembre</div></div>
+   <div class="f"><label>Nom du demandeur</label><div class="in v">Romain Dufraiche</div></div>
+   <div class="f"><label>Nom du fournisseur</label><div class="in v">ATCC</div></div>
+   <div class="f"><label>Adresse du fournisseur</label><div class="in v">10801 University Blvd, Manassas, USA</div></div>
+   <div class="f"><label>Adresse de l'expéditeur</label><div class="in">Adresse de l'expéditeur</div></div>
+   <div class="f"><label>Commentaires</label><div class="in">Commentaire (facultatif)</div></div>
+  </div></div>
+ <div class="card" style="height:330px"><h3>2. Échantillons (3) <span class="btn">+  Ajouter un échantillon</span></h3>
+  <table><tr><th>#</th><th>Nom échantillon *</th><th>Référence commerciale</th><th>Type de substance</th><th>Source tissu</th><th>Lignée cellulaire</th><th></th></tr>
+  <tr><td class="num">1</td><td><div class="in v">HeLa – stock A</div></td><td><div class="in v">CCL-2</div></td><td><div class="in v">Lignée cellulaire ▾</div></td><td><div class="in v">Col utérin</div></td><td><div class="in v">HeLa &nbsp;<span class="ok">✔</span></div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
+  <tr><td class="num">2</td><td><div class="in v">HEK293 – stock B</div></td><td><div class="in v">CRL-1573</div></td><td><div class="in v">Lignée cellulaire ▾</div></td><td><div class="in v">Rein</div></td><td><div class="in v">HEK293 &nbsp;<span class="ok">✔</span></div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
+  <tr><td class="num">3</td><td><div class="in v">Organoïde X</div></td><td><div class="in">Réf. commerciale</div></td><td><div class="in">Choisir… ▾</div></td><td><div class="in v">Côlon</div></td><td><div class="in v">ORG-X1 &nbsp;<span class="warn">⚠</span></div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
+  </table></div>
+ <div class="footer"><div class="msg">⚠ 1 nouvelle(s) lignée(s) hors référentiel : pensez à joindre la documentation (certificat, fiche fournisseur) à la demande.</div><div class="btn" style="width:140px;height:44px">Annuler</div><div class="btn pri" style="width:264px;height:44px">Envoyer 3 demande(s)</div></div>
+</div>
+
+<div class="cap">3 · Mes demandes — même contenu, charte Servier + recherche</div>
+<div class="screen">
+ <div class="hdr"><div class="logo">logo ABC</div><div><h1>Mes demandes</h1><p>Retrouvez toutes les demandes que vous avez déposées</p></div><div class="btn back">←  Accueil</div></div>
+ <div style="display:flex;justify-content:space-between;margin:16px 32px 0"><div class="in" style="width:420px">Rechercher un échantillon…  🔍</div><div class="btn pri" style="width:220px">+  Nouvelle demande</div></div>
+ <div class="card list" style="padding:0;height:560px">
+  <div class="row sel"><div class="l"><b>Projet ONCO-12 – lot novembre</b><div>HeLa – stock A</div></div><div class="r"><div class="d">Créée le 18/11/2026</div><div class="warn">En cours de traitement</div></div><div class="chev">›</div></div>
+  <div class="row"><div class="l"><b>Projet ONCO-12 – lot novembre</b><div>HEK293 – stock B</div></div><div class="r"><div class="d">Créée le 18/11/2026</div><div class="warn">En cours de traitement</div></div><div class="chev">›</div></div>
+  <div class="row"><div class="l"><b>Étude NEURO-3</b><div>Sérum de lapin</div></div><div class="r"><div class="d">Créée le 02/10/2026</div><div class="ok">N° CODECOH : 2026-0147</div></div><div class="chev">›</div></div>
+ </div>
+</div>
+</body></html>

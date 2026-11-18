@@ -1,0 +1,268 @@
+Screens:
+  ScrMesDemandes:
+    Properties:
+      Fill: =RGBA(235, 235, 249, 1)
+      LoadingSpinnerColor: =RGBA(36, 34, 106, 1)
+    Children:
+      - md_rectHeader:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =88
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+      - md_rectAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(212, 66, 51, 1)
+            Height: =4
+            Width: =Parent.Width
+            X: =0
+            Y: =88
+      - md_imgLogo:
+          Control: Image@2.2.3
+          Properties:
+            Height: =64
+            Image: ='logo ABC'
+            ImagePosition: =ImagePosition.Fit
+            Width: =96
+            X: =32
+            Y: =12
+      - md_lblTitre:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(36, 34, 106, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =36
+            Size: =20
+            Text: ="Mes demandes"
+            Width: =900
+            X: =148
+            Y: =14
+      - md_lblSousTitre:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(112, 136, 182, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Normal
+            Height: =26
+            Size: =12
+            Text: ="Retrouvez toutes les demandes que vous avez déposées"
+            Width: =900
+            X: =148
+            Y: =50
+      - md_btnAccueil:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(36, 34, 106, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Color: =RGBA(36, 34, 106, 1)
+            DisabledBorderColor: =RGBA(212, 222, 242, 1)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(212, 222, 242, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =38
+            HoverBorderColor: =RGBA(36, 34, 106, 1)
+            HoverColor: =RGBA(36, 34, 106, 1)
+            HoverFill: =RGBA(235, 235, 249, 1)
+            OnSelect: =Navigate(ScrAccueil, ScreenTransition.UnCover)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(36, 34, 106, 1)
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =13
+            Text: ="←  Accueil"
+            Width: =140
+            X: =Parent.Width - 172
+            Y: =26
+      - md_txtRecherche:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="Rechercher un échantillon…"
+            BorderColor: =RGBA(212, 222, 242, 1)
+            BorderThickness: =1
+            Color: =RGBA(49, 49, 49, 1)
+            Default: =""
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =RGBA(36, 34, 106, 1)
+            FocusedBorderThickness: =2
+            Font: =Font.Arial
+            Height: =36
+            HintText: ="Rechercher un échantillon…"
+            HoverBorderColor: =RGBA(112, 136, 182, 1)
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =12
+            Width: =420
+            X: =32
+            Y: =112
+      - md_icoRecherche:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            AccessibleLabel: =Self.Tooltip
+            Color: =RGBA(112, 136, 182, 1)
+            Height: =24
+            Icon: =Icon.Search
+            Tooltip: =""
+            Width: =24
+            X: =416
+            Y: =118
+      - md_btnNouvelle:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(212, 66, 51, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(212, 222, 242, 1)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(212, 222, 242, 1)
+            Fill: =RGBA(212, 66, 51, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =40
+            HoverBorderColor: =RGBA(170, 50, 38, 1)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =RGBA(170, 50, 38, 1)
+            OnSelect: =Navigate(ScrNouvelleDemande, ScreenTransition.Cover)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(36, 34, 106, 1)
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =13
+            Text: ="+  Nouvelle demande"
+            Width: =220
+            X: =Parent.Width - 252
+            Y: =108
+      - md_cardListe:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(212, 222, 242, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 196
+            Width: =Parent.Width - 64
+            X: =32
+            Y: =164
+      - Gallery1:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            AccessibleLabel: ="Liste de mes demandes"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =Parent.Height - 198
+            Items: |-
+              =SortByColumns(
+                  Filter(
+                      'x_Demandes CODECOH',
+                      Author.Email = User().Email,
+                      IsBlank(md_txtRecherche.Text) || StartsWith('Nom échantillon', md_txtRecherche.Text)
+                  ),
+                  "ID",
+                  SortOrder.Descending
+              )
+            TemplateFill: =If(ThisItem.IsSelected, RGBA(235, 235, 249, 1), RGBA(255, 255, 255, 1))
+            TemplatePadding: =0
+            TemplateSize: =72
+            Width: =Parent.Width - 66
+            X: =33
+            Y: =165
+          Children:
+            - Title1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(36, 34, 106, 1)
+                  Font: =Font.Arial
+                  FontWeight: =FontWeight.Bold
+                  Height: =28
+                  OnSelect: =Select(Parent)
+                  Size: =14
+                  Text: =ThisItem.Titre
+                  Width: =Parent.TemplateWidth - 340
+                  X: =24
+                  Y: =10
+            - Subtitle1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(49, 49, 49, 1)
+                  Font: =Font.Arial
+                  FontWeight: =FontWeight.Normal
+                  Height: =24
+                  OnSelect: =Select(Parent)
+                  Size: =12
+                  Text: =ThisItem.'Nom échantillon'
+                  Width: =Parent.TemplateWidth - 340
+                  X: =24
+                  Y: =40
+            - md_lblDate:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(112, 136, 182, 1)
+                  Font: =Font.Arial
+                  FontWeight: =FontWeight.Normal
+                  Height: =24
+                  OnSelect: =Select(Parent)
+                  Size: =11
+                  Text: ="Créée le " & Text(ThisItem.Created, "dd/mm/yyyy")
+                  Width: =220
+                  X: =Parent.TemplateWidth - 300
+                  Y: =10
+            - md_lblCodecoh:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =If(IsBlank(ThisItem.'Numéro CODECOH'), RGBA(212, 66, 51, 1), RGBA(63, 126, 18, 1))
+                  Font: =Font.Arial
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  OnSelect: =Select(Parent)
+                  Size: =11
+                  Text: |-
+                    =If(IsBlank(ThisItem.'Numéro CODECOH'), "En cours de traitement", "N° CODECOH : " & ThisItem.'Numéro CODECOH')
+                  Width: =220
+                  X: =Parent.TemplateWidth - 300
+                  Y: =38
+            - NextArrow1:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  AccessibleLabel: =Self.Tooltip
+                  Color: =RGBA(36, 34, 106, 1)
+                  Height: =40
+                  Icon: =Icon.ChevronRight
+                  OnSelect: =Navigate(ScrDetailDemande, ScreenTransition.Cover)
+                  Tooltip: ="Afficher le détail"
+                  Width: =40
+                  X: =Parent.TemplateWidth - 64
+                  Y: =18
+            - Rectangle1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(212, 66, 51, 1)
+                  Height: =Parent.TemplateHeight - 1
+                  OnSelect: =Select(Parent)
+                  Visible: =ThisItem.IsSelected
+                  Width: =4
+                  X: =0
+                  Y: =0
+            - Separator1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(212, 222, 242, 1)
+                  Height: =1
+                  OnSelect: =Select(Parent)
+                  Width: =Parent.TemplateWidth
+                  X: =0
+                  Y: =Parent.TemplateHeight - 1
