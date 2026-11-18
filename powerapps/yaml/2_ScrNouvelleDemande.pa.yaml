@@ -87,8 +87,8 @@ Screens:
             RadiusTopRight: =4
             Size: =13
             Text: ="←  Accueil"
-            Width: =140
-            X: =Parent.Width - 172
+            Width: =180
+            X: =Parent.Width - 212
             Y: =26
       - nd_cardCommun:
           Control: Rectangle@2.3.0

@@ -11,7 +11,9 @@ Sources de données (inchangées) : listes SharePoint `x_Demandes CODECOH` et `x
 | **Nouvelle demande** | Formulaire pour **1 seul** échantillon | **Plusieurs échantillons à la fois** : un bloc « informations communes » (demandeur, commentaire) puis un tableau avec une ligne par échantillon (nom, référence commerciale, type de substance, source tissu). Chaque ligne a des boutons *Dupliquer* et *Supprimer*. Un seul clic sur **Envoyer N demande(s)** crée N lignes dans SharePoint. Les champs Titre, Nom fournisseur, Adresse fournisseur, Adresse expéditeur et Lignée cellulaire **ne sont plus demandés** |
 | **Mes demandes** | Liste simple | Même liste aux couleurs Servier : nom de l'échantillon, type et référence, date, statut (n° CODECOH ou « En cours de traitement »), recherche par nom et bouton « Nouvelle demande » |
 | **Administration** | Écran `ScrAdmin` | **Supprimé** |
-| **Détail demande** | inchangé | inchangé (il suffit d'adapter les couleurs, voir l'étape 5) |
+| **Détail demande** | Formulaire | Fiche en lecture seule aux couleurs Servier : bloc *Échantillon* et bloc *Suivi de la déclaration CODECOH* (`4_ScrDetailDemande.pa.yaml`, utile pour repartir de zéro) |
+
+> 🆕 **Repartir d'une application vide** : suivez [`TUTO_nouveau_projet.md`](TUTO_nouveau_projet.md).
 
 ### Charte graphique appliquée
 Les couleurs sont reprises du thème du site servier.com.
@@ -38,8 +40,11 @@ powerapps/
 │   ├── 1_ScrAccueil.pa.yaml            ← écran complet (à coller)
 │   ├── 2_ScrNouvelleDemande.pa.yaml
 │   ├── 3_ScrMesDemandes.pa.yaml
+│   ├── 4_ScrDetailDemande.pa.yaml
 │   └── controles_seuls/                ← solution de repli : contrôles seuls + propriétés de l'écran
-└── maquette/                           ← aperçu visuel
+├── maquette/                           ← aperçu visuel
+├── logo ABC.png                        ← logo à charger dans Médias
+└── TUTO_nouveau_projet.md              ← tutoriel pas à pas depuis une app vide
 ```
 
 ---

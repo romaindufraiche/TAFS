@@ -73,8 +73,8 @@
       RadiusTopRight: =4
       Size: =13
       Text: ="←  Accueil"
-      Width: =140
-      X: =Parent.Width - 172
+      Width: =180
+      X: =Parent.Width - 212
       Y: =26
 - md_txtRecherche:
     Control: Classic/TextInput@2.3.2
@@ -167,6 +167,7 @@
             "ID",
             SortOrder.Descending
         )
+      OnSelect: =Navigate(ScrDetailDemande, ScreenTransition.Cover)
       TemplateFill: =If(ThisItem.IsSelected, RGBA(235, 235, 249, 1), RGBA(255, 255, 255, 1))
       TemplatePadding: =0
       TemplateSize: =72

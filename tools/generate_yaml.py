@@ -124,7 +124,7 @@ def icon(name, ico, x, y, size, color, onselect=None, tooltip="", **extra):
     return ctrl(name, "Classic/Icon@2.5.0", p)
 
 
-def header(prefix, title, subtitle, back=True):
+def header(prefix, title, subtitle, back=True, back_to="ScrAccueil", back_text="←  Accueil"):
     items = [
         rect(f"{prefix}_rectHeader", 0, 0, "Parent.Width", HEADER_H, WHITE),
         rect(f"{prefix}_rectAccent", 0, HEADER_H, "Parent.Width", 4, CORAL),
@@ -137,9 +137,9 @@ def header(prefix, title, subtitle, back=True):
               color=INDIGO500),
     ]
     if back:
-        items.append(button(f"{prefix}_btnAccueil", '"←  Accueil"',
-                            "Parent.Width - 172", 26, 140, 38,
-                            "Navigate(ScrAccueil, ScreenTransition.UnCover)",
+        items.append(button(f"{prefix}_btnAccueil", f'"{back_text}"',
+                            "Parent.Width - 212", 26, 180, 38,
+                            f"Navigate({back_to}, ScreenTransition.UnCover)",
                             primary=False))
     return items
 
@@ -446,11 +446,71 @@ def screen_mes_demandes():
             "X": M + 1, "Y": 165, "Width": "Parent.Width - 66",
             "Height": "Parent.Height - 198", "TemplateSize": 72, "TemplatePadding": 0,
             "Fill": TRANSPARENT, "TemplateFill": f"If(ThisItem.IsSelected, {INDIGO50}, {WHITE})",
-            "AccessibleLabel": '"Liste de mes demandes"'},
+            "AccessibleLabel": '"Liste de mes demandes"',
+            "OnSelect": "Navigate(ScrDetailDemande, ScreenTransition.Cover)"},
             children=cells, variant="Vertical"),
     ]
     return render_screen("ScrMesDemandes", {"Fill": INDIGO50,
                                             "LoadingSpinnerColor": NAVY}, children)
+
+
+# =============================================================================
+# 4. Détail d'une demande (lecture seule)
+# =============================================================================
+def screen_detail():
+    M = 32
+    sel = "Gallery1.Selected"
+
+    def val(expr):
+        return f'If(IsBlank({expr}), "—", Text({expr}))'
+
+    fields = [
+        ("Nom échantillon", val(f"{sel}.'Nom échantillon'")),
+        ("Référence commerciale", val(f"{sel}.'Référence commerciale'")),
+        ("Type de substance", val(f"{sel}.'Type de substance'.Value")),
+        ("Source tissu", val(f"{sel}.'Source tissu'")),
+        ("Nom du demandeur", val(f"{sel}.'Nom demandeur'")),
+        ("Date de la demande", f'Text({sel}.Created, "dd/mm/yyyy hh:mm")'),
+        ("Commentaires", val(f"{sel}.Commentaires")),
+    ]
+    suivi = [
+        ("Numéro CODECOH", val(f"{sel}.'Numéro CODECOH'")),
+        ("Type autorisation / déclaration", val(f"{sel}.'Type autorisation/déclaration'")),
+        ("Date d'initialisation de la déclaration", val(f"{sel}.'Date d''initialisation de la déclaration'")),
+        ("Date de dépôt de la déclaration", val(f"{sel}.'Date de dépôt de la déclaration'")),
+        ("Date de réception de l'AR", val(f"{sel}.'Date de récéption de l''AR'")),
+        ("Date de validation de la déclaration", val(f"{sel}.'Date de validation de la déclaration'")),
+    ]
+    col_w = "(Parent.Width - 64 - 32) / 2"
+    x2 = f"{M} + {col_w} + 32"
+    top = 112
+    card_h = f"Parent.Height - {top + 32}"
+    children = header("dd", '"Détail de la demande"',
+                      f"{sel}.'Nom échantillon'", back_to="ScrMesDemandes",
+                      back_text="←  Mes demandes")
+    children += [
+        card("dd_cardInfos", M, top, col_w, card_h),
+        card("dd_cardSuivi", x2, top, col_w, card_h),
+        label("dd_lblInfos", '"Échantillon"', f"{M} + 24", top + 14, f"{col_w} - 48",
+              30, size=15, color=NAVY, bold=True),
+        label("dd_lblSuivi", '"Suivi de la déclaration CODECOH"', f"{x2} + 24",
+              top + 14, f"{col_w} - 48", 30, size=15, color=NAVY, bold=True),
+        label("dd_lblStatut",
+              f'If(IsBlank({sel}.\'Numéro CODECOH\'), "En cours de traitement", "Déclaration enregistrée")',
+              f"{x2} + {col_w} - 244", top + 16, 220, 26, size=11, bold=True,
+              color=WHITE, Align="Align.Center",
+              Fill=f"If(IsBlank({sel}.'Numéro CODECOH'), {CORAL}, {GREEN})"),
+    ]
+    for prefix, x, items in (("I", M, fields), ("S", x2, suivi)):
+        for i, (lab, expr) in enumerate(items):
+            y = top + 56 + i * 64
+            children.append(label(f"dd_lblK{prefix}{i + 1}", f'"{lab}"', f"{x} + 24", y,
+                                  f"{col_w} - 48", 22, size=11, color=INDIGO500,
+                                  bold=True))
+            children.append(label(f"dd_lblV{prefix}{i + 1}", expr, f"{x} + 24", y + 22,
+                                  f"{col_w} - 48", 30, size=13, color=TEXT))
+    return render_screen("ScrDetailDemande", {"Fill": INDIGO50,
+                                              "LoadingSpinnerColor": NAVY}, children)
 
 
 def main():
@@ -459,6 +519,7 @@ def main():
         "1_ScrAccueil.pa.yaml": screen_accueil(),
         "2_ScrNouvelleDemande.pa.yaml": screen_nouvelle(),
         "3_ScrMesDemandes.pa.yaml": screen_mes_demandes(),
+        "4_ScrDetailDemande.pa.yaml": screen_detail(),
     }
     for name, content in files.items():
         (OUT / name).write_text(content, encoding="utf-8")
