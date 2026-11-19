@@ -8,7 +8,8 @@ Sources de données (inchangées) : liste SharePoint `X_Portail_CODECOH` du site
 | Écran | Avant | Après |
 |---|---|---|
 | **Accueil** | 3 boutons (Nouvelle demande, Mes demandes, Administration), fond bleu | **2 tuiles** (Nouvelle demande, Mes demandes), **plus d'administration**, en-tête blanc avec logo et liseré corail, message « Bonjour <nom> » |
-| **Nouvelle demande** | Formulaire pour **1 seul** échantillon | **Plusieurs échantillons à la fois** : une ligne par échantillon (*Nom échantillon*, *Ref commerciale*, *Type de substance*, *Tissue source*, *Pathologie*, *Coordonnées fournisseur*), avec les boutons *Dupliquer* et *Supprimer*. Dans le bandeau : *Nom demandeur* et *Date enregistrement demande* **automatiques**, et une zone **📎 Pièces jointes** dont les fichiers sont ajoutés à chaque échantillon envoyé |
+| **Nouvelle demande** | Formulaire pour **1 seul** échantillon | **Plusieurs échantillons à la fois** : une ligne par échantillon (*Titre* = nom, *Ref commerciale*, *Type de substance*, *Tissue source*, *Pathologie*, *Coordonnées fournisseur*), avec les boutons *Dupliquer* et *Supprimer*. *Nom demandeur* et *Date enregistrement demande* sont **automatiques**. **Envoyer** crée les lignes puis ouvre la page *Pièces jointes* |
+| **Pièces jointes** (nouveau) | – | Liste des échantillons créés et formulaire SharePoint pour joindre les fichiers de chacun (sans Power Automate) |
 | **Mes demandes** | Liste simple | Mes échantillons : nom, référence, type, pathologie, date d'enregistrement et demandeur, avec une recherche par nom |
 | **Administration** | Écran `ScrAdmin` | **Supprimé** |
 | **Détail demande** | Formulaire | Fiche en lecture seule : toutes les colonnes et les pièces jointes, qu'on peut ouvrir d'un clic |

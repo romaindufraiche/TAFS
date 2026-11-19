@@ -345,3 +345,34 @@
             Width: =Parent.TemplateWidth
             X: =0
             Y: =0
+- dd_btnPJ:
+    Control: Classic/Button@2.2.0
+    Properties:
+      BorderColor: =RGBA(36, 34, 106, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      Color: =RGBA(36, 34, 106, 1)
+      DisabledBorderColor: =RGBA(212, 222, 242, 1)
+      DisabledColor: =RGBA(255, 255, 255, 1)
+      DisabledFill: =RGBA(212, 222, 242, 1)
+      Fill: =RGBA(255, 255, 255, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =44
+      HoverBorderColor: =RGBA(36, 34, 106, 1)
+      HoverColor: =RGBA(36, 34, 106, 1)
+      HoverFill: =RGBA(235, 235, 249, 1)
+      OnSelect: |-
+        =ClearCollect(colCrees, Gallery1.Selected);
+        Navigate(ScrPiecesJointes, ScreenTransition.Cover)
+      PressedColor: =RGBA(255, 255, 255, 1)
+      PressedFill: =RGBA(36, 34, 106, 1)
+      RadiusBottomLeft: =4
+      RadiusBottomRight: =4
+      RadiusTopLeft: =4
+      RadiusTopRight: =4
+      Size: =13
+      Text: ="📎  Ajouter / modifier les pièces jointes"
+      Width: =360
+      X: =32
+      Y: =572

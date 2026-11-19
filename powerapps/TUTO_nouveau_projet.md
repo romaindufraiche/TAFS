@@ -6,16 +6,16 @@ Durée : 20 à 30 minutes. Aucune installation n'est nécessaire, tout se fait d
 
 | Élément | Où le trouver |
 |---|---|
-| Les 4 fichiers de contrôles | `yaml/controles_seuls/1_…` à `4_…_controles.pa.yaml` |
+| Les 5 fichiers de contrôles | `yaml/controles_seuls/1_…` à `5_…_controles.pa.yaml` |
 | Les propriétés des écrans | `yaml/controles_seuls/…_proprietes_ecran.txt` |
 | Le logo | `logo ABC.png` (**gardez exactement ce nom de fichier**) |
 | Un accès en modification à la liste SharePoint `X_Portail_CODECOH` | site *ABC-ANIMALSBIOLOGICSCOMPLIANCE* |
 
-Résultat final : 4 écrans.
+Résultat final : 5 écrans.
 
 ```
-ScrAccueil  ──►  ScrNouvelleDemande  (déclarer plusieurs échantillons)
-     └────────►  ScrMesDemandes  ──►  ScrDetailDemande
+ScrAccueil  ──►  ScrNouvelleDemande  ──(Envoyer)──►  ScrPiecesJointes  ──►  ScrMesDemandes
+     └────────►  ScrMesDemandes  ──►  ScrDetailDemande  ──(📎)──►  ScrPiecesJointes
 ```
 
 > ⚠️ Les noms (écrans, source de données, image) doivent être recopiés **exactement**, accents et majuscules compris : les formules les utilisent.
@@ -74,17 +74,18 @@ Dans Power Apps Studio, ouvrez le panneau **Données**, puis `…` à côté de 
 2. Choisissez le fichier **`logo ABC.png`**.
 3. Le média doit apparaître sous le nom **`logo ABC`**.
 
-## Étape 4 : créer les 4 écrans vides (avant de coller quoi que ce soit)
+## Étape 4 : créer les 5 écrans vides (avant de coller quoi que ce soit)
 Les écrans se renvoient les uns vers les autres. Il faut donc qu'ils existent tous avant de coller le code.
 
 1. Dans l'arborescence (à gauche), double-cliquez sur `Screen1` et renommez-le **`ScrAccueil`**.
 2. Cliquez sur **+ Nouvel écran**, puis **Vide**. Renommez le nouvel écran **`ScrNouvelleDemande`**.
 3. Recommencez pour créer **`ScrMesDemandes`**.
 4. Recommencez pour créer **`ScrDetailDemande`**.
+5. Recommencez pour créer **`ScrPiecesJointes`**.
 
 L'ordre dans l'arborescence doit être : `ScrAccueil` en premier, c'est l'écran de démarrage.
 
-## Étape 5 : coller les contrôles (respectez l'ordre 1 → 4)
+## Étape 5 : coller les contrôles (respectez l'ordre 1 → 5)
 Pour **chaque** écran :
 
 1. Ouvrez le fichier correspondant avec le Bloc-notes (ou un autre éditeur de texte) :
@@ -95,6 +96,7 @@ Pour **chaque** écran :
    | `ScrNouvelleDemande` | `2_ScrNouvelleDemande_controles.pa.yaml` |
    | `ScrMesDemandes` | `3_ScrMesDemandes_controles.pa.yaml` |
    | `ScrDetailDemande` | `4_ScrDetailDemande_controles.pa.yaml` |
+   | `ScrPiecesJointes` | `5_ScrPiecesJointes_controles.pa.yaml` |
 
 2. Faites **Ctrl+A**, puis **Ctrl+C**.
 3. Dans Studio, faites un **clic droit sur le nom de l'écran** dans l'arborescence, puis **Coller le code**.
@@ -114,6 +116,7 @@ Pour chaque écran, ouvrez le fichier `…_proprietes_ecran.txt` correspondant. 
 |---|---|
 | Tous | `Fill`, `LoadingSpinnerColor` |
 | `ScrNouvelleDemande` | **`OnVisible`** en plus. **Indispensable** : c'est cette propriété qui prépare le tableau des échantillons |
+| `ScrPiecesJointes` | **`OnVisible`** en plus (réinitialise la liste des pièces jointes enregistrées) |
 
 ## Étape 7 : tester
 1. Sélectionnez `ScrAccueil` et appuyez sur **F5** (ou cliquez sur ▶ en haut à droite).
@@ -134,11 +137,12 @@ Pour chaque écran, ouvrez le fichier `…_proprietes_ecran.txt` correspondant. 
 
 | Symptôme | Cause probable / solution |
 |---|---|
-| Croix rouges sur de nombreuses formules | Un nom ne correspond pas. Vérifiez les noms des 4 écrans, de la source `X_Portail_CODECOH` et du média `logo ABC` |
+| Croix rouges sur de nombreuses formules | Un nom ne correspond pas. Vérifiez les noms des 5 écrans, de la source `X_Portail_CODECOH` et du média `logo ABC` |
 | Erreur sur `Navigate(ScrDetailDemande…)` ou `Gallery1` | `ScrDetailDemande` n'existe pas encore, ou la galerie a été renommée `Gallery1_1` : renommez-la `Gallery1` |
 | Erreur sur une colonne (« La colonne … n'existe pas ») | Le nom dans SharePoint diffère d'un caractère (espace en double, majuscule, accent). Le message propose le nom le plus proche : corrigez le nom de la colonne dans SharePoint, puis Données → `…` → **Actualiser**. Noms attendus : voir l'étape 0. Si renommer ne suffit pas, supprimez la colonne et recréez-la (étape 0) |
 | L'envoi échoue avec « champ obligatoire » | Une colonne de la liste que l'app ne remplit pas (par ex. la colonne *Titre* masquée) est obligatoire. Paramètres de la liste → la colonne → *Exiger que cette colonne contienne des informations* = **Non** |
 | Le tableau des échantillons est vide (aucune ligne) | La propriété `OnVisible` de `ScrNouvelleDemande` n'a pas été collée (étape 6) |
 | Le menu « Coller le code » n'apparaît pas | Rechargez Studio sur Edge ou Chrome à jour, puis essayez **Ctrl+V** sur l'écran sélectionné |
 | « Le type de cet argument … ne correspond pas » | Le type d'une colonne SharePoint ne correspond pas à ce que l'app envoie. Types attendus : toutes les colonnes = **Une seule ligne de texte** (voir l'étape 0) ; *Date enregistrement demande* = **Date et heure** |
-| Pièces jointes non ajoutées | Elles passent par le flux Power Automate `AjoutPJ_CODECOH` : voir [`FLUX_pieces_jointes.md`](FLUX_pieces_jointes.md) |
+| Pièces jointes non ajoutées | Après **Envoyer**, la page *Pièces jointes* s'ouvre : sélectionnez chaque échantillon, joignez ses fichiers, puis cliquez sur **Enregistrer les pièces jointes**. Pour un échantillon déjà déclaré, utilisez le bouton 📎 de la page *Détail* |
+| Le formulaire de pièces jointes n'apparaît pas après le collage | Insérez un **Formulaire d'édition** (source `X_Portail_CODECOH`) contenant uniquement le champ *Pièces jointes* et nommez-le `pj_frmPJ`. Réglez **Item** = `LookUp(X_Portail_CODECOH; ID = pj_galEch.Selected.ID)` et **DefaultMode** = `FormMode.Edit`, et recopiez **OnSuccess** depuis le fichier `5_…` |

@@ -1,0 +1,308 @@
+Screens:
+  ScrPiecesJointes:
+    Properties:
+      Fill: =RGBA(235, 235, 249, 1)
+      LoadingSpinnerColor: =RGBA(36, 34, 106, 1)
+      OnVisible: =Clear(colPJFaites)
+    Children:
+      - pj_rectHeader:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =88
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+      - pj_rectAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(212, 66, 51, 1)
+            Height: =4
+            Width: =Parent.Width
+            X: =0
+            Y: =88
+      - pj_imgLogo:
+          Control: Image@2.2.3
+          Properties:
+            Height: =64
+            Image: ='logo ABC'
+            ImagePosition: =ImagePosition.Fit
+            Width: =96
+            X: =32
+            Y: =12
+      - pj_lblTitre:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(36, 34, 106, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =36
+            Size: =20
+            Text: ="Pièces jointes"
+            Width: =900
+            X: =148
+            Y: =14
+      - pj_lblSousTitre:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(112, 136, 182, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Normal
+            Height: =26
+            Size: =12
+            Text: ="Sélectionnez un échantillon, ajoutez ses fichiers, puis enregistrez"
+            Width: =900
+            X: =148
+            Y: =50
+      - pj_cardListe:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(212, 222, 242, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 200
+            Width: =420
+            X: =32
+            Y: =112
+      - pj_lblListe:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(36, 34, 106, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            Size: =14
+            Text: ="Échantillons (" & CountRows(colCrees) & ")"
+            Width: =388
+            X: =48
+            Y: =122
+      - pj_galEch:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            AccessibleLabel: ="Échantillons déclarés"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =Parent.Height - 250
+            Items: =colCrees
+            TemplateFill: =If(ThisItem.IsSelected, RGBA(235, 235, 249, 1), RGBA(255, 255, 255, 1))
+            TemplatePadding: =0
+            TemplateSize: =64
+            Width: =418
+            X: =33
+            Y: =160
+          Children:
+            - pj_lblNom:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(36, 34, 106, 1)
+                  Font: =Font.Arial
+                  FontWeight: =FontWeight.Bold
+                  Height: =26
+                  OnSelect: =Select(Parent)
+                  Size: =13
+                  Text: =ThisItem.Titre
+                  Width: =Parent.TemplateWidth - 70
+                  X: =16
+                  Y: =8
+            - pj_lblInfo:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =If(ThisItem.ID in colPJFaites.ID, RGBA(63, 126, 18, 1), RGBA(112, 136, 182, 1))
+                  Font: =Font.Arial
+                  FontWeight: =FontWeight.Normal
+                  Height: =22
+                  OnSelect: =Select(Parent)
+                  Size: =11
+                  Text: =If(ThisItem.ID in colPJFaites.ID, "Pièces jointes enregistrées", "À compléter")
+                  Width: =Parent.TemplateWidth - 70
+                  X: =16
+                  Y: =34
+            - pj_icoOk:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  AccessibleLabel: =Self.Tooltip
+                  Color: =RGBA(63, 126, 18, 1)
+                  Height: =28
+                  Icon: =Icon.CheckBadge
+                  Tooltip: =""
+                  Visible: =ThisItem.ID in colPJFaites.ID
+                  Width: =28
+                  X: =Parent.TemplateWidth - 44
+                  Y: =18
+            - pj_rectSel:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(212, 66, 51, 1)
+                  Height: =Parent.TemplateHeight - 1
+                  Visible: =ThisItem.IsSelected
+                  Width: =4
+                  X: =0
+                  Y: =0
+            - pj_rectSep:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(212, 222, 242, 1)
+                  Height: =1
+                  Width: =Parent.TemplateWidth
+                  X: =0
+                  Y: =Parent.TemplateHeight - 1
+      - pj_cardForm:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(212, 222, 242, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 200
+            Width: =Parent.Width - 508
+            X: =476
+            Y: =112
+      - pj_frmPJ:
+          Control: Form@2.4.4
+          Variant: Classic
+          Layout: Vertical
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DataSource: ='X_Portail_CODECOH'
+            DefaultMode: =FormMode.Edit
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =400
+            Item: =LookUp('X_Portail_CODECOH', ID = pj_galEch.Selected.ID)
+            NumberOfColumns: =1
+            OnFailure: |-
+              =Notify("Erreur : " & pj_frmPJ.Error, NotificationType.Error)
+            OnSuccess: |-
+              =Collect(colPJFaites, {ID: pj_galEch.Selected.ID});
+              Notify("Pièces jointes enregistrées pour " & pj_galEch.Selected.Titre & ".", NotificationType.Success)
+            Visible: =!IsEmpty(colCrees)
+            Width: =Parent.Width - 508 - 2
+            X: =477
+            Y: =113
+          Children:
+            - pj_cardPJ:
+                Control: TypedDataCard@1.0.7
+                Variant: ClassicAttachmentsEdit
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  DataField: ="{Attachments}"
+                  Default: =ThisItem.'Pièces jointes'
+                  DisplayName: ="Pièces jointes"
+                  Height: =380
+                  Required: =false
+                  Update: =pj_attPJ.Attachments
+                  Width: =Parent.Width
+                  X: =0
+                  Y: =0
+                Children:
+                  - pj_lblCleePJ:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldName
+                      Properties:
+                        Color: =RGBA(36, 34, 106, 1)
+                        Font: =Font.Arial
+                        FontWeight: =FontWeight.Bold
+                        Height: =34
+                        Size: =14
+                        Text: |-
+                          ="📎  Fichiers de : " & pj_galEch.Selected.Titre
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =10
+                  - pj_attPJ:
+                      Control: Attachments@2.3.0
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: ="Pièces jointes de l'échantillon"
+                        AddAttachmentText: ="Joindre un fichier"
+                        BorderColor: =RGBA(212, 222, 242, 1)
+                        BorderStyle: =BorderStyle.Dashed
+                        BorderThickness: =1
+                        Color: =RGBA(36, 34, 106, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Fill: =RGBA(235, 235, 249, 1)
+                        Font: =Font.Arial
+                        Height: =300
+                        ItemColor: =RGBA(255, 255, 255, 1)
+                        ItemFill: =RGBA(36, 34, 106, 1)
+                        ItemSpacing: =10
+                        Items: =Parent.Default
+                        MaxAttachmentSize: =10
+                        MaxAttachments: =10
+                        NoAttachmentsText: ="Aucun fichier joint"
+                        Size: =12
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =54
+      - pj_lblAide:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(112, 136, 182, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Normal
+            Height: =40
+            Size: =11
+            Text: |-
+              ="Astuce : un fichier commun à plusieurs échantillons doit être joint à chacun d'eux."
+            Width: =Parent.Width - 508 - 48
+            X: =500
+            Y: =Parent.Height - 140
+      - pj_btnEnregistrer:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(212, 66, 51, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(212, 222, 242, 1)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(212, 222, 242, 1)
+            DisplayMode: =If(IsEmpty(colCrees), DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =RGBA(212, 66, 51, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =44
+            HoverBorderColor: =RGBA(170, 50, 38, 1)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =RGBA(170, 50, 38, 1)
+            OnSelect: =SubmitForm(pj_frmPJ)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(36, 34, 106, 1)
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =13
+            Text: ="Enregistrer les pièces jointes"
+            Width: =300
+            X: =Parent.Width - 600
+            Y: =Parent.Height - 60
+      - pj_btnTerminer:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(36, 34, 106, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Color: =RGBA(36, 34, 106, 1)
+            DisabledBorderColor: =RGBA(212, 222, 242, 1)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(212, 222, 242, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =44
+            HoverBorderColor: =RGBA(36, 34, 106, 1)
+            HoverColor: =RGBA(36, 34, 106, 1)
+            HoverFill: =RGBA(235, 235, 249, 1)
+            OnSelect: =Navigate(ScrMesDemandes, ScreenTransition.Fade)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(36, 34, 106, 1)
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =13
+            Text: ="Terminer  →"
+            Width: =240
+            X: =Parent.Width - 272
+            Y: =Parent.Height - 60

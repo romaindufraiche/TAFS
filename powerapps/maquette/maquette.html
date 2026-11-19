@@ -51,13 +51,9 @@ td{height:56px;padding:0 5px;border-bottom:1px solid var(--i200)}td .in{width:10
 <div class="cap">2 · Nouvelle demande — déclaration de plusieurs échantillons</div>
 <div class="screen">
  <div class="hdr"><div class="logo">logo ABC</div><div><h1>Nouvelle demande</h1><p>Ajoutez autant d'échantillons que nécessaire, puis envoyez</p></div><div class="btn back">←  Accueil</div></div>
- <div class="card" style="display:flex;gap:24px;height:140px;padding-top:10px">
-  <div style="flex:1"><b style="color:var(--navy);font-size:18px;display:block;margin-top:6px">👤 Demandeur : Romain Dufraiche &nbsp;·&nbsp; Date d'enregistrement : 19/11/2026</b>
-   <div style="color:var(--i500);font-size:14px;margin-top:12px">Ces informations sont renseignées automatiquement. Les pièces jointes déposées à droite sont ajoutées à chaque échantillon envoyé.</div></div>
-  <div style="width:520px"><b style="color:var(--navy);font-size:15px">📎 Pièces jointes</b>
-   <div style="margin-top:6px;height:86px;border:1px dashed var(--i200);background:var(--i50);padding:8px 12px;font-size:14px;color:var(--navy)">certificat_ATCC_HeLa.pdf &nbsp;✕<br>fiche_fournisseur.pdf &nbsp;✕<br><u>Joindre un fichier</u></div></div>
- </div>
- <div class="card" style="height:400px"><h3>Échantillons à déclarer (3) <span class="btn">+  Ajouter un échantillon</span></h3>
+ <div class="card" style="height:96px"><b style="color:var(--navy);font-size:18px;display:block;margin-top:6px">👤 Demandeur : Romain Dufraiche &nbsp;·&nbsp; Date d'enregistrement : 19/11/2026</b>
+   <div style="color:var(--i500);font-size:14px;margin-top:10px">Ces informations sont renseignées automatiquement. Après l'envoi, une page vous permettra d'ajouter les pièces jointes de chaque échantillon.</div></div>
+ <div class="card" style="height:440px"><h3>Échantillons à déclarer (3) <span class="btn">+  Ajouter un échantillon</span></h3>
   <table><tr><th>#</th><th style="width:17%">Nom échantillon *</th><th style="width:13%">Ref commerciale</th><th style="width:14%">Type de substance</th><th style="width:13%">Tissue source</th><th style="width:14%">Pathologie</th><th style="width:20%">Coordonnées fournisseur</th><th></th></tr>
   <tr><td class="num">1</td><td><div class="in v">HeLa</div></td><td><div class="in v">CCL-2</div></td><td><div class="in v">Lignée cellulaire</div></td><td><div class="in v">Col utérin</div></td><td><div class="in v">Adénocarcinome</div></td><td><div class="in v">ATCC, Manassas (USA)</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr><tr><td class="num">2</td><td><div class="in v">HEK293</div></td><td><div class="in v">CRL-1573</div></td><td><div class="in v">Lignée cellulaire</div></td><td><div class="in v">Rein</div></td><td><div class="in">Pathologie</div></td><td><div class="in v">ATCC, Manassas (USA)</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr><tr><td class="num">3</td><td><div class="in v">Sérum de lapin</div></td><td><div class="in">Ref commerciale</div></td><td><div class="in v">Sérum</div></td><td><div class="in v">Sang</div></td><td><div class="in">Pathologie</div></td><td><div class="in">Coordonnées fournisseur</div></td><td class="act"><span>⧉</span><span>🗑</span></td></tr>
   </table></div>
@@ -73,5 +69,25 @@ td{height:56px;padding:0 5px;border-bottom:1px solid var(--i200)}td .in{width:10
   <div class="row"><div class="l"><b>HEK293</b><div>Réf. CRL-1573 &nbsp; Lignée cellulaire &nbsp; 📎 2</div></div><div class="r"><div class="d">Enregistrée le 19/11/2026</div><div style="color:var(--navy);font-weight:bold">Romain Dufraiche</div></div><div class="chev">›</div></div>
   <div class="row"><div class="l"><b>Sérum de lapin</b><div>Sérum</div></div><div class="r"><div class="d">Enregistrée le 19/11/2026</div><div style="color:var(--navy);font-weight:bold">Romain Dufraiche</div></div><div class="chev">›</div></div>
  </div>
+</div>
+
+<div class="cap">4 · Pièces jointes — après « Envoyer », un formulaire par échantillon</div>
+<div class="screen">
+ <div class="hdr"><div class="logo">logo ABC</div><div><h1>Pièces jointes</h1><p>Sélectionnez un échantillon, ajoutez ses fichiers, puis enregistrez</p></div></div>
+ <div style="display:flex;gap:24px;margin:20px 32px 0">
+  <div class="card list" style="margin:0;padding:0;width:420px;height:550px"><h3 style="padding:10px 16px 0">Échantillons (3)</h3>
+   <div class="row" style="padding:0 16px"><div class="l"><b style="font-size:16px">HeLa</b><div class="ok" style="font-size:13px">Pièces jointes enregistrées</div></div><span class="ok" style="font-size:22px">✔</span></div>
+   <div class="row sel" style="padding:0 16px"><div class="l"><b style="font-size:16px">HEK293</b><div style="font-size:13px;color:var(--i500)">À compléter</div></div></div>
+   <div class="row" style="padding:0 16px"><div class="l"><b style="font-size:16px">Sérum de lapin</b><div style="font-size:13px;color:var(--i500)">À compléter</div></div></div>
+  </div>
+  <div class="card" style="margin:0;flex:1;height:550px;padding:14px 24px">
+   <b style="color:var(--navy);font-size:18px">📎 Fichiers de : HEK293</b>
+   <div style="margin-top:14px;height:300px;border:1px dashed var(--i200);background:var(--i50);padding:12px">
+    <div style="background:var(--navy);color:#fff;padding:8px 12px;margin-bottom:10px;font-size:14px">certificat_ATCC_HEK293.pdf &nbsp; ✕</div>
+    <div style="background:var(--navy);color:#fff;padding:8px 12px;margin-bottom:10px;font-size:14px">fiche_fournisseur.pdf &nbsp; ✕</div>
+    <u style="color:var(--navy);font-size:14px">Joindre un fichier</u></div>
+   <div style="color:var(--i500);font-size:14px;margin-top:150px">Astuce : un fichier commun à plusieurs échantillons doit être joint à chacun d'eux.</div>
+  </div></div>
+ <div class="footer" style="justify-content:flex-end"><div class="btn pri" style="width:300px;height:44px">Enregistrer les pièces jointes</div><div class="btn" style="width:240px;height:44px">Terminer  →</div></div>
 </div>
 </body></html>

@@ -9,5 +9,4 @@ Set(varTentative, false);
 Set(varEnvoiEnCours, false);
 Set(varNextId, 1);
 ClearCollect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: "", Fourn: ""});
-Set(varNextId, 2);
-Reset(nd_attPJ)
+Set(varNextId, 2)

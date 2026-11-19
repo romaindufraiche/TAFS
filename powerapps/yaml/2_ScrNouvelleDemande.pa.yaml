@@ -8,8 +8,7 @@ Screens:
         Set(varEnvoiEnCours, false);
         Set(varNextId, 1);
         ClearCollect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: "", Fourn: ""});
-        Set(varNextId, 2);
-        Reset(nd_attPJ)
+        Set(varNextId, 2)
     Children:
       - nd_rectHeader:
           Control: Rectangle@2.3.0
@@ -96,7 +95,7 @@ Screens:
             BorderStyle: =BorderStyle.Solid
             BorderThickness: =1
             Fill: =RGBA(255, 255, 255, 1)
-            Height: =140
+            Height: =96
             Width: =Parent.Width - 64
             X: =32
             Y: =108
@@ -130,45 +129,12 @@ Screens:
             Color: =RGBA(112, 136, 182, 1)
             Font: =Font.Arial
             FontWeight: =FontWeight.Normal
-            Height: =60
+            Height: =30
             Size: =11
-            Text: ="Ces informations sont renseignées automatiquement. Les pièces jointes déposées à droite sont ajoutées à chaque échantillon envoyé."
-            Width: =Parent.Width - 688
+            Text: ="Ces informations sont renseignées automatiquement. Après l'envoi, une page vous permettra d'ajouter les pièces jointes de chaque échantillon."
+            Width: =Parent.Width - 160
             X: =96
-            Y: =162
-      - nd_lblPJ:
-          Control: Label@2.5.1
-          Properties:
-            Color: =RGBA(36, 34, 106, 1)
-            Font: =Font.Arial
-            FontWeight: =FontWeight.Bold
-            Height: =26
-            Size: =12
-            Text: ="📎  Pièces jointes"
-            Width: =520
-            X: =Parent.Width - 576
-            Y: =116
-      - nd_attPJ:
-          Control: Attachments@2.3.0
-          Properties:
-            AccessibleLabel: ="Pièces jointes de la demande"
-            AddAttachmentText: ="Joindre un fichier"
-            BorderColor: =RGBA(212, 222, 242, 1)
-            BorderStyle: =BorderStyle.Dashed
-            BorderThickness: =1
-            Color: =RGBA(36, 34, 106, 1)
-            DisplayMode: =DisplayMode.Edit
-            Fill: =RGBA(235, 235, 249, 1)
-            Font: =Font.Arial
-            Height: =94
-            Items: =Defaults('X_Portail_CODECOH').'Pièces jointes'
-            MaxAttachmentSize: =10
-            MaxAttachments: =10
-            NoAttachmentsText: ="Aucun fichier joint"
-            Size: =11
-            Width: =520
-            X: =Parent.Width - 576
-            Y: =144
+            Y: =160
       - nd_cardEch:
           Control: Rectangle@2.3.0
           Properties:
@@ -176,10 +142,10 @@ Screens:
             BorderStyle: =BorderStyle.Solid
             BorderThickness: =1
             Fill: =RGBA(255, 255, 255, 1)
-            Height: =Parent.Height - 344
+            Height: =Parent.Height - 300
             Width: =Parent.Width - 64
             X: =32
-            Y: =264
+            Y: =220
       - nd_lblEch:
           Control: Label@2.5.1
           Properties:
@@ -191,7 +157,7 @@ Screens:
             Text: ="Échantillons à déclarer (" & CountRows(colEchantillons) & ")"
             Width: =600
             X: =56
-            Y: =276
+            Y: =232
       - nd_btnAjouter:
           Control: Classic/Button@2.2.0
           Properties:
@@ -222,7 +188,7 @@ Screens:
             Text: ="+  Ajouter un échantillon"
             Width: =230
             X: =Parent.Width - 286
-            Y: =272
+            Y: =228
       - nd_rectEntete:
           Control: Rectangle@2.3.0
           Properties:
@@ -230,7 +196,7 @@ Screens:
             Height: =32
             Width: =Parent.Width - 112
             X: =56
-            Y: =316
+            Y: =272
       - nd_lblColNum:
           Control: Label@2.5.1
           Properties:
@@ -244,7 +210,7 @@ Screens:
               ="#"
             Width: =40
             X: =56
-            Y: =316
+            Y: =272
       - nd_lblColNom:
           Control: Label@2.5.1
           Properties:
@@ -256,7 +222,7 @@ Screens:
             Text: ="Nom échantillon *"
             Width: =(Parent.Width - 248 - 60) * 0.1900
             X: =96
-            Y: =316
+            Y: =272
       - nd_lblColRef:
           Control: Label@2.5.1
           Properties:
@@ -268,7 +234,7 @@ Screens:
             Text: ="Ref commerciale"
             Width: =(Parent.Width - 248 - 60) * 0.1500
             X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10
-            Y: =316
+            Y: =272
       - nd_lblColTypeSub:
           Control: Label@2.5.1
           Properties:
@@ -280,7 +246,7 @@ Screens:
             Text: ="Type de substance"
             Width: =(Parent.Width - 248 - 60) * 0.1500
             X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10
-            Y: =316
+            Y: =272
       - nd_lblColSource:
           Control: Label@2.5.1
           Properties:
@@ -292,7 +258,7 @@ Screens:
             Text: ="Tissue source"
             Width: =(Parent.Width - 248 - 60) * 0.1500
             X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10
-            Y: =316
+            Y: =272
       - nd_lblColPatho:
           Control: Label@2.5.1
           Properties:
@@ -304,7 +270,7 @@ Screens:
             Text: ="Pathologie"
             Width: =(Parent.Width - 248 - 60) * 0.1500
             X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10
-            Y: =316
+            Y: =272
       - nd_lblColFourn:
           Control: Label@2.5.1
           Properties:
@@ -316,7 +282,7 @@ Screens:
             Text: ="Coordonnées fournisseur"
             Width: =(Parent.Width - 248 - 60) * 0.2100
             X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10
-            Y: =316
+            Y: =272
       - nd_galEchantillons:
           Control: Gallery@2.15.0
           Variant: Vertical
@@ -616,22 +582,11 @@ Screens:
                           )
                       )
                   );
-                  If(
-                      IsEmpty(Errors('X_Portail_CODECOH')) && !IsEmpty(nd_attPJ.Attachments),
-                      Notify("Ajout des pièces jointes…", NotificationType.Information);
-                      ForAll(
-                          colCrees As E,
-                          ForAll(
-                              nd_attPJ.Attachments As F,
-                              AjoutPJ_CODECOH.Run(E.ID, {file: {contentBytes: F.Value, name: F.Name}})
-                          )
-                      )
-                  );
                   Set(varEnvoiEnCours, false);
                   If(
                       IsEmpty(Errors('X_Portail_CODECOH')),
-                      Notify(CountRows(colCrees) & " échantillon(s) déclaré(s) avec succès.", NotificationType.Success);
-                      Navigate(ScrMesDemandes, ScreenTransition.Fade),
+                      Notify(CountRows(colCrees) & " échantillon(s) déclaré(s). Ajoutez maintenant les pièces jointes si besoin.", NotificationType.Success);
+                      Navigate(ScrPiecesJointes, ScreenTransition.Cover),
                       Notify("Erreur SharePoint : " & First(Errors('X_Portail_CODECOH')).Message, NotificationType.Error)
                   )
               )

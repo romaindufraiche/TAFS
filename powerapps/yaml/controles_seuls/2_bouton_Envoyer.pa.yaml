@@ -44,22 +44,11 @@
                     )
                 )
             );
-            If(
-                IsEmpty(Errors('X_Portail_CODECOH')) && !IsEmpty(nd_attPJ.Attachments),
-                Notify("Ajout des pièces jointes…", NotificationType.Information);
-                ForAll(
-                    colCrees As E,
-                    ForAll(
-                        nd_attPJ.Attachments As F,
-                        AjoutPJ_CODECOH.Run(E.ID, {file: {contentBytes: F.Value, name: F.Name}})
-                    )
-                )
-            );
             Set(varEnvoiEnCours, false);
             If(
                 IsEmpty(Errors('X_Portail_CODECOH')),
-                Notify(CountRows(colCrees) & " échantillon(s) déclaré(s) avec succès.", NotificationType.Success);
-                Navigate(ScrMesDemandes, ScreenTransition.Fade),
+                Notify(CountRows(colCrees) & " échantillon(s) déclaré(s). Ajoutez maintenant les pièces jointes si besoin.", NotificationType.Success);
+                Navigate(ScrPiecesJointes, ScreenTransition.Cover),
                 Notify("Erreur SharePoint : " & First(Errors('X_Portail_CODECOH')).Message, NotificationType.Error)
             )
         )

@@ -33,9 +33,10 @@ def fmt(value, indent):
     return "=" + value
 
 
-def ctrl(name, control, props, children=None, variant=None):
+def ctrl(name, control, props, children=None, variant=None, layout=None, metadata=None):
     return {"name": name, "control": control, "props": props,
-            "children": children or [], "variant": variant}
+            "children": children or [], "variant": variant,
+            "layout": layout, "metadata": metadata}
 
 
 def render_ctrl(c, indent):
@@ -43,6 +44,10 @@ def render_ctrl(c, indent):
     out = [f"{sp}- {c['name']}:", f"{sp}    Control: {c['control']}"]
     if c["variant"]:
         out.append(f"{sp}    Variant: {c['variant']}")
+    if c.get("layout"):
+        out.append(f"{sp}    Layout: {c['layout']}")
+    if c.get("metadata"):
+        out.append(f"{sp}    MetadataKey: {c['metadata']}")
     out.append(f"{sp}    Properties:")
     for k in sorted(c["props"]):
         out.append(f"{sp}      {k}: {fmt(c['props'][k], indent + 6)}")
@@ -210,7 +215,6 @@ C_DEMANDEUR = "'Nom demandeur'"                 # texte -> rempli automatiquemen
 C_DATE = "'Date enregistrement demande'"        # texte -> rempli automatiquement (jj/mm/aaaa)
 C_FOURN = "'Coordonnées fournisseur'"           # texte
 C_PJ = "'Pièces jointes'"                       # pièces jointes de l'élément (lecture)
-FLOW_PJ = "AjoutPJ_CODECOH"                     # flux Power Automate qui ajoute les pièces jointes
 
 EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: "", Fourn: ""}'
 
@@ -248,8 +252,7 @@ def screen_nouvelle():
                 f"{{{field}: {expr}}})")
 
     # ---- Bandeau : demandeur et date remplis automatiquement --------------
-    c1_y, c1_h = 108, 140
-    att_w = 520
+    c1_y, c1_h = 108, 96
     children = header(p, '"Nouvelle demande"',
                       '"Ajoutez autant d\'échantillons que nécessaire, puis envoyez"')
     children += [
@@ -260,24 +263,10 @@ def screen_nouvelle():
               '& Text(Today(), "dd/mm/yyyy")',
               M + 64, c1_y + 14, "Parent.Width - 200", 36, size=14, color=NAVY, bold=True),
         label(f"{p}_lblAutoInfo",
-              '"Ces informations sont renseignées automatiquement. Les pièces jointes '
-              'déposées à droite sont ajoutées à chaque échantillon envoyé."',
-              M + 64, c1_y + 54, f"Parent.Width - {M + 64 + att_w + 72}", 60, size=11,
-              color=INDIGO500),
-        label(f"{p}_lblPJ", '"📎  Pièces jointes"', f"Parent.Width - {M + 24 + att_w}",
-              c1_y + 8, att_w, 26, size=12, color=NAVY, bold=True),
-        ctrl(f"{p}_attPJ", "Attachments@2.3.0", {
-            "X": f"Parent.Width - {M + 24 + att_w}", "Y": c1_y + 36,
-            "Width": att_w, "Height": c1_h - 46,
-            "Items": f"Defaults({DS}).{C_PJ}",
-            "DisplayMode": "DisplayMode.Edit", "MaxAttachments": 10,
-            "MaxAttachmentSize": 10,
-            "AddAttachmentText": '"Joindre un fichier"',
-            "NoAttachmentsText": '"Aucun fichier joint"',
-            "Font": FONT, "Size": 11, "Color": NAVY, "Fill": INDIGO50,
-            "BorderColor": INDIGO200, "BorderThickness": 1,
-            "BorderStyle": "BorderStyle.Dashed",
-            "AccessibleLabel": '"Pièces jointes de la demande"'}),
+              '"Ces informations sont renseignées automatiquement. Après l\'envoi, une page '
+              'vous permettra d\'ajouter les pièces jointes de chaque échantillon."',
+              M + 64, c1_y + 52, "Parent.Width - 160", 30, size=11, color=INDIGO500),
+
     ]
 
     # ---- Tableau des échantillons -----------------------------------------
@@ -400,22 +389,11 @@ If(
             )
         )
     );
-    If(
-        IsEmpty(Errors({DS})) && !IsEmpty(nd_attPJ.Attachments),
-        Notify("Ajout des pièces jointes…", NotificationType.Information);
-        ForAll(
-            colCrees As E,
-            ForAll(
-                nd_attPJ.Attachments As F,
-                {FLOW_PJ}.Run(E.ID, {{file: {{contentBytes: F.Value, name: F.Name}}}})
-            )
-        )
-    );
     Set(varEnvoiEnCours, false);
     If(
         IsEmpty(Errors({DS})),
-        Notify(CountRows(colCrees) & " échantillon(s) déclaré(s) avec succès.", NotificationType.Success);
-        Navigate(ScrMesDemandes, ScreenTransition.Fade),
+        Notify(CountRows(colCrees) & " échantillon(s) déclaré(s). Ajoutez maintenant les pièces jointes si besoin.", NotificationType.Success);
+        Navigate(ScrPiecesJointes, ScreenTransition.Cover),
         Notify("Erreur SharePoint : " & First(Errors({DS})).Message, NotificationType.Error)
     )
 )"""
@@ -433,8 +411,7 @@ If(
 Set(varEnvoiEnCours, false);
 Set(varNextId, 1);
 ClearCollect(colEchantillons, {EMPTY_ROW});
-Set(varNextId, 2);
-Reset(nd_attPJ)"""
+Set(varNextId, 2)"""
     return render_screen("ScrNouvelleDemande",
                          {"Fill": INDIGO50, "LoadingSpinnerColor": NAVY,
                           "OnVisible": on_visible}, children)
@@ -559,8 +536,115 @@ def screen_detail():
                       Tooltip='"Ouvrir le fichier"'),
             ], variant="Vertical"),
     ]
+    children.append(button("dd_btnPJ", '"📎  Ajouter / modifier les pièces jointes"',
+                           f"{M}", top + 460, 360, 44,
+                           "ClearCollect(colCrees, Gallery1.Selected);\nNavigate(ScrPiecesJointes, ScreenTransition.Cover)",
+                           primary=False))
     return render_screen("ScrDetailDemande", {"Fill": INDIGO50,
                                               "LoadingSpinnerColor": NAVY}, children)
+
+
+# =============================================================================
+# 5. Pièces jointes : un formulaire SharePoint par échantillon créé
+#    (seule méthode fiable sans Power Automate pour envoyer des fichiers)
+# =============================================================================
+def screen_pieces_jointes():
+    M = 32
+    top = 112
+    left_w = 420
+    children = header("pj", '"Pièces jointes"',
+                      '"Sélectionnez un échantillon, ajoutez ses fichiers, puis enregistrez"',
+                      back=False)
+    # --- liste des échantillons créés
+    cells = [
+        label("pj_lblNom", "ThisItem.Titre", 16, 8, "Parent.TemplateWidth - 70", 26,
+              size=13, color=NAVY, bold=True, OnSelect="Select(Parent)"),
+        label("pj_lblInfo",
+              'If(ThisItem.ID in colPJFaites.ID, "Pièces jointes enregistrées", "À compléter")',
+              16, 34, "Parent.TemplateWidth - 70", 22, size=11,
+              color=f"If(ThisItem.ID in colPJFaites.ID, {GREEN}, {INDIGO500})",
+              OnSelect="Select(Parent)"),
+        icon("pj_icoOk", "Icon.CheckBadge", "Parent.TemplateWidth - 44", 18, 28, GREEN,
+             Visible="ThisItem.ID in colPJFaites.ID"),
+        rect("pj_rectSel", 0, 0, 4, "Parent.TemplateHeight - 1", CORAL,
+             Visible="ThisItem.IsSelected"),
+        rect("pj_rectSep", 0, "Parent.TemplateHeight - 1", "Parent.TemplateWidth", 1,
+             INDIGO200),
+    ]
+    children += [
+        card("pj_cardListe", M, top, left_w, "Parent.Height - 200"),
+        label("pj_lblListe", '"Échantillons (" & CountRows(colCrees) & ")"', M + 16,
+              top + 10, left_w - 32, 30, size=14, color=NAVY, bold=True),
+        ctrl("pj_galEch", "Gallery@2.15.0", {
+            "Items": "colCrees",
+            "X": M + 1, "Y": top + 48, "Width": left_w - 2,
+            "Height": "Parent.Height - 250", "TemplateSize": 64, "TemplatePadding": 0,
+            "Fill": TRANSPARENT,
+            "TemplateFill": f"If(ThisItem.IsSelected, {INDIGO50}, {WHITE})",
+            "AccessibleLabel": '"Échantillons déclarés"'},
+            children=cells, variant="Vertical"),
+    ]
+    # --- formulaire SharePoint (pièces jointes seulement)
+    fx = M + left_w + 24
+    fw = f"Parent.Width - {fx + M}"
+    att_card = ctrl("pj_cardPJ", "TypedDataCard@1.0.7", {
+        "DataField": '"{Attachments}"',
+        "Default": "ThisItem.'Pièces jointes'",
+        "DisplayName": '"Pièces jointes"',
+        "Required": "false",
+        "Update": "pj_attPJ.Attachments",
+        "Width": f"Parent.Width", "Height": 380, "X": 0, "Y": 0,
+        "BorderColor": TRANSPARENT,
+    }, children=[
+        ctrl("pj_lblCleePJ", "Label@2.5.1", {
+            "Text": '"📎  Fichiers de : " & pj_galEch.Selected.Titre',
+            "X": 24, "Y": 10, "Width": "Parent.Width - 48", "Height": 34,
+            "Font": FONT, "Size": 14, "FontWeight": "FontWeight.Bold", "Color": NAVY},
+            metadata="FieldName"),
+        ctrl("pj_attPJ", "Attachments@2.3.0", {
+            "Items": "Parent.Default",
+            "DisplayMode": "Parent.DisplayMode",
+            "X": 24, "Y": 54, "Width": "Parent.Width - 48", "Height": 300,
+            "MaxAttachments": 10, "MaxAttachmentSize": 10,
+            "AddAttachmentText": '"Joindre un fichier"',
+            "NoAttachmentsText": '"Aucun fichier joint"',
+            "Font": FONT, "Size": 12, "Color": NAVY, "Fill": INDIGO50,
+            "ItemFill": NAVY, "ItemColor": WHITE, "ItemSpacing": 10,
+            "BorderColor": INDIGO200, "BorderThickness": 1,
+            "BorderStyle": "BorderStyle.Dashed",
+            "AccessibleLabel": '"Pièces jointes de l\'échantillon"'},
+            metadata="FieldValue"),
+    ], variant="ClassicAttachmentsEdit")
+    children += [
+        card("pj_cardForm", fx, top, fw, "Parent.Height - 200"),
+        ctrl("pj_frmPJ", "Form@2.4.4", {
+            "DataSource": DS,
+            "DefaultMode": "FormMode.Edit",
+            "Item": f"LookUp({DS}, ID = pj_galEch.Selected.ID)",
+            "NumberOfColumns": 1,
+            "X": fx + 1, "Y": top + 1, "Width": f"{fw} - 2", "Height": 400,
+            "Fill": WHITE, "BorderColor": TRANSPARENT,
+            "Visible": "!IsEmpty(colCrees)",
+            "OnSuccess": ('Collect(colPJFaites, {ID: pj_galEch.Selected.ID});\n'
+                          'Notify("Pièces jointes enregistrées pour " & pj_galEch.Selected.Titre & ".", NotificationType.Success)'),
+            "OnFailure": 'Notify("Erreur : " & pj_frmPJ.Error, NotificationType.Error)',
+        }, children=[att_card], variant="Classic", layout="Vertical"),
+        label("pj_lblAide",
+              '"Astuce : un fichier commun à plusieurs échantillons doit être joint à chacun d\'eux."',
+              fx + 24, "Parent.Height - 140", f"{fw} - 48", 40, size=11, color=INDIGO500),
+    ]
+    fy = "Parent.Height - 60"
+    children += [
+        button("pj_btnEnregistrer", '"Enregistrer les pièces jointes"',
+               "Parent.Width - 600", fy, 300, 44, "SubmitForm(pj_frmPJ)",
+               DisplayMode="If(IsEmpty(colCrees), DisplayMode.Disabled, DisplayMode.Edit)"),
+        button("pj_btnTerminer", '"Terminer  →"', "Parent.Width - 272", fy, 240, 44,
+               "Navigate(ScrMesDemandes, ScreenTransition.Fade)", primary=False),
+    ]
+    return render_screen("ScrPiecesJointes", {"Fill": INDIGO50,
+                                              "LoadingSpinnerColor": NAVY,
+                                              "OnVisible": "Clear(colPJFaites)"},
+                         children)
 
 
 def main():
@@ -570,10 +654,29 @@ def main():
         "2_ScrNouvelleDemande.pa.yaml": screen_nouvelle(),
         "3_ScrMesDemandes.pa.yaml": screen_mes_demandes(),
         "4_ScrDetailDemande.pa.yaml": screen_detail(),
+        "5_ScrPiecesJointes.pa.yaml": screen_pieces_jointes(),
     }
     for name, content in files.items():
         (OUT / name).write_text(content, encoding="utf-8")
         print("écrit", OUT / name)
+    # Formule OnSelect du bouton Envoyer en syntaxe française (« ; » et « ;; »)
+    def fr(src):
+        out, instr, inq = [], False, False
+        for ch in src:
+            if ch == '"' and not inq:
+                instr = not instr
+            elif ch == "'" and not instr:
+                inq = not inq
+            elif not instr and not inq and ch == ';':
+                out.append(';;'); continue
+            elif not instr and not inq and ch == ',':
+                out.append(';'); continue
+            out.append(ch)
+        return ''.join(out)
+    for c in SCREENS["ScrNouvelleDemande"][1]:
+        if c["name"] == "nd_btnEnvoyer":
+            (OUT / "controles_seuls" / "2_bouton_Envoyer_OnSelect_FR.txt").write_text(
+                fr(str(c["props"]["OnSelect"])) + "\n", encoding="utf-8")
     # Bouton Envoyer seul (à recoller via « Coller le code », indépendant de la langue)
     for c in SCREENS["ScrNouvelleDemande"][1]:
         if c["name"] == "nd_btnEnvoyer":
