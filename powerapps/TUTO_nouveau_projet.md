@@ -22,6 +22,38 @@ ScrAccueil  ──►  ScrNouvelleDemande  (déclarer plusieurs échantillons)
 
 ---
 
+## Étape 0 : préparer la liste SharePoint `x_Déclaration_CODECOH`
+
+### Colonnes attendues par l'app
+
+| Colonne (nom exact) | Type SharePoint | Rempli par |
+|---|---|---|
+| Nom échantillon | Une seule ligne de texte (colonne *Titre* renommée) | l'utilisateur (obligatoire) |
+| Ref commerciale | Une seule ligne de texte | l'utilisateur |
+| Type de substance | Une seule ligne de texte | l'utilisateur |
+| Tissue source | Une seule ligne de texte | l'utilisateur |
+| Pathologie | Une seule ligne de texte | l'utilisateur |
+| Coordonnées fournisseur | Une seule ligne de texte | l'utilisateur |
+| Nom demandeur | Personne | automatique (personne connectée) |
+| Date enregistrement demande | Date et heure (date seule) | automatique (date du jour) |
+| *Pièces jointes* | intégrées à la liste, pas une colonne | l'utilisateur (zone 📎) |
+
+### Créer une colonne sans piège (exemple : *Coordonnées fournisseur*)
+1. Ouvrez la liste, puis cliquez sur **+ Ajouter une colonne** à droite des en-têtes.
+2. Choisissez **Une seule ligne de texte**.
+   Si les coordonnées sont longues (plus de 255 caractères), choisissez plutôt **Plusieurs lignes de texte**, en type **Texte brut**, et **sans** l'option *Ajouter à du texte existant* : Power Apps ne voit pas ce genre de colonne.
+3. Nom : tapez d'abord un nom **sans accent ni espace**, par exemple `CoordFournisseur`, puis **Enregistrer**. SharePoint crée ainsi un nom technique propre.
+4. Rouvrez l'en-tête de la colonne → **Paramètres de la colonne** → **Modifier**, et renommez-la exactement **`Coordonnées fournisseur`**. Vérifiez qu'il n'y a pas d'espace en trop, ni au milieu ni à la fin.
+5. Laissez **Exiger que cette colonne contienne des informations = Non**.
+
+### Activer les pièces jointes
+Les pièces jointes ne sont pas une colonne : c'est une option de la liste, activée par défaut.
+1. Cliquez sur ⚙️ (en haut à droite) → **Paramètres de la liste** → **Paramètres avancés**.
+2. Vérifiez que **Pièces jointes à des éléments de la liste = Activé**, puis cliquez sur **OK**.
+
+### Après toute modification de la liste
+Dans Power Apps Studio, ouvrez le panneau **Données**, puis `…` à côté de `x_Déclaration_CODECOH` → **Actualiser**. Sans cela, Power Apps ne voit pas les nouvelles colonnes.
+
 ## Étape 1 : créer l'application vide
 1. Allez sur **https://make.powerapps.com**.
 2. En haut à droite, choisissez l'environnement **Servier Monde – PROD**.
@@ -104,8 +136,10 @@ Pour chaque écran, ouvrez le fichier `…_proprietes_ecran.txt` correspondant. 
 |---|---|
 | Croix rouges sur de nombreuses formules | Un nom ne correspond pas. Vérifiez les noms des 4 écrans, de la source `x_Déclaration_CODECOH` et du média `logo ABC` |
 | Erreur sur `Navigate(ScrDetailDemande…)` ou `Gallery1` | `ScrDetailDemande` n'existe pas encore, ou la galerie a été renommée `Gallery1_1` : renommez-la `Gallery1` |
-| Erreur sur une colonne (« La colonne … n'existe pas ») | Le nom dans SharePoint diffère d'un caractère (espace en double, majuscule, accent). Le message propose le nom le plus proche : corrigez le nom de la colonne dans SharePoint, puis Données → `…` → **Actualiser**. Noms attendus : `Nom échantillon`, `Ref commerciale`, `Type de substance`, `Tissue source`, `Pathologie`, `Nom demandeur`, `Date enregistrement demande` |
+| Erreur sur une colonne (« La colonne … n'existe pas ») | Le nom dans SharePoint diffère d'un caractère (espace en double, majuscule, accent). Le message propose le nom le plus proche : corrigez le nom de la colonne dans SharePoint, puis Données → `…` → **Actualiser**. Noms attendus : voir l'étape 0. Si renommer ne suffit pas, supprimez la colonne et recréez-la (étape 0) |
 | L'envoi échoue avec « champ obligatoire » | Une colonne de la liste que l'app ne remplit pas (par ex. la colonne *Titre* masquée) est obligatoire. Paramètres de la liste → la colonne → *Exiger que cette colonne contienne des informations* = **Non** |
 | Le tableau des échantillons est vide (aucune ligne) | La propriété `OnVisible` de `ScrNouvelleDemande` n'a pas été collée (étape 6) |
 | Le menu « Coller le code » n'apparaît pas | Rechargez Studio sur Edge ou Chrome à jour, puis essayez **Ctrl+V** sur l'écran sélectionné |
-| « Le type de cet argument … ne correspond pas » | Le type d'une colonne SharePoint ne correspond pas à ce que l'app envoie. Types attendus : *Nom demandeur* = **Personne** ; *Nom échantillon*, *Référence commerciale*, *Type de substance*, *Tissue source*, *Pathologie* = **Une seule ligne de texte** ; *Date enregistrement demande* = **Date et heure** |
+| « Le type de cet argument … ne correspond pas » | Le type d'une colonne SharePoint ne correspond pas à ce que l'app envoie. Types attendus : *Nom demandeur* = **Personne** ; toutes les autres = **Une seule ligne de texte** (voir l'étape 0) ; *Date enregistrement demande* = **Date et heure** |
+| La zone « Pièces jointes » n'apparaît pas ou affiche une erreur après le collage | Insérez un **Formulaire d'édition** relié à `x_Déclaration_CODECOH` et ajoutez-y le champ *Pièces jointes*. Sélectionnez le contrôle de pièces jointes dans la carte, faites **Couper**, puis **Coller** sur l'écran. Renommez-le `nd_attPJ`, placez-le dans le bandeau et supprimez le formulaire |
+| Pièce jointe refusée à l'envoi | Pièces jointes désactivées sur la liste (étape 0), fichier de plus de 10 Mo, ou plus de 10 fichiers |

@@ -203,7 +203,7 @@ Screens:
                   Height: =24
                   OnSelect: =Select(Parent)
                   Size: =12
-                  Text: =Concatenate(If(IsBlank(ThisItem.'Ref commerciale'), "", "Réf. " & ThisItem.'Ref commerciale' & "   "), If(IsBlank(ThisItem.'Type de substance'), "", ThisItem.'Type de substance' & "   "), If(IsBlank(ThisItem.Pathologie), "", "· " & ThisItem.Pathologie))
+                  Text: =Concatenate(If(IsBlank(ThisItem.'Ref commerciale'), "", "Réf. " & ThisItem.'Ref commerciale' & "   "), If(IsBlank(ThisItem.'Type de substance'), "", ThisItem.'Type de substance' & "   "), If(IsBlank(ThisItem.Pathologie), "", "· " & ThisItem.Pathologie & "   "), If(CountRows(ThisItem.Attachments) > 0, "📎 " & CountRows(ThisItem.Attachments), ""))
                   Width: =Parent.TemplateWidth - 340
                   X: =24
                   Y: =40

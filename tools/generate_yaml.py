@@ -208,8 +208,10 @@ C_TISSU = "'Tissue source'"                     # texte
 C_PATHO = "Pathologie"                          # texte
 C_DEMANDEUR = "'Nom demandeur'"                 # Personne -> rempli automatiquement
 C_DATE = "'Date enregistrement demande'"        # date   -> rempli automatiquement
+C_FOURN = "'Coordonnées fournisseur'"           # texte
+C_PJ = "Attachments"                            # pièces jointes de l'élément (nom interne)
 
-EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: ""}'
+EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: "", Fourn: ""}'
 
 
 def combo(name, column, key, x, y, w, sync_expr, label_txt):
@@ -245,7 +247,8 @@ def screen_nouvelle():
                 f"{{{field}: {expr}}})")
 
     # ---- Bandeau : demandeur et date remplis automatiquement --------------
-    c1_y, c1_h = 108, 64
+    c1_y, c1_h = 108, 140
+    att_w = 520
     children = header(p, '"Nouvelle demande"',
                       '"Ajoutez autant d\'échantillons que nécessaire, puis envoyez"')
     children += [
@@ -255,9 +258,24 @@ def screen_nouvelle():
               '"Demandeur : " & User().FullName & "     ·     Date d\'enregistrement : " '
               '& Text(Today(), "dd/mm/yyyy")',
               M + 64, c1_y + 14, "Parent.Width - 200", 36, size=14, color=NAVY, bold=True),
-        label(f"{p}_lblAutoInfo", '"(renseignés automatiquement)"',
-              "Parent.Width - 300", c1_y + 20, 244, 24, size=11, color=INDIGO500,
-              Align="Align.Right"),
+        label(f"{p}_lblAutoInfo",
+              '"Ces informations sont renseignées automatiquement. Les pièces jointes '
+              'déposées à droite sont ajoutées à chaque échantillon envoyé."',
+              M + 64, c1_y + 54, f"Parent.Width - {M + 64 + att_w + 72}", 60, size=11,
+              color=INDIGO500),
+        label(f"{p}_lblPJ", '"📎  Pièces jointes"', f"Parent.Width - {M + 24 + att_w}",
+              c1_y + 8, att_w, 26, size=12, color=NAVY, bold=True),
+        ctrl(f"{p}_attPJ", "Attachments@2.3.0", {
+            "X": f"Parent.Width - {M + 24 + att_w}", "Y": c1_y + 36,
+            "Width": att_w, "Height": c1_h - 46,
+            "DisplayMode": "DisplayMode.Edit", "MaxAttachments": 10,
+            "MaxAttachmentSize": 10,
+            "AddAttachmentText": '"Joindre un fichier"',
+            "NoAttachmentsText": '"Aucun fichier joint"',
+            "Font": FONT, "Size": 11, "Color": NAVY, "Fill": INDIGO50,
+            "BorderColor": INDIGO200, "BorderThickness": 1,
+            "BorderStyle": "BorderStyle.Dashed",
+            "AccessibleLabel": '"Pièces jointes de la demande"'}),
     ]
 
     # ---- Tableau des échantillons -----------------------------------------
@@ -275,11 +293,12 @@ def screen_nouvelle():
     ]
 
     cols = [  # (clé, titre, fraction de largeur)
-        ("Nom", "Nom échantillon *", 0.24),
-        ("Ref", "Référence commerciale", 0.19),
-        ("TypeSub", "Type de substance", 0.19),
-        ("Source", "Tissue source", 0.19),
-        ("Patho", "Pathologie", 0.19),
+        ("Nom", "Nom échantillon *", 0.19),
+        ("Ref", "Ref commerciale", 0.15),
+        ("TypeSub", "Type de substance", 0.15),
+        ("Source", "Tissue source", 0.15),
+        ("Patho", "Pathologie", 0.15),
+        ("Fourn", "Coordonnées fournisseur", 0.21),
     ]
     tbl_x = M + 24
     num_w, act_w, gap = 40, 96, 10
@@ -321,12 +340,15 @@ def screen_nouvelle():
         text_input(f"{p}_txtPatho", "ThisItem.Patho", gx("Patho"), in_y,
                    xs["Patho"][1], hint="Pathologie",
                    onchange=sync("Patho", "Self.Text")),
+        text_input(f"{p}_txtFourn", "ThisItem.Fourn", gx("Fourn"), in_y,
+                   xs["Fourn"][1], hint="Coordonnées fournisseur",
+                   onchange=sync("Fourn", "Self.Text")),
         icon(f"{p}_icoDupliquer", "Icon.Copy", "Parent.TemplateWidth - 84", in_y + 2, 32,
              NAVY,
              onselect=("Collect(colEchantillons, {Id: varNextId, "
                        "Nom: nd_txtNom.Text & \" (copie)\", Ref: nd_txtRef.Text, "
                        "TypeSub: nd_txtType.Text, Source: nd_txtSource.Text, "
-                       "Patho: nd_txtPatho.Text});\nSet(varNextId, varNextId + 1)"),
+                       "Patho: nd_txtPatho.Text, Fourn: nd_txtFourn.Text});\nSet(varNextId, varNextId + 1)"),
              tooltip="Dupliquer cette ligne",
              PaddingTop=4, PaddingBottom=4, PaddingLeft=4, PaddingRight=4),
         icon(f"{p}_icoSupprimer", "Icon.Trash", "Parent.TemplateWidth - 44", in_y + 2, 32,
@@ -369,6 +391,7 @@ If(
                     {C_TYPE}: nd_txtType.Text,
                     {C_TISSU}: nd_txtSource.Text,
                     {C_PATHO}: nd_txtPatho.Text,
+                    {C_FOURN}: nd_txtFourn.Text,
                     {C_DEMANDEUR}: {{
                         '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
                         Claims: "i:0#.f|membership|" & Lower(User().Email),
@@ -378,7 +401,8 @@ If(
                         JobTitle: "",
                         Picture: ""
                     }},
-                    {C_DATE}: Today()
+                    {C_DATE}: Today(),
+                    {C_PJ}: ForAll(nd_attPJ.Attachments, {{DisplayName: ThisRecord.Name, Id: ThisRecord.Name, Value: ThisRecord.Value}})
                 }}
             )
         )
@@ -405,7 +429,8 @@ If(
 Set(varEnvoiEnCours, false);
 Set(varNextId, 1);
 ClearCollect(colEchantillons, {EMPTY_ROW});
-Set(varNextId, 2)"""
+Set(varNextId, 2);
+Reset(nd_attPJ)"""
     return render_screen("ScrNouvelleDemande",
                          {"Fill": INDIGO50, "LoadingSpinnerColor": NAVY,
                           "OnVisible": on_visible}, children)
@@ -418,7 +443,8 @@ def screen_mes_demandes():
     M = 32
     sub = (f'Concatenate(If(IsBlank(ThisItem.{C_REF}), "", "Réf. " & ThisItem.{C_REF} & "   "), '
            f'If(IsBlank(ThisItem.{C_TYPE}), "", ThisItem.{C_TYPE} & "   "), '
-           f'If(IsBlank(ThisItem.{C_PATHO}), "", "· " & ThisItem.{C_PATHO}))')
+           f'If(IsBlank(ThisItem.{C_PATHO}), "", "· " & ThisItem.{C_PATHO} & "   "), '
+           f'If(CountRows(ThisItem.{C_PJ}) > 0, "📎 " & CountRows(ThisItem.{C_PJ}), ""))')
     cells = [
         label("Title1", f"ThisItem.{C_NOM}", 24, 10, "Parent.TemplateWidth - 340", 28,
               size=14, color=NAVY, bold=True, OnSelect="Select(Parent)"),
@@ -480,9 +506,10 @@ def screen_detail():
 
     left = [
         ("Nom échantillon", val(f"{sel}.{C_NOM}")),
-        ("Référence commerciale", val(f"{sel}.{C_REF}")),
+        ("Ref commerciale", val(f"{sel}.{C_REF}")),
         ("Type de substance", val(f"{sel}.{C_TYPE}")),
         ("Tissue source", val(f"{sel}.{C_TISSU}")),
+        ("Coordonnées fournisseur", val(f"{sel}.{C_FOURN}")),
     ]
     right = [
         ("Pathologie", val(f"{sel}.{C_PATHO}")),
@@ -497,7 +524,7 @@ def screen_detail():
     children = header("dd", '"Détail de la demande"', f"{sel}.{C_NOM}",
                       back_to="ScrMesDemandes", back_text="←  Mes demandes")
     children += [
-        card("dd_card", M, top, "Parent.Width - 64", 360),
+        card("dd_card", M, top, "Parent.Width - 64", 440),
         label("dd_lblTitreBloc", '"Échantillon"', x1, top + 14, 400, 30, size=15,
               color=NAVY, bold=True),
     ]
@@ -508,6 +535,26 @@ def screen_detail():
                                   size=11, color=INDIGO500, bold=True))
             children.append(label(f"dd_lblV{prefix}{i + 1}", expr, x, y + 22, col_w, 32,
                                   size=14, color=TEXT))
+
+    # Pièces jointes : liste cliquable (ouvre le fichier)
+    pj_y = top + 56 + len(right) * 72
+    children += [
+        label("dd_lblKPJ", '"Pièces jointes"', x2, pj_y, col_w, 22, size=11,
+              color=INDIGO500, bold=True),
+        label("dd_lblAucunePJ", '"—"', x2, pj_y + 22, col_w, 32, size=14, color=TEXT,
+              Visible=f"IsEmpty({sel}.{C_PJ})"),
+        ctrl("dd_galPJ", "Gallery@2.15.0", {
+            "Items": f"{sel}.{C_PJ}",
+            "X": x2, "Y": pj_y + 22, "Width": col_w, "Height": 100,
+            "TemplateSize": 30, "TemplatePadding": 0, "Fill": TRANSPARENT,
+            "AccessibleLabel": '"Pièces jointes"'},
+            children=[
+                label("dd_lblPJNom", '"📎  " & ThisItem.DisplayName', 0, 0,
+                      "Parent.TemplateWidth", 30, size=13, color=NAVY,
+                      Underline="true", OnSelect="Launch(ThisItem.AbsoluteUri)",
+                      Tooltip='"Ouvrir le fichier"'),
+            ], variant="Vertical"),
+    ]
     return render_screen("ScrDetailDemande", {"Fill": INDIGO50,
                                               "LoadingSpinnerColor": NAVY}, children)
 

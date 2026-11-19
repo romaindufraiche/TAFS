@@ -37,6 +37,7 @@
                             'Type de substance': nd_txtType.Text,
                             'Tissue source': nd_txtSource.Text,
                             Pathologie: nd_txtPatho.Text,
+                            'Coordonnées fournisseur': nd_txtFourn.Text,
                             'Nom demandeur': {
                                 '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
                                 Claims: "i:0#.f|membership|" & Lower(User().Email),
@@ -46,7 +47,8 @@
                                 JobTitle: "",
                                 Picture: ""
                             },
-                            'Date enregistrement demande': Today()
+                            'Date enregistrement demande': Today(),
+                            Attachments: ForAll(nd_attPJ.Attachments, {DisplayName: ThisRecord.Name, Id: ThisRecord.Name, Value: ThisRecord.Value})
                         }
                     )
                 )

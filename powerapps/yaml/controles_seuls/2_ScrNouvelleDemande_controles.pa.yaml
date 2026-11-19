@@ -83,7 +83,7 @@
       BorderStyle: =BorderStyle.Solid
       BorderThickness: =1
       Fill: =RGBA(255, 255, 255, 1)
-      Height: =64
+      Height: =140
       Width: =Parent.Width - 64
       X: =32
       Y: =108
@@ -114,16 +114,47 @@
 - nd_lblAutoInfo:
     Control: Label@2.5.1
     Properties:
-      Align: =Align.Right
       Color: =RGBA(112, 136, 182, 1)
       Font: =Font.Arial
       FontWeight: =FontWeight.Normal
-      Height: =24
+      Height: =60
       Size: =11
-      Text: ="(renseignés automatiquement)"
-      Width: =244
-      X: =Parent.Width - 300
-      Y: =128
+      Text: ="Ces informations sont renseignées automatiquement. Les pièces jointes déposées à droite sont ajoutées à chaque échantillon envoyé."
+      Width: =Parent.Width - 688
+      X: =96
+      Y: =162
+- nd_lblPJ:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =26
+      Size: =12
+      Text: ="📎  Pièces jointes"
+      Width: =520
+      X: =Parent.Width - 576
+      Y: =116
+- nd_attPJ:
+    Control: Attachments@2.3.0
+    Properties:
+      AccessibleLabel: ="Pièces jointes de la demande"
+      AddAttachmentText: ="Joindre un fichier"
+      BorderColor: =RGBA(212, 222, 242, 1)
+      BorderStyle: =BorderStyle.Dashed
+      BorderThickness: =1
+      Color: =RGBA(36, 34, 106, 1)
+      DisplayMode: =DisplayMode.Edit
+      Fill: =RGBA(235, 235, 249, 1)
+      Font: =Font.Arial
+      Height: =94
+      MaxAttachmentSize: =10
+      MaxAttachments: =10
+      NoAttachmentsText: ="Aucun fichier joint"
+      Size: =11
+      Width: =520
+      X: =Parent.Width - 576
+      Y: =144
 - nd_cardEch:
     Control: Rectangle@2.3.0
     Properties:
@@ -131,10 +162,10 @@
       BorderStyle: =BorderStyle.Solid
       BorderThickness: =1
       Fill: =RGBA(255, 255, 255, 1)
-      Height: =Parent.Height - 268
+      Height: =Parent.Height - 344
       Width: =Parent.Width - 64
       X: =32
-      Y: =188
+      Y: =264
 - nd_lblEch:
     Control: Label@2.5.1
     Properties:
@@ -146,7 +177,7 @@
       Text: ="Échantillons à déclarer (" & CountRows(colEchantillons) & ")"
       Width: =600
       X: =56
-      Y: =200
+      Y: =276
 - nd_btnAjouter:
     Control: Classic/Button@2.2.0
     Properties:
@@ -165,7 +196,7 @@
       HoverColor: =RGBA(36, 34, 106, 1)
       HoverFill: =RGBA(235, 235, 249, 1)
       OnSelect: |-
-        =Collect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: ""});
+        =Collect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: "", Fourn: ""});
         Set(varNextId, varNextId + 1)
       PressedColor: =RGBA(255, 255, 255, 1)
       PressedFill: =RGBA(36, 34, 106, 1)
@@ -177,7 +208,7 @@
       Text: ="+  Ajouter un échantillon"
       Width: =230
       X: =Parent.Width - 286
-      Y: =196
+      Y: =272
 - nd_rectEntete:
     Control: Rectangle@2.3.0
     Properties:
@@ -185,7 +216,7 @@
       Height: =32
       Width: =Parent.Width - 112
       X: =56
-      Y: =240
+      Y: =316
 - nd_lblColNum:
     Control: Label@2.5.1
     Properties:
@@ -199,7 +230,7 @@
         ="#"
       Width: =40
       X: =56
-      Y: =240
+      Y: =316
 - nd_lblColNom:
     Control: Label@2.5.1
     Properties:
@@ -209,9 +240,9 @@
       Height: =32
       Size: =11
       Text: ="Nom échantillon *"
-      Width: =(Parent.Width - 248 - 50) * 0.2400
+      Width: =(Parent.Width - 248 - 60) * 0.1900
       X: =96
-      Y: =240
+      Y: =316
 - nd_lblColRef:
     Control: Label@2.5.1
     Properties:
@@ -220,10 +251,10 @@
       FontWeight: =FontWeight.Bold
       Height: =32
       Size: =11
-      Text: ="Référence commerciale"
-      Width: =(Parent.Width - 248 - 50) * 0.1900
-      X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10
-      Y: =240
+      Text: ="Ref commerciale"
+      Width: =(Parent.Width - 248 - 60) * 0.1500
+      X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10
+      Y: =316
 - nd_lblColTypeSub:
     Control: Label@2.5.1
     Properties:
@@ -233,9 +264,9 @@
       Height: =32
       Size: =11
       Text: ="Type de substance"
-      Width: =(Parent.Width - 248 - 50) * 0.1900
-      X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10
-      Y: =240
+      Width: =(Parent.Width - 248 - 60) * 0.1500
+      X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10
+      Y: =316
 - nd_lblColSource:
     Control: Label@2.5.1
     Properties:
@@ -245,9 +276,9 @@
       Height: =32
       Size: =11
       Text: ="Tissue source"
-      Width: =(Parent.Width - 248 - 50) * 0.1900
-      X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10
-      Y: =240
+      Width: =(Parent.Width - 248 - 60) * 0.1500
+      X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10
+      Y: =316
 - nd_lblColPatho:
     Control: Label@2.5.1
     Properties:
@@ -257,9 +288,21 @@
       Height: =32
       Size: =11
       Text: ="Pathologie"
-      Width: =(Parent.Width - 248 - 50) * 0.1900
-      X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10
-      Y: =240
+      Width: =(Parent.Width - 248 - 60) * 0.1500
+      X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10
+      Y: =316
+- nd_lblColFourn:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =32
+      Size: =11
+      Text: ="Coordonnées fournisseur"
+      Width: =(Parent.Width - 248 - 60) * 0.2100
+      X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10
+      Y: =316
 - nd_galEchantillons:
     Control: Gallery@2.15.0
     Variant: Vertical
@@ -312,7 +355,7 @@
             RadiusTopLeft: =4
             RadiusTopRight: =4
             Size: =12
-            Width: =(Parent.Width - 248 - 50) * 0.2400
+            Width: =(Parent.Width - 248 - 60) * 0.1900
             X: =96 - 56
             Y: =10
       - nd_txtRef:
@@ -337,8 +380,8 @@
             RadiusTopLeft: =4
             RadiusTopRight: =4
             Size: =12
-            Width: =(Parent.Width - 248 - 50) * 0.1900
-            X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10 - 56
+            Width: =(Parent.Width - 248 - 60) * 0.1500
+            X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 - 56
             Y: =10
       - nd_txtType:
           Control: Classic/TextInput@2.3.2
@@ -362,8 +405,8 @@
             RadiusTopLeft: =4
             RadiusTopRight: =4
             Size: =12
-            Width: =(Parent.Width - 248 - 50) * 0.1900
-            X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 - 56
+            Width: =(Parent.Width - 248 - 60) * 0.1500
+            X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 - 56
             Y: =10
       - nd_txtSource:
           Control: Classic/TextInput@2.3.2
@@ -387,8 +430,8 @@
             RadiusTopLeft: =4
             RadiusTopRight: =4
             Size: =12
-            Width: =(Parent.Width - 248 - 50) * 0.1900
-            X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 - 56
+            Width: =(Parent.Width - 248 - 60) * 0.1500
+            X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 - 56
             Y: =10
       - nd_txtPatho:
           Control: Classic/TextInput@2.3.2
@@ -412,8 +455,33 @@
             RadiusTopLeft: =4
             RadiusTopRight: =4
             Size: =12
-            Width: =(Parent.Width - 248 - 50) * 0.1900
-            X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 - 56
+            Width: =(Parent.Width - 248 - 60) * 0.1500
+            X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 - 56
+            Y: =10
+      - nd_txtFourn:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="Coordonnées fournisseur"
+            BorderColor: =RGBA(212, 222, 242, 1)
+            BorderThickness: =1
+            Color: =RGBA(49, 49, 49, 1)
+            Default: =ThisItem.Fourn
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =RGBA(36, 34, 106, 1)
+            FocusedBorderThickness: =2
+            Font: =Font.Arial
+            Height: =36
+            HintText: ="Coordonnées fournisseur"
+            HoverBorderColor: =RGBA(112, 136, 182, 1)
+            OnChange: |-
+              =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Fourn: Self.Text})
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =12
+            Width: =(Parent.Width - 248 - 60) * 0.2100
+            X: =96 + (Parent.Width - 248 - 60) * 0.1900 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 + (Parent.Width - 248 - 60) * 0.1500 + 10 - 56
             Y: =10
       - nd_icoDupliquer:
           Control: Classic/Icon@2.5.0
@@ -423,7 +491,7 @@
             Height: =32
             Icon: =Icon.Copy
             OnSelect: |-
-              =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, TypeSub: nd_txtType.Text, Source: nd_txtSource.Text, Patho: nd_txtPatho.Text});
+              =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, TypeSub: nd_txtType.Text, Source: nd_txtSource.Text, Patho: nd_txtPatho.Text, Fourn: nd_txtFourn.Text});
               Set(varNextId, varNextId + 1)
             PaddingBottom: =4
             PaddingLeft: =4
@@ -527,6 +595,7 @@
                             'Type de substance': nd_txtType.Text,
                             'Tissue source': nd_txtSource.Text,
                             Pathologie: nd_txtPatho.Text,
+                            'Coordonnées fournisseur': nd_txtFourn.Text,
                             'Nom demandeur': {
                                 '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
                                 Claims: "i:0#.f|membership|" & Lower(User().Email),
@@ -536,7 +605,8 @@
                                 JobTitle: "",
                                 Picture: ""
                             },
-                            'Date enregistrement demande': Today()
+                            'Date enregistrement demande': Today(),
+                            Attachments: ForAll(nd_attPJ.Attachments, {DisplayName: ThisRecord.Name, Id: ThisRecord.Name, Value: ThisRecord.Value})
                         }
                     )
                 )

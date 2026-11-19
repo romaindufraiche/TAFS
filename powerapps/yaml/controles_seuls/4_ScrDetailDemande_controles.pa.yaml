@@ -83,7 +83,7 @@
       BorderStyle: =BorderStyle.Solid
       BorderThickness: =1
       Fill: =RGBA(255, 255, 255, 1)
-      Height: =360
+      Height: =440
       Width: =Parent.Width - 64
       X: =32
       Y: =112
@@ -131,7 +131,7 @@
       FontWeight: =FontWeight.Bold
       Height: =22
       Size: =11
-      Text: ="Référence commerciale"
+      Text: ="Ref commerciale"
       Width: =(Parent.Width - 64 - 48 - 32) / 2
       X: =32 + 24
       Y: =240
@@ -195,6 +195,30 @@
       Width: =(Parent.Width - 64 - 48 - 32) / 2
       X: =32 + 24
       Y: =406
+- dd_lblKG5:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =22
+      Size: =11
+      Text: ="Coordonnées fournisseur"
+      Width: =(Parent.Width - 64 - 48 - 32) / 2
+      X: =32 + 24
+      Y: =456
+- dd_lblVG5:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(49, 49, 49, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =32
+      Size: =14
+      Text: =If(IsBlank(Gallery1.Selected.'Coordonnées fournisseur'), "—", Text(Gallery1.Selected.'Coordonnées fournisseur'))
+      Width: =(Parent.Width - 64 - 48 - 32) / 2
+      X: =32 + 24
+      Y: =478
 - dd_lblKD1:
     Control: Label@2.5.1
     Properties:
@@ -267,3 +291,57 @@
       Width: =(Parent.Width - 64 - 48 - 32) / 2
       X: =32 + 24 + (Parent.Width - 64 - 48 - 32) / 2 + 32
       Y: =334
+- dd_lblKPJ:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(112, 136, 182, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =22
+      Size: =11
+      Text: ="Pièces jointes"
+      Width: =(Parent.Width - 64 - 48 - 32) / 2
+      X: =32 + 24 + (Parent.Width - 64 - 48 - 32) / 2 + 32
+      Y: =384
+- dd_lblAucunePJ:
+    Control: Label@2.5.1
+    Properties:
+      Color: =RGBA(49, 49, 49, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =32
+      Size: =14
+      Text: ="—"
+      Visible: =IsEmpty(Gallery1.Selected.Attachments)
+      Width: =(Parent.Width - 64 - 48 - 32) / 2
+      X: =32 + 24 + (Parent.Width - 64 - 48 - 32) / 2 + 32
+      Y: =406
+- dd_galPJ:
+    Control: Gallery@2.15.0
+    Variant: Vertical
+    Properties:
+      AccessibleLabel: ="Pièces jointes"
+      Fill: =RGBA(0, 0, 0, 0)
+      Height: =100
+      Items: =Gallery1.Selected.Attachments
+      TemplatePadding: =0
+      TemplateSize: =30
+      Width: =(Parent.Width - 64 - 48 - 32) / 2
+      X: =32 + 24 + (Parent.Width - 64 - 48 - 32) / 2 + 32
+      Y: =406
+    Children:
+      - dd_lblPJNom:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(36, 34, 106, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Normal
+            Height: =30
+            OnSelect: =Launch(ThisItem.AbsoluteUri)
+            Size: =13
+            Text: ="📎  " & ThisItem.DisplayName
+            Tooltip: ="Ouvrir le fichier"
+            Underline: =true
+            Width: =Parent.TemplateWidth
+            X: =0
+            Y: =0
