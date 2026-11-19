@@ -1,17 +1,17 @@
 # Portail CODECOH (app « ABC ») : refonte charte Servier et déclaration multi-échantillons
 
 Source : l'export Power Apps du dossier Drive `transfert` (package `.zip` décompressé : `manifest.json` + `N11f08592-…-document.msapp`).
-Sources de données (inchangées) : liste SharePoint `x_Demandes CODECOH` du site *ABC-ANIMALSBIOLOGICSCOMPLIANCE*.
+Sources de données (inchangées) : liste SharePoint `x_Déclaration_CODECOH` du site *ABC-ANIMALSBIOLOGICSCOMPLIANCE*.
 
 ## Ce qui change
 
 | Écran | Avant | Après |
 |---|---|---|
 | **Accueil** | 3 boutons (Nouvelle demande, Mes demandes, Administration), fond bleu | **2 tuiles** (Nouvelle demande, Mes demandes), **plus d'administration**, en-tête blanc avec logo et liseré corail, message « Bonjour <nom> » |
-| **Nouvelle demande** | Formulaire pour **1 seul** échantillon | **Plusieurs échantillons à la fois** : informations communes (*Demandeur*, *Commentaires*) puis un tableau avec une ligne par échantillon (*Nom/type échantillon*, *Référence commerciale*, *Tissue Source*, *Pathologie*), avec les boutons *Dupliquer* et *Supprimer*. **Envoyer N demande(s)** crée N lignes dans SharePoint |
-| **Mes demandes** | Liste simple | Même liste aux couleurs Servier : nom de l'échantillon, type et référence, date, statut (n° CODECOH ou « En cours de traitement »), recherche par nom et bouton « Nouvelle demande » |
+| **Nouvelle demande** | Formulaire pour **1 seul** échantillon | **Plusieurs échantillons à la fois** : une ligne par échantillon (*Nom échantillon*, *Référence commerciale*, *Type de substance*, *Tissue source*, *Pathologie*), avec les boutons *Dupliquer* et *Supprimer*. *Nom demandeur* et *Date enregistrement demande* sont **remplis automatiquement** (utilisateur connecté, date du jour). **Envoyer N demande(s)** crée N lignes dans SharePoint |
+| **Mes demandes** | Liste simple | Mes échantillons : nom, référence, type, pathologie, date d'enregistrement et demandeur, avec une recherche par nom |
 | **Administration** | Écran `ScrAdmin` | **Supprimé** |
-| **Détail demande** | Formulaire | Fiche en lecture seule aux couleurs Servier : bloc *Échantillon* et bloc *Suivi de la déclaration CODECOH* (`4_ScrDetailDemande.pa.yaml`, utile pour repartir de zéro) |
+| **Détail demande** | Formulaire | Fiche en lecture seule avec les 7 colonnes de la liste |
 
 > 🆕 **Repartir d'une application vide** : suivez [`TUTO_nouveau_projet.md`](TUTO_nouveau_projet.md).
 
@@ -91,19 +91,19 @@ Sélectionnez `ScrDetailDemande` puis :
 
 ### 6. Tester puis publier
 1. Appuyez sur **F5** (aperçu). Testez : Accueil → Nouvelle demande → ajoutez 2 ou 3 lignes (bouton *Ajouter*, icône *Dupliquer*) → **Envoyer**. Vous devez arriver sur *Mes demandes* avec les nouvelles lignes.
-2. Vérifiez dans la liste SharePoint `x_Demandes CODECOH` qu'il y a bien **une ligne par échantillon**.
+2. Vérifiez dans la liste SharePoint `x_Déclaration_CODECOH` qu'il y a bien **une ligne par échantillon**.
 3. Si le **vérificateur d'application** (icône stéthoscope) ne signale aucune erreur : **Fichier → Enregistrer → Publier**.
 
 ---
 
 ## Fonctionnement de l'écran multi-échantillons (pour la maintenance)
 
-- Les lignes du tableau sont stockées dans la collection locale `colEchantillons` (`Id, Nom, Ref, Source, Patho`). Elle est réinitialisée à chaque ouverture de l'écran (`OnVisible`).
+- Les lignes du tableau sont stockées dans la collection locale `colEchantillons` (`Id, Nom, Ref, TypeSub, Source, Patho`). Elle est réinitialisée à chaque ouverture de l'écran (`OnVisible`).
 - **Ajouter** fait un `Collect` d'une ligne vide. **Dupliquer** recopie la ligne en ajoutant « (copie) » au nom. **Supprimer** fait un `Remove`, et reste désactivé s'il ne reste qu'une ligne.
 - **Envoyer** :
   1. vérifie que chaque ligne a un nom (sinon, la bordure passe en corail et un message s'affiche) ;
-  2. fait `ForAll(nd_galEchantillons.AllItems, Patch('x_Demandes CODECOH', Defaults(...), {...}))`, c'est-à-dire une ligne SharePoint par échantillon, avec les informations communes recopiées sur chaque ligne ;
-  3. seules les colonnes visibles dans la liste sont utilisées. Colonnes **remplies** : *Nom/type échantillon*, *Référence commerciale*, *Tissue Source*, *Pathologie*, *Demandeur*, *Commentaires*. Colonnes **affichées dans le détail** : *Numéro CODECOH*, *N° d'autorisation* et les dates de la déclaration. Si une colonne non remplie par l'app (ex. *Numéro CODECOH*, *Coordonnées fournisseur*) est obligatoire dans SharePoint, rendez-la facultative ;
+  2. fait `ForAll(nd_galEchantillons.AllItems, Patch('x_Déclaration_CODECOH', Defaults(...), {...}))`, c'est-à-dire une ligne SharePoint par échantillon, avec les informations communes recopiées sur chaque ligne ;
+  3. colonnes remplies : *Nom échantillon*, *Référence commerciale*, *Type de substance* (Choix), *Tissue source*, *Pathologie* (Choix), plus *Nom demandeur* = `User().FullName` et *Date enregistrement demande* = `Today()` ;
   4. affiche un message de succès, ou le message d'erreur SharePoint.
 
 ### Régénérer le YAML

@@ -9,7 +9,7 @@ Durée : 20 à 30 minutes. Aucune installation n'est nécessaire, tout se fait d
 | Les 4 fichiers de contrôles | `yaml/controles_seuls/1_…` à `4_…_controles.pa.yaml` |
 | Les propriétés des écrans | `yaml/controles_seuls/…_proprietes_ecran.txt` |
 | Le logo | `logo ABC.png` (**gardez exactement ce nom de fichier**) |
-| Un accès en modification à la liste SharePoint `x_Demandes CODECOH` | site *ABC-ANIMALSBIOLOGICSCOMPLIANCE* |
+| Un accès en modification à la liste SharePoint `x_Déclaration_CODECOH` | site *ABC-ANIMALSBIOLOGICSCOMPLIANCE* |
 
 Résultat final : 4 écrans.
 
@@ -34,8 +34,8 @@ ScrAccueil  ──►  ScrNouvelleDemande  (déclarer plusieurs échantillons)
 2. Cherchez **SharePoint** et sélectionnez votre connexion (ou créez-la avec **Connexion directe**).
 3. Collez l'adresse du site :
    `https://serviergroup.sharepoint.com/sites/ABC-ANIMALSBIOLOGICSCOMPLIANCE`
-4. Cochez la liste **`x_Demandes CODECOH`**, puis **Connecter**.
-5. Vérifiez que le panneau Données affiche bien `x_Demandes CODECOH`.
+4. Cochez la liste **`x_Déclaration_CODECOH`**, puis **Connecter**.
+5. Vérifiez que le panneau Données affiche bien `x_Déclaration_CODECOH`.
 
 ## Étape 3 : ajouter le logo
 1. Dans la barre de gauche, cliquez sur **Médias** (l'icône image), puis **+ Charger**.
@@ -94,7 +94,7 @@ Pour chaque écran, ouvrez le fichier `…_proprietes_ecran.txt` correspondant. 
 ## Étape 8 : enregistrer, publier, partager
 1. **Fichier → Enregistrer**, puis **Publier → Publier cette version**.
 2. **Partager** : ajoutez les utilisateurs.
-   Ils doivent aussi avoir le droit **Modification** sur la liste SharePoint `x_Demandes CODECOH`, sinon ils ne pourront pas envoyer de demande.
+   Ils doivent aussi avoir le droit **Modification** sur la liste SharePoint `x_Déclaration_CODECOH`, sinon ils ne pourront pas envoyer de demande.
 
 ---
 
@@ -102,10 +102,10 @@ Pour chaque écran, ouvrez le fichier `…_proprietes_ecran.txt` correspondant. 
 
 | Symptôme | Cause probable / solution |
 |---|---|
-| Croix rouges sur de nombreuses formules | Un nom ne correspond pas. Vérifiez les noms des 4 écrans, de la source `x_Demandes CODECOH` et du média `logo ABC` |
+| Croix rouges sur de nombreuses formules | Un nom ne correspond pas. Vérifiez les noms des 4 écrans, de la source `x_Déclaration_CODECOH` et du média `logo ABC` |
 | Erreur sur `Navigate(ScrDetailDemande…)` ou `Gallery1` | `ScrDetailDemande` n'existe pas encore, ou la galerie a été renommée `Gallery1_1` : renommez-la `Gallery1` |
-| Erreur sur une colonne | Les formules utilisent les noms de colonnes **exactement** comme dans SharePoint : `Nom/type échantillon`, `Référence commerciale`, `Tissue Source`, `Pathologie`, `Demandeur`, `Commentaires`, `Numéro CODECOH`, `N° d'autorisation` et les dates de la déclaration. Si une colonne est renommée, il faut corriger la formule (le vérificateur d'application indique où). Panneau Données → `…` → **Actualiser** après toute modification de la liste |
-| L'envoi échoue avec « champ obligatoire » | Une colonne que l'app ne remplit pas (*Numéro CODECOH*, *Coordonnées fournisseur*, *N° d'autorisation*, dates) est obligatoire dans SharePoint. Allez dans Paramètres de la liste → la colonne → *Exiger que cette colonne contienne des informations* = **Non** |
+| Erreur sur une colonne (« La colonne … n'existe pas ») | Le nom dans SharePoint diffère d'un caractère (espace en double, majuscule, accent). Le message propose le nom le plus proche : corrigez le nom de la colonne dans SharePoint, puis Données → `…` → **Actualiser**. Noms attendus : `Nom échantillon`, `Référence commerciale`, `Type de substance`, `Tissue source`, `Pathologie`, `Nom demandeur`, `Date enregistrement demande` |
+| L'envoi échoue avec « champ obligatoire » | Une colonne de la liste que l'app ne remplit pas (par ex. la colonne *Titre* masquée) est obligatoire. Paramètres de la liste → la colonne → *Exiger que cette colonne contienne des informations* = **Non** |
 | Le tableau des échantillons est vide (aucune ligne) | La propriété `OnVisible` de `ScrNouvelleDemande` n'a pas été collée (étape 6) |
 | Le menu « Coller le code » n'apparaît pas | Rechargez Studio sur Edge ou Chrome à jour, puis essayez **Ctrl+V** sur l'écran sélectionné |
-| Erreur de type sur *Pathologie* | L'app la saisit en texte libre. Si la colonne est de type *Choix* dans SharePoint, dites-le-moi pour la transformer en liste déroulante |
+| « Le type de cet argument … ne correspond pas » | Le type d'une colonne SharePoint ne correspond pas à ce que l'app envoie. Types attendus : *Type de substance* et *Pathologie* = **Choix** ; *Nom demandeur* et les autres = **Une seule ligne de texte** ; *Date enregistrement demande* = **Date et heure** |

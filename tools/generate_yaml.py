@@ -198,67 +198,75 @@ def screen_accueil():
 
 
 # =============================================================================
+# Liste SharePoint « x_Déclaration_CODECOH » : noms des colonnes tels qu'affichés
+# =============================================================================
+DS = "'x_Déclaration_CODECOH'"
+C_NOM = "'Nom échantillon'"                     # texte
+C_REF = "'Référence commerciale'"               # texte
+C_TYPE = "'Type de substance'"                  # Choix
+C_TISSU = "'Tissue source'"                     # texte
+C_PATHO = "Pathologie"                          # Choix
+C_DEMANDEUR = "'Nom demandeur'"                 # texte  -> rempli automatiquement
+C_DATE = "'Date enregistrement demande'"        # date   -> rempli automatiquement
+
+EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: ""}'
+
+
+def combo(name, column, key, x, y, w, sync_expr, label_txt):
+    """Liste déroulante alimentée par les choix d'une colonne SharePoint Choix."""
+    return ctrl(name, "Classic/ComboBox@2.4.0", {
+        "Items": f"Choices([@{DS}].{column})",
+        "DefaultSelectedItems": f"Filter(Choices([@{DS}].{column}), Value = ThisItem.{key})",
+        "DisplayFields": '["Value"]', "SearchFields": '["Value"]',
+        "SelectMultiple": "false", "IsSearchable": "true",
+        "InputTextPlaceholder": '"Choisir…"',
+        "OnChange": sync_expr,
+        "X": x, "Y": y, "Width": w, "Height": 36,
+        "Font": FONT, "Size": 12, "Color": TEXT, "Fill": WHITE,
+        "BorderColor": INDIGO200, "HoverBorderColor": INDIGO500,
+        "ChevronBackground": WHITE, "ChevronFill": NAVY,
+        "ChevronHoverBackground": INDIGO50, "ChevronHoverFill": NAVY,
+        "SelectionFill": NAVY, "SelectionColor": WHITE,
+        "HoverFill": INDIGO50, "HoverColor": TEXT,
+        "PressedFill": NAVY, "PressedColor": WHITE,
+        "AccessibleLabel": f'"{label_txt}"'})
+
+
+# =============================================================================
 # 2. Nouvelle demande : déclaration de plusieurs échantillons
 # =============================================================================
-# Colonnes de la liste « x_Demandes CODECOH » (noms affichés, tels que dans SharePoint)
-C_NUM = "'Numéro CODECOH'"
-C_DEMANDEUR = "Demandeur"
-C_NOM = "'Nom/type échantillon'"
-C_REF = "'Référence commerciale'"
-C_TISSU = "'Tissue Source'"
-C_PATHO = "Tyoedesubstance"   # « Pathologie » : colonne Choix (ancienne « Type de substance »), nom interne
-C_AUTORISATION = "'N° d''autorisation'"
-C_INIT = "'Date d''initialisation de la déclaration'"
-C_DEPOT = "'Date de dépôt de la déclaration'"
-C_AR = "Dateder_x00e9_c_x00e9_ptiondelAR"   # « Date de récéption de l'AR » (nom interne : évite le souci d'accent)
-C_VALID1 = "'Date validation de la déclaration'"
-C_VALID2 = "'Date de validation de la déclaration'"
-C_COMM = "Commentaires"
-EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", Source: "", Patho: ""}'
-
-
 def screen_nouvelle():
-    M = 32                       # marge
-    W = "Parent.Width - 64"      # largeur utile
+    M = 32
+    W = "Parent.Width - 64"
     p = "nd"
 
     def sync(field, expr):
         return (f"Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), "
                 f"{{{field}: {expr}}})")
 
-    # ---- Bloc 1 : informations communes -----------------------------------
-    c1_y, c1_h = 108, 124
-    col_w = "(Parent.Width - 64 - 48 - 32) / 2"
-    def col_x(i):
-        return f"{M + 24} + {i} * ({col_w} + 32)" if i else str(M + 24)
-
-    common = [
-        ("txtDemandeur", "Demandeur", "User().FullName", "Demandeur"),
-        ("txtCommentaires", "Commentaires", '""', "Commentaire (facultatif)"),
-    ]
+    # ---- Bandeau : demandeur et date remplis automatiquement --------------
+    c1_y, c1_h = 108, 64
     children = header(p, '"Nouvelle demande"',
-                      '"Renseignez les informations communes, puis ajoutez autant '
-                      'd\'échantillons que nécessaire"')
+                      '"Ajoutez autant d\'échantillons que nécessaire, puis envoyez"')
     children += [
-        card(f"{p}_cardCommun", M, c1_y, W, c1_h),
-        label(f"{p}_lblCommun", '"1. Informations communes à tous les échantillons"',
-              M + 24, c1_y + 12, 800, 30, size=14, color=NAVY, bold=True),
+        card(f"{p}_cardAuto", M, c1_y, W, c1_h),
+        icon(f"{p}_icoAuto", "Icon.Person", M + 24, c1_y + 18, 28, NAVY),
+        label(f"{p}_lblAuto",
+              '"Demandeur : " & User().FullName & "     ·     Date d\'enregistrement : " '
+              '& Text(Today(), "dd/mm/yyyy")',
+              M + 64, c1_y + 14, "Parent.Width - 200", 36, size=14, color=NAVY, bold=True),
+        label(f"{p}_lblAutoInfo", '"(renseignés automatiquement)"',
+              "Parent.Width - 300", c1_y + 20, 244, 24, size=11, color=INDIGO500,
+              Align="Align.Right"),
     ]
-    for i, (n, lab, default, hint) in enumerate(common):
-        r, c = divmod(i, 2)
-        y = c1_y + 50 + r * 72
-        children.append(label(f"{p}_lbl{n[3:]}", f'"{lab}"', col_x(c), y, col_w, 22,
-                              size=11, color=INDIGO500, bold=True))
-        children.append(text_input(f"{p}_{n}", default, col_x(c), y + 24, col_w,
-                                   hint=hint))
 
-    # ---- Bloc 2 : tableau des échantillons --------------------------------
+    # ---- Tableau des échantillons -----------------------------------------
     c2_y = c1_y + c1_h + 16
     footer_h = 72
     children += [
         card(f"{p}_cardEch", M, c2_y, W, f"Parent.Height - {c2_y + footer_h + 8}"),
         label(f"{p}_lblEch",
-              '"2. Échantillons (" & CountRows(colEchantillons) & ")"',
+              '"Échantillons à déclarer (" & CountRows(colEchantillons) & ")"',
               M + 24, c2_y + 12, 600, 30, size=14, color=NAVY, bold=True),
         button(f"{p}_btnAjouter", '"+  Ajouter un échantillon"',
                f"Parent.Width - {M + 24 + 230}", c2_y + 8, 230, 36,
@@ -266,12 +274,12 @@ def screen_nouvelle():
                primary=False),
     ]
 
-    # Colonnes du tableau (en fraction de la largeur disponible)
-    cols = [  # (clé, titre, fraction)
-        ("Nom", "Nom/type échantillon *", 0.31),
-        ("Ref", "Référence commerciale", 0.23),
-        ("Source", "Tissue Source", 0.23),
-        ("Patho", "Pathologie", 0.23),
+    cols = [  # (clé, titre, fraction de largeur)
+        ("Nom", "Nom échantillon *", 0.24),
+        ("Ref", "Référence commerciale", 0.19),
+        ("TypeSub", "Type de substance", 0.19),
+        ("Source", "Tissue source", 0.19),
+        ("Patho", "Pathologie", 0.19),
     ]
     tbl_x = M + 24
     num_w, act_w, gap = 40, 96, 10
@@ -288,54 +296,39 @@ def screen_nouvelle():
                           color=NAVY, bold=True, Align="Align.Center"))
     for key, title, _ in cols:
         x, w = xs[key]
-        children.append(label(f"{p}_lblCol{key}", f'"{title}"', x,
-                              head_y, w, 32, size=11, color=NAVY, bold=True))
+        children.append(label(f"{p}_lblCol{key}", f'"{title}"', x, head_y, w, 32,
+                              size=11, color=NAVY, bold=True))
 
-    # Cellules de la galerie (coordonnées relatives à la galerie)
     def gx(key):
         return f"{xs[key][0]} - {tbl_x}"
 
-    row_h = 56
     in_y = 10
     cells = [
-        label(f"{p}_lblNum",
-              "CountRows(Filter(colEchantillons, Id <= ThisItem.Id))",
+        label(f"{p}_lblNum", "CountRows(Filter(colEchantillons, Id <= ThisItem.Id))",
               0, in_y, num_w, 36, size=12, color=INDIGO500, bold=True,
               Align="Align.Center"),
         text_input(f"{p}_txtNom", "ThisItem.Nom", gx("Nom"), in_y, xs["Nom"][1],
-                   hint="Nom de l'échantillon",
-                   onchange=sync("Nom", "Self.Text"),
+                   hint="Nom de l'échantillon", onchange=sync("Nom", "Self.Text"),
                    BorderColor=f"If(varTentative && IsBlank(Trim(Self.Text)), {CORAL}, {INDIGO200})"),
         text_input(f"{p}_txtRef", "ThisItem.Ref", gx("Ref"), in_y, xs["Ref"][1],
                    hint="Réf. commerciale", onchange=sync("Ref", "Self.Text")),
+        combo(f"{p}_cbType", C_TYPE, "TypeSub", gx("TypeSub"), in_y, xs["TypeSub"][1],
+              sync("TypeSub", "Self.Selected.Value"), "Type de substance"),
         text_input(f"{p}_txtSource", "ThisItem.Source", gx("Source"), in_y,
-                   xs["Source"][1], hint="Tissue Source",
+                   xs["Source"][1], hint="Tissue source",
                    onchange=sync("Source", "Self.Text")),
-        ctrl(f"{p}_cbPatho", "Classic/ComboBox@2.4.0", {
-            "Items": f"Choices([@'x_Demandes CODECOH'].{C_PATHO})",
-            "DefaultSelectedItems": f"Filter(Choices([@'x_Demandes CODECOH'].{C_PATHO}), Value = ThisItem.Patho)",
-            "DisplayFields": '["Value"]', "SearchFields": '["Value"]',
-            "SelectMultiple": "false", "IsSearchable": "true",
-            "InputTextPlaceholder": '"Choisir…"',
-            "OnChange": sync("Patho", "Self.Selected.Value"),
-            "X": gx("Patho"), "Y": in_y, "Width": xs["Patho"][1], "Height": 36,
-            "Font": FONT, "Size": 12, "Color": TEXT, "Fill": WHITE,
-            "BorderColor": INDIGO200, "HoverBorderColor": INDIGO500,
-            "ChevronBackground": WHITE, "ChevronFill": NAVY,
-            "ChevronHoverBackground": INDIGO50, "ChevronHoverFill": NAVY,
-            "SelectionFill": NAVY, "SelectionColor": WHITE,
-            "HoverFill": INDIGO50, "HoverColor": TEXT,
-            "PressedFill": NAVY, "PressedColor": WHITE,
-            "AccessibleLabel": '"Pathologie"'}),
-        icon(f"{p}_icoDupliquer", "Icon.Copy",
-             "Parent.TemplateWidth - 84", in_y + 2, 32, NAVY,
-             onselect=(f"Collect(colEchantillons, {{Id: varNextId, "
+        combo(f"{p}_cbPatho", C_PATHO, "Patho", gx("Patho"), in_y, xs["Patho"][1],
+              sync("Patho", "Self.Selected.Value"), "Pathologie"),
+        icon(f"{p}_icoDupliquer", "Icon.Copy", "Parent.TemplateWidth - 84", in_y + 2, 32,
+             NAVY,
+             onselect=("Collect(colEchantillons, {Id: varNextId, "
                        "Nom: nd_txtNom.Text & \" (copie)\", Ref: nd_txtRef.Text, "
-                       "Source: nd_txtSource.Text, Patho: nd_cbPatho.Selected.Value});\nSet(varNextId, varNextId + 1)"),
+                       "TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text, "
+                       "Patho: nd_cbPatho.Selected.Value});\nSet(varNextId, varNextId + 1)"),
              tooltip="Dupliquer cette ligne",
              PaddingTop=4, PaddingBottom=4, PaddingLeft=4, PaddingRight=4),
-        icon(f"{p}_icoSupprimer", "Icon.Trash",
-             "Parent.TemplateWidth - 44", in_y + 2, 32, CORAL,
+        icon(f"{p}_icoSupprimer", "Icon.Trash", "Parent.TemplateWidth - 44", in_y + 2, 32,
+             CORAL,
              onselect="Remove(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id))",
              tooltip="Supprimer cette ligne",
              DisplayMode="If(CountRows(colEchantillons) > 1, DisplayMode.Edit, DisplayMode.Disabled)",
@@ -344,23 +337,21 @@ def screen_nouvelle():
         rect(f"{p}_rectSep", 0, "Parent.TemplateHeight - 1", "Parent.TemplateWidth",
              1, INDIGO200),
     ]
-    gal_y = head_y + 36
     children.append(ctrl(f"{p}_galEchantillons", "Gallery@2.15.0", {
         "Items": "colEchantillons",
         "X": tbl_x, "Y": f"{p}_rectEntete.Y + {p}_rectEntete.Height + 4",
         "Width": "Parent.Width - 112",
         "Height": f"Parent.Height - Self.Y - {footer_h + 20}",
-        "TemplateSize": row_h, "TemplatePadding": 0,
+        "TemplateSize": 56, "TemplatePadding": 0,
         "Fill": TRANSPARENT, "TemplateFill": WHITE, "ShowScrollbar": "true",
         "BorderThickness": 0, "AccessibleLabel": '"Liste des échantillons à déclarer"',
     }, children=cells, variant="Vertical"))
 
-    # ---- Pied de page : avertissement + boutons ---------------------------
     submit = f"""Notify("Envoi de " & CountRows(nd_galEchantillons.AllItems) & " échantillon(s) en cours…", NotificationType.Information);
 Set(varTentative, true);
 If(
     CountRows(Filter(nd_galEchantillons.AllItems, IsBlank(Trim(nd_txtNom.Text)))) > 0,
-    Notify("Chaque échantillon doit avoir un Nom/type échantillon.", NotificationType.Error),
+    Notify("Chaque échantillon doit avoir un nom.", NotificationType.Error),
     Set(varEnvoiEnCours, true);
     Clear(colCrees);
     ForAll(
@@ -368,25 +359,26 @@ If(
         Collect(
             colCrees,
             Patch(
-                'x_Demandes CODECOH',
-                Defaults('x_Demandes CODECOH'),
+                {DS},
+                Defaults({DS}),
                 {{
                     {C_NOM}: Trim(nd_txtNom.Text),
                     {C_REF}: nd_txtRef.Text,
+                    {C_TYPE}: nd_cbType.Selected,
                     {C_TISSU}: nd_txtSource.Text,
                     {C_PATHO}: nd_cbPatho.Selected,
-                    {C_DEMANDEUR}: nd_txtDemandeur.Text,
-                    {C_COMM}: nd_txtCommentaires.Text
+                    {C_DEMANDEUR}: User().FullName,
+                    {C_DATE}: Today()
                 }}
             )
         )
     );
     Set(varEnvoiEnCours, false);
     If(
-        IsEmpty(Errors('x_Demandes CODECOH')),
+        IsEmpty(Errors({DS})),
         Notify(CountRows(colCrees) & " échantillon(s) déclaré(s) avec succès.", NotificationType.Success);
         Navigate(ScrMesDemandes, ScreenTransition.Fade),
-        Notify("Erreur SharePoint : " & First(Errors('x_Demandes CODECOH')).Message, NotificationType.Error)
+        Notify("Erreur SharePoint : " & First(Errors({DS})).Message, NotificationType.Error)
     )
 )"""
     fy = f"Parent.Height - {footer_h - 12}"
@@ -403,33 +395,31 @@ If(
 Set(varEnvoiEnCours, false);
 Set(varNextId, 1);
 ClearCollect(colEchantillons, {EMPTY_ROW});
-Set(varNextId, 2);
-Reset(nd_txtDemandeur);
-Reset(nd_txtCommentaires)"""
+Set(varNextId, 2)"""
     return render_screen("ScrNouvelleDemande",
                          {"Fill": INDIGO50, "LoadingSpinnerColor": NAVY,
                           "OnVisible": on_visible}, children)
 
 
 # =============================================================================
-# 3. Mes demandes : même contenu, charte Servier
-#    (la galerie garde le nom Gallery1 : ScrDetailDemande utilise Gallery1.Selected)
+# 3. Mes demandes (la galerie s'appelle Gallery1 : utilisée par l'écran Détail)
 # =============================================================================
 def screen_mes_demandes():
     M = 32
+    sub = (f'Concatenate(If(IsBlank(ThisItem.{C_REF}), "", "Réf. " & ThisItem.{C_REF} & "   "), '
+           f'If(IsBlank(ThisItem.{C_TYPE}.Value), "", ThisItem.{C_TYPE}.Value & "   "), '
+           f'If(IsBlank(ThisItem.{C_PATHO}.Value), "", "· " & ThisItem.{C_PATHO}.Value))')
     cells = [
         label("Title1", f"ThisItem.{C_NOM}", 24, 10, "Parent.TemplateWidth - 340", 28,
               size=14, color=NAVY, bold=True, OnSelect="Select(Parent)"),
-        label("Subtitle1",
-              f'Concatenate(If(IsBlank(ThisItem.{C_REF}), "", "Réf. " & ThisItem.{C_REF}), If(IsBlank(ThisItem.{C_PATHO}.Value), "", "  ·  " & ThisItem.{C_PATHO}.Value))', 24, 40,
-              "Parent.TemplateWidth - 340", 24, size=12, color=TEXT,
-              OnSelect="Select(Parent)"),
-        label("md_lblCodecoh",
-              f'If(IsBlank(ThisItem.{C_NUM}), "En cours de traitement", '
-              f'"N° CODECOH : " & ThisItem.{C_NUM})',
-              "Parent.TemplateWidth - 300", 24, 220, 24, size=11,
-              color=f"If(IsBlank(ThisItem.{C_NUM}), {CORAL}, {GREEN})",
-              bold=True, Align="Align.Right", OnSelect="Select(Parent)"),
+        label("Subtitle1", sub, 24, 40, "Parent.TemplateWidth - 340", 24, size=12,
+              color=TEXT, OnSelect="Select(Parent)"),
+        label("md_lblDate", f'"Enregistrée le " & Text(ThisItem.{C_DATE}, "dd/mm/yyyy")',
+              "Parent.TemplateWidth - 300", 10, 220, 24, size=11, color=INDIGO500,
+              Align="Align.Right", OnSelect="Select(Parent)"),
+        label("md_lblDemandeur", f"ThisItem.{C_DEMANDEUR}",
+              "Parent.TemplateWidth - 300", 38, 220, 24, size=11, color=NAVY, bold=True,
+              Align="Align.Right", OnSelect="Select(Parent)"),
         icon("NextArrow1", "Icon.ChevronRight", "Parent.TemplateWidth - 64", 18, 40,
              NAVY, onselect="Navigate(ScrDetailDemande, ScreenTransition.Cover)",
              tooltip="Afficher le détail"),
@@ -439,7 +429,7 @@ def screen_mes_demandes():
              INDIGO200, OnSelect="Select(Parent)"),
     ]
     children = header("md", '"Mes demandes"',
-                      '"Retrouvez toutes les demandes que vous avez déposées"')
+                      '"Retrouvez tous les échantillons que vous avez déclarés"')
     children += [
         text_input("md_txtRecherche", '""', M, 112, 420, hint="Rechercher un échantillon…"),
         icon("md_icoRecherche", "Icon.Search", M + 384, 118, 24, INDIGO500),
@@ -449,7 +439,7 @@ def screen_mes_demandes():
         ctrl("Gallery1", "Gallery@2.15.0", {
             "Items": f"""SortByColumns(
     Filter(
-        'x_Demandes CODECOH',
+        {DS},
         Author.Email = User().Email,
         IsBlank(md_txtRecherche.Text) || StartsWith({C_NOM}, md_txtRecherche.Text)
     ),
@@ -458,7 +448,8 @@ def screen_mes_demandes():
 )""",
             "X": M + 1, "Y": 165, "Width": "Parent.Width - 66",
             "Height": "Parent.Height - 198", "TemplateSize": 72, "TemplatePadding": 0,
-            "Fill": TRANSPARENT, "TemplateFill": f"If(ThisItem.IsSelected, {INDIGO50}, {WHITE})",
+            "Fill": TRANSPARENT,
+            "TemplateFill": f"If(ThisItem.IsSelected, {INDIGO50}, {WHITE})",
             "AccessibleLabel": '"Liste de mes demandes"',
             "OnSelect": "Navigate(ScrDetailDemande, ScreenTransition.Cover)"},
             children=cells, variant="Vertical"),
@@ -477,51 +468,36 @@ def screen_detail():
     def val(expr):
         return f'If(IsBlank({expr}), "—", Text({expr}))'
 
-    fields = [
-        ("Nom/type échantillon", val(f"{sel}.{C_NOM}")),
+    left = [
+        ("Nom échantillon", val(f"{sel}.{C_NOM}")),
         ("Référence commerciale", val(f"{sel}.{C_REF}")),
-        ("Tissue Source", val(f"{sel}.{C_TISSU}")),
+        ("Type de substance", val(f"{sel}.{C_TYPE}.Value")),
+        ("Tissue source", val(f"{sel}.{C_TISSU}")),
+    ]
+    right = [
         ("Pathologie", val(f"{sel}.{C_PATHO}.Value")),
-        ("Demandeur", val(f"{sel}.{C_DEMANDEUR}")),
-        ("Commentaires", val(f"{sel}.{C_COMM}")),
+        ("Nom demandeur", val(f"{sel}.{C_DEMANDEUR}")),
+        ("Date enregistrement demande",
+         f'If(IsBlank({sel}.{C_DATE}), "—", Text({sel}.{C_DATE}, "dd/mm/yyyy"))'),
     ]
-    suivi = [
-        ("Numéro CODECOH", val(f"{sel}.{C_NUM}")),
-        ("N° d'autorisation", val(f"{sel}.{C_AUTORISATION}")),
-        ("Date d'initialisation de la déclaration", val(f"{sel}.{C_INIT}")),
-        ("Date de dépôt de la déclaration", val(f"{sel}.{C_DEPOT}")),
-        ("Date de réception de l'AR", val(f"{sel}.{C_AR}")),
-        ("Date validation de la déclaration", val(f"{sel}.{C_VALID1}")),
-        ("Date de validation de la déclaration", val(f"{sel}.{C_VALID2}")),
-    ]
-    col_w = "(Parent.Width - 64 - 32) / 2"
-    x2 = f"{M} + {col_w} + 32"
     top = 112
-    card_h = f"Parent.Height - {top + 32}"
-    children = header("dd", '"Détail de la demande"',
-                      f"{sel}.{C_NOM}", back_to="ScrMesDemandes",
-                      back_text="←  Mes demandes")
+    col_w = "(Parent.Width - 64 - 48 - 32) / 2"
+    x1 = f"{M} + 24"
+    x2 = f"{M} + 24 + {col_w} + 32"
+    children = header("dd", '"Détail de la demande"', f"{sel}.{C_NOM}",
+                      back_to="ScrMesDemandes", back_text="←  Mes demandes")
     children += [
-        card("dd_cardInfos", M, top, col_w, card_h),
-        card("dd_cardSuivi", x2, top, col_w, card_h),
-        label("dd_lblInfos", '"Échantillon"', f"{M} + 24", top + 14, f"{col_w} - 48",
-              30, size=15, color=NAVY, bold=True),
-        label("dd_lblSuivi", '"Suivi de la déclaration CODECOH"', f"{x2} + 24",
-              top + 14, f"{col_w} - 48", 30, size=15, color=NAVY, bold=True),
-        label("dd_lblStatut",
-              f'If(IsBlank({sel}.{C_NUM}), "En cours de traitement", "Déclaration enregistrée")',
-              f"{x2} + {col_w} - 244", top + 16, 220, 26, size=11, bold=True,
-              color=WHITE, Align="Align.Center",
-              Fill=f"If(IsBlank({sel}.{C_NUM}), {CORAL}, {GREEN})"),
+        card("dd_card", M, top, "Parent.Width - 64", 360),
+        label("dd_lblTitreBloc", '"Échantillon"', x1, top + 14, 400, 30, size=15,
+              color=NAVY, bold=True),
     ]
-    for prefix, x, items in (("I", M, fields), ("S", x2, suivi)):
+    for prefix, x, items in (("G", x1, left), ("D", x2, right)):
         for i, (lab, expr) in enumerate(items):
-            y = top + 52 + i * 62
-            children.append(label(f"dd_lblK{prefix}{i + 1}", f'"{lab}"', f"{x} + 24", y,
-                                  f"{col_w} - 48", 22, size=11, color=INDIGO500,
-                                  bold=True))
-            children.append(label(f"dd_lblV{prefix}{i + 1}", expr, f"{x} + 24", y + 22,
-                                  f"{col_w} - 48", 30, size=13, color=TEXT))
+            y = top + 56 + i * 72
+            children.append(label(f"dd_lblK{prefix}{i + 1}", f'"{lab}"', x, y, col_w, 22,
+                                  size=11, color=INDIGO500, bold=True))
+            children.append(label(f"dd_lblV{prefix}{i + 1}", expr, x, y + 22, col_w, 32,
+                                  size=14, color=TEXT))
     return render_screen("ScrDetailDemande", {"Fill": INDIGO50,
                                               "LoadingSpinnerColor": NAVY}, children)
 

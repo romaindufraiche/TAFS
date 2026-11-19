@@ -49,7 +49,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =26
             Size: =12
-            Text: ="Retrouvez toutes les demandes que vous avez déposées"
+            Text: ="Retrouvez tous les échantillons que vous avez déclarés"
             Width: =900
             X: =148
             Y: =50
@@ -166,9 +166,9 @@ Screens:
             Items: |-
               =SortByColumns(
                   Filter(
-                      'x_Demandes CODECOH',
+                      'x_Déclaration_CODECOH',
                       Author.Email = User().Email,
-                      IsBlank(md_txtRecherche.Text) || StartsWith('Nom/type échantillon', md_txtRecherche.Text)
+                      IsBlank(md_txtRecherche.Text) || StartsWith('Nom échantillon', md_txtRecherche.Text)
                   ),
                   "ID",
                   SortOrder.Descending
@@ -190,7 +190,7 @@ Screens:
                   Height: =28
                   OnSelect: =Select(Parent)
                   Size: =14
-                  Text: =ThisItem.'Nom/type échantillon'
+                  Text: =ThisItem.'Nom échantillon'
                   Width: =Parent.TemplateWidth - 340
                   X: =24
                   Y: =10
@@ -203,25 +203,38 @@ Screens:
                   Height: =24
                   OnSelect: =Select(Parent)
                   Size: =12
-                  Text: =Concatenate(If(IsBlank(ThisItem.'Référence commerciale'), "", "Réf. " & ThisItem.'Référence commerciale'), If(IsBlank(ThisItem.Tyoedesubstance.Value), "", "  ·  " & ThisItem.Tyoedesubstance.Value))
+                  Text: =Concatenate(If(IsBlank(ThisItem.'Référence commerciale'), "", "Réf. " & ThisItem.'Référence commerciale' & "   "), If(IsBlank(ThisItem.'Type de substance'.Value), "", ThisItem.'Type de substance'.Value & "   "), If(IsBlank(ThisItem.Pathologie.Value), "", "· " & ThisItem.Pathologie.Value))
                   Width: =Parent.TemplateWidth - 340
                   X: =24
                   Y: =40
-            - md_lblCodecoh:
+            - md_lblDate:
                 Control: Label@2.5.1
                 Properties:
                   Align: =Align.Right
-                  Color: =If(IsBlank(ThisItem.'Numéro CODECOH'), RGBA(212, 66, 51, 1), RGBA(63, 126, 18, 1))
+                  Color: =RGBA(112, 136, 182, 1)
+                  Font: =Font.Arial
+                  FontWeight: =FontWeight.Normal
+                  Height: =24
+                  OnSelect: =Select(Parent)
+                  Size: =11
+                  Text: ="Enregistrée le " & Text(ThisItem.'Date enregistrement demande', "dd/mm/yyyy")
+                  Width: =220
+                  X: =Parent.TemplateWidth - 300
+                  Y: =10
+            - md_lblDemandeur:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(36, 34, 106, 1)
                   Font: =Font.Arial
                   FontWeight: =FontWeight.Bold
                   Height: =24
                   OnSelect: =Select(Parent)
                   Size: =11
-                  Text: |-
-                    =If(IsBlank(ThisItem.'Numéro CODECOH'), "En cours de traitement", "N° CODECOH : " & ThisItem.'Numéro CODECOH')
+                  Text: =ThisItem.'Nom demandeur'
                   Width: =220
                   X: =Parent.TemplateWidth - 300
-                  Y: =24
+                  Y: =38
             - NextArrow1:
                 Control: Classic/Icon@2.5.0
                 Properties:
