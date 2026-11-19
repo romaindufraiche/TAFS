@@ -202,7 +202,7 @@ def screen_accueil():
 # =============================================================================
 DS = "'x_Déclaration_CODECOH'"
 C_NOM = "'Nom échantillon'"                     # texte
-C_REF = "'Référence commerciale'"               # texte
+C_REF = "'Ref commerciale'"                    # texte
 C_TYPE = "'Type de substance'"                  # texte
 C_TISSU = "'Tissue source'"                     # texte
 C_PATHO = "Pathologie"                          # texte

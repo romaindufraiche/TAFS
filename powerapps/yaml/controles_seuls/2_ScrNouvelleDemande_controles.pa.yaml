@@ -523,7 +523,7 @@
                         Defaults('x_Déclaration_CODECOH'),
                         {
                             'Nom échantillon': Trim(nd_txtNom.Text),
-                            'Référence commerciale': nd_txtRef.Text,
+                            'Ref commerciale': nd_txtRef.Text,
                             'Type de substance': nd_txtType.Text,
                             'Tissue source': nd_txtSource.Text,
                             Pathologie: nd_txtPatho.Text,
