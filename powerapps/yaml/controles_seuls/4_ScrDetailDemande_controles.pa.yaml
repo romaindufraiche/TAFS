@@ -167,7 +167,7 @@
       FontWeight: =FontWeight.Normal
       Height: =32
       Size: =14
-      Text: =If(IsBlank(Gallery1.Selected.'Type de substance'.Value), "—", Text(Gallery1.Selected.'Type de substance'.Value))
+      Text: =If(IsBlank(Gallery1.Selected.'Type de substance'), "—", Text(Gallery1.Selected.'Type de substance'))
       Width: =(Parent.Width - 64 - 48 - 32) / 2
       X: =32 + 24
       Y: =334
@@ -215,7 +215,7 @@
       FontWeight: =FontWeight.Normal
       Height: =32
       Size: =14
-      Text: =If(IsBlank(Gallery1.Selected.Pathologie.Value), "—", Text(Gallery1.Selected.Pathologie.Value))
+      Text: =If(IsBlank(Gallery1.Selected.Pathologie), "—", Text(Gallery1.Selected.Pathologie))
       Width: =(Parent.Width - 64 - 48 - 32) / 2
       X: =32 + 24 + (Parent.Width - 64 - 48 - 32) / 2 + 32
       Y: =190

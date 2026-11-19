@@ -340,35 +340,27 @@
             Width: =(Parent.Width - 248 - 50) * 0.1900
             X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10 - 56
             Y: =10
-      - nd_cbType:
-          Control: Classic/ComboBox@2.4.0
+      - nd_txtType:
+          Control: Classic/TextInput@2.3.2
           Properties:
             AccessibleLabel: ="Type de substance"
             BorderColor: =RGBA(212, 222, 242, 1)
-            ChevronBackground: =RGBA(255, 255, 255, 1)
-            ChevronFill: =RGBA(36, 34, 106, 1)
-            ChevronHoverBackground: =RGBA(235, 235, 249, 1)
-            ChevronHoverFill: =RGBA(36, 34, 106, 1)
+            BorderThickness: =1
             Color: =RGBA(49, 49, 49, 1)
-            DefaultSelectedItems: =Filter(Choices([@'x_Déclaration_CODECOH'].'Type de substance'), Value = ThisItem.TypeSub)
-            DisplayFields: =["Value"]
+            Default: =ThisItem.TypeSub
             Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =RGBA(36, 34, 106, 1)
+            FocusedBorderThickness: =2
             Font: =Font.Arial
             Height: =36
+            HintText: ="Type de substance"
             HoverBorderColor: =RGBA(112, 136, 182, 1)
-            HoverColor: =RGBA(49, 49, 49, 1)
-            HoverFill: =RGBA(235, 235, 249, 1)
-            InputTextPlaceholder: ="Choisir…"
-            IsSearchable: =true
-            Items: =Choices([@'x_Déclaration_CODECOH'].'Type de substance')
             OnChange: |-
-              =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {TypeSub: Self.Selected.Value})
-            PressedColor: =RGBA(255, 255, 255, 1)
-            PressedFill: =RGBA(36, 34, 106, 1)
-            SearchFields: =["Value"]
-            SelectMultiple: =false
-            SelectionColor: =RGBA(255, 255, 255, 1)
-            SelectionFill: =RGBA(36, 34, 106, 1)
+              =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {TypeSub: Self.Text})
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
             Size: =12
             Width: =(Parent.Width - 248 - 50) * 0.1900
             X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 - 56
@@ -398,35 +390,27 @@
             Width: =(Parent.Width - 248 - 50) * 0.1900
             X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 - 56
             Y: =10
-      - nd_cbPatho:
-          Control: Classic/ComboBox@2.4.0
+      - nd_txtPatho:
+          Control: Classic/TextInput@2.3.2
           Properties:
             AccessibleLabel: ="Pathologie"
             BorderColor: =RGBA(212, 222, 242, 1)
-            ChevronBackground: =RGBA(255, 255, 255, 1)
-            ChevronFill: =RGBA(36, 34, 106, 1)
-            ChevronHoverBackground: =RGBA(235, 235, 249, 1)
-            ChevronHoverFill: =RGBA(36, 34, 106, 1)
+            BorderThickness: =1
             Color: =RGBA(49, 49, 49, 1)
-            DefaultSelectedItems: =Filter(Choices([@'x_Déclaration_CODECOH'].Pathologie), Value = ThisItem.Patho)
-            DisplayFields: =["Value"]
+            Default: =ThisItem.Patho
             Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =RGBA(36, 34, 106, 1)
+            FocusedBorderThickness: =2
             Font: =Font.Arial
             Height: =36
+            HintText: ="Pathologie"
             HoverBorderColor: =RGBA(112, 136, 182, 1)
-            HoverColor: =RGBA(49, 49, 49, 1)
-            HoverFill: =RGBA(235, 235, 249, 1)
-            InputTextPlaceholder: ="Choisir…"
-            IsSearchable: =true
-            Items: =Choices([@'x_Déclaration_CODECOH'].Pathologie)
             OnChange: |-
-              =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Patho: Self.Selected.Value})
-            PressedColor: =RGBA(255, 255, 255, 1)
-            PressedFill: =RGBA(36, 34, 106, 1)
-            SearchFields: =["Value"]
-            SelectMultiple: =false
-            SelectionColor: =RGBA(255, 255, 255, 1)
-            SelectionFill: =RGBA(36, 34, 106, 1)
+              =Patch(colEchantillons, LookUp(colEchantillons, Id = ThisItem.Id), {Patho: Self.Text})
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
             Size: =12
             Width: =(Parent.Width - 248 - 50) * 0.1900
             X: =96 + (Parent.Width - 248 - 50) * 0.2400 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 + (Parent.Width - 248 - 50) * 0.1900 + 10 - 56
@@ -439,7 +423,7 @@
             Height: =32
             Icon: =Icon.Copy
             OnSelect: |-
-              =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text, Patho: nd_cbPatho.Selected.Value});
+              =Collect(colEchantillons, {Id: varNextId, Nom: nd_txtNom.Text & " (copie)", Ref: nd_txtRef.Text, TypeSub: nd_txtType.Text, Source: nd_txtSource.Text, Patho: nd_txtPatho.Text});
               Set(varNextId, varNextId + 1)
             PaddingBottom: =4
             PaddingLeft: =4
@@ -540,9 +524,9 @@
                         {
                             'Nom échantillon': Trim(nd_txtNom.Text),
                             'Référence commerciale': nd_txtRef.Text,
-                            'Type de substance': nd_cbType.Selected,
+                            'Type de substance': nd_txtType.Text,
                             'Tissue source': nd_txtSource.Text,
-                            Pathologie: nd_cbPatho.Selected,
+                            Pathologie: nd_txtPatho.Text,
                             'Nom demandeur': {
                                 '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
                                 Claims: "i:0#.f|membership|" & Lower(User().Email),

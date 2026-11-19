@@ -103,7 +103,7 @@ Sélectionnez `ScrDetailDemande` puis :
 - **Envoyer** :
   1. vérifie que chaque ligne a un nom (sinon, la bordure passe en corail et un message s'affiche) ;
   2. fait `ForAll(nd_galEchantillons.AllItems, Patch('x_Déclaration_CODECOH', Defaults(...), {...}))`, c'est-à-dire une ligne SharePoint par échantillon, avec les informations communes recopiées sur chaque ligne ;
-  3. colonnes remplies : *Nom échantillon*, *Référence commerciale*, *Type de substance* (Choix), *Tissue source*, *Pathologie* (Choix), plus *Nom demandeur* = `User().FullName` et *Date enregistrement demande* = `Today()` ;
+  3. colonnes remplies : *Nom échantillon*, *Référence commerciale*, *Type de substance*, *Tissue source*, *Pathologie* (texte libre), plus *Nom demandeur* = l'utilisateur connecté (colonne Personne) et *Date enregistrement demande* = `Today()` ;
   4. affiche un message de succès, ou le message d'erreur SharePoint.
 
 ### Régénérer le YAML

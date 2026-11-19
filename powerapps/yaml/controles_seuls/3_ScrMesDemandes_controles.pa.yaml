@@ -197,7 +197,7 @@
             Height: =24
             OnSelect: =Select(Parent)
             Size: =12
-            Text: =Concatenate(If(IsBlank(ThisItem.'Référence commerciale'), "", "Réf. " & ThisItem.'Référence commerciale' & "   "), If(IsBlank(ThisItem.'Type de substance'.Value), "", ThisItem.'Type de substance'.Value & "   "), If(IsBlank(ThisItem.Pathologie.Value), "", "· " & ThisItem.Pathologie.Value))
+            Text: =Concatenate(If(IsBlank(ThisItem.'Référence commerciale'), "", "Réf. " & ThisItem.'Référence commerciale' & "   "), If(IsBlank(ThisItem.'Type de substance'), "", ThisItem.'Type de substance' & "   "), If(IsBlank(ThisItem.Pathologie), "", "· " & ThisItem.Pathologie))
             Width: =Parent.TemplateWidth - 340
             X: =24
             Y: =40

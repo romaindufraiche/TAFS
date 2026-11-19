@@ -203,9 +203,9 @@ def screen_accueil():
 DS = "'x_Déclaration_CODECOH'"
 C_NOM = "'Nom échantillon'"                     # texte
 C_REF = "'Référence commerciale'"               # texte
-C_TYPE = "'Type de substance'"                  # Choix
+C_TYPE = "'Type de substance'"                  # texte
 C_TISSU = "'Tissue source'"                     # texte
-C_PATHO = "Pathologie"                          # Choix
+C_PATHO = "Pathologie"                          # texte
 C_DEMANDEUR = "'Nom demandeur'"                 # Personne -> rempli automatiquement
 C_DATE = "'Date enregistrement demande'"        # date   -> rempli automatiquement
 
@@ -312,19 +312,21 @@ def screen_nouvelle():
                    BorderColor=f"If(varTentative && IsBlank(Trim(Self.Text)), {CORAL}, {INDIGO200})"),
         text_input(f"{p}_txtRef", "ThisItem.Ref", gx("Ref"), in_y, xs["Ref"][1],
                    hint="Réf. commerciale", onchange=sync("Ref", "Self.Text")),
-        combo(f"{p}_cbType", C_TYPE, "TypeSub", gx("TypeSub"), in_y, xs["TypeSub"][1],
-              sync("TypeSub", "Self.Selected.Value"), "Type de substance"),
+        text_input(f"{p}_txtType", "ThisItem.TypeSub", gx("TypeSub"), in_y,
+                   xs["TypeSub"][1], hint="Type de substance",
+                   onchange=sync("TypeSub", "Self.Text")),
         text_input(f"{p}_txtSource", "ThisItem.Source", gx("Source"), in_y,
                    xs["Source"][1], hint="Tissue source",
                    onchange=sync("Source", "Self.Text")),
-        combo(f"{p}_cbPatho", C_PATHO, "Patho", gx("Patho"), in_y, xs["Patho"][1],
-              sync("Patho", "Self.Selected.Value"), "Pathologie"),
+        text_input(f"{p}_txtPatho", "ThisItem.Patho", gx("Patho"), in_y,
+                   xs["Patho"][1], hint="Pathologie",
+                   onchange=sync("Patho", "Self.Text")),
         icon(f"{p}_icoDupliquer", "Icon.Copy", "Parent.TemplateWidth - 84", in_y + 2, 32,
              NAVY,
              onselect=("Collect(colEchantillons, {Id: varNextId, "
                        "Nom: nd_txtNom.Text & \" (copie)\", Ref: nd_txtRef.Text, "
-                       "TypeSub: nd_cbType.Selected.Value, Source: nd_txtSource.Text, "
-                       "Patho: nd_cbPatho.Selected.Value});\nSet(varNextId, varNextId + 1)"),
+                       "TypeSub: nd_txtType.Text, Source: nd_txtSource.Text, "
+                       "Patho: nd_txtPatho.Text});\nSet(varNextId, varNextId + 1)"),
              tooltip="Dupliquer cette ligne",
              PaddingTop=4, PaddingBottom=4, PaddingLeft=4, PaddingRight=4),
         icon(f"{p}_icoSupprimer", "Icon.Trash", "Parent.TemplateWidth - 44", in_y + 2, 32,
@@ -364,9 +366,9 @@ If(
                 {{
                     {C_NOM}: Trim(nd_txtNom.Text),
                     {C_REF}: nd_txtRef.Text,
-                    {C_TYPE}: nd_cbType.Selected,
+                    {C_TYPE}: nd_txtType.Text,
                     {C_TISSU}: nd_txtSource.Text,
-                    {C_PATHO}: nd_cbPatho.Selected,
+                    {C_PATHO}: nd_txtPatho.Text,
                     {C_DEMANDEUR}: {{
                         '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
                         Claims: "i:0#.f|membership|" & Lower(User().Email),
@@ -415,8 +417,8 @@ Set(varNextId, 2)"""
 def screen_mes_demandes():
     M = 32
     sub = (f'Concatenate(If(IsBlank(ThisItem.{C_REF}), "", "Réf. " & ThisItem.{C_REF} & "   "), '
-           f'If(IsBlank(ThisItem.{C_TYPE}.Value), "", ThisItem.{C_TYPE}.Value & "   "), '
-           f'If(IsBlank(ThisItem.{C_PATHO}.Value), "", "· " & ThisItem.{C_PATHO}.Value))')
+           f'If(IsBlank(ThisItem.{C_TYPE}), "", ThisItem.{C_TYPE} & "   "), '
+           f'If(IsBlank(ThisItem.{C_PATHO}), "", "· " & ThisItem.{C_PATHO}))')
     cells = [
         label("Title1", f"ThisItem.{C_NOM}", 24, 10, "Parent.TemplateWidth - 340", 28,
               size=14, color=NAVY, bold=True, OnSelect="Select(Parent)"),
@@ -479,11 +481,11 @@ def screen_detail():
     left = [
         ("Nom échantillon", val(f"{sel}.{C_NOM}")),
         ("Référence commerciale", val(f"{sel}.{C_REF}")),
-        ("Type de substance", val(f"{sel}.{C_TYPE}.Value")),
+        ("Type de substance", val(f"{sel}.{C_TYPE}")),
         ("Tissue source", val(f"{sel}.{C_TISSU}")),
     ]
     right = [
-        ("Pathologie", val(f"{sel}.{C_PATHO}.Value")),
+        ("Pathologie", val(f"{sel}.{C_PATHO}")),
         ("Nom demandeur", val(f"{sel}.{C_DEMANDEUR}.DisplayName")),
         ("Date enregistrement demande",
          f'If(IsBlank({sel}.{C_DATE}), "—", Text({sel}.{C_DATE}, "dd/mm/yyyy"))'),
