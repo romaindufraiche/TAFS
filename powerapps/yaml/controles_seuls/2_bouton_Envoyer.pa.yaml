@@ -37,7 +37,15 @@
                             'Type de substance': nd_cbType.Selected,
                             'Tissue source': nd_txtSource.Text,
                             Pathologie: nd_cbPatho.Selected,
-                            'Nom demandeur': User().FullName,
+                            'Nom demandeur': {
+                                '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                Claims: "i:0#.f|membership|" & Lower(User().Email),
+                                Department: "",
+                                DisplayName: User().FullName,
+                                Email: User().Email,
+                                JobTitle: "",
+                                Picture: ""
+                            },
                             'Date enregistrement demande': Today()
                         }
                     )

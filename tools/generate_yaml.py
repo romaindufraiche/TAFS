@@ -206,7 +206,7 @@ C_REF = "'Référence commerciale'"               # texte
 C_TYPE = "'Type de substance'"                  # Choix
 C_TISSU = "'Tissue source'"                     # texte
 C_PATHO = "Pathologie"                          # Choix
-C_DEMANDEUR = "'Nom demandeur'"                 # texte  -> rempli automatiquement
+C_DEMANDEUR = "'Nom demandeur'"                 # Personne -> rempli automatiquement
 C_DATE = "'Date enregistrement demande'"        # date   -> rempli automatiquement
 
 EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: ""}'
@@ -367,7 +367,15 @@ If(
                     {C_TYPE}: nd_cbType.Selected,
                     {C_TISSU}: nd_txtSource.Text,
                     {C_PATHO}: nd_cbPatho.Selected,
-                    {C_DEMANDEUR}: User().FullName,
+                    {C_DEMANDEUR}: {{
+                        '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                        Claims: "i:0#.f|membership|" & Lower(User().Email),
+                        Department: "",
+                        DisplayName: User().FullName,
+                        Email: User().Email,
+                        JobTitle: "",
+                        Picture: ""
+                    }},
                     {C_DATE}: Today()
                 }}
             )
@@ -417,7 +425,7 @@ def screen_mes_demandes():
         label("md_lblDate", f'"Enregistrée le " & Text(ThisItem.{C_DATE}, "dd/mm/yyyy")',
               "Parent.TemplateWidth - 300", 10, 220, 24, size=11, color=INDIGO500,
               Align="Align.Right", OnSelect="Select(Parent)"),
-        label("md_lblDemandeur", f"ThisItem.{C_DEMANDEUR}",
+        label("md_lblDemandeur", f"ThisItem.{C_DEMANDEUR}.DisplayName",
               "Parent.TemplateWidth - 300", 38, 220, 24, size=11, color=NAVY, bold=True,
               Align="Align.Right", OnSelect="Select(Parent)"),
         icon("NextArrow1", "Icon.ChevronRight", "Parent.TemplateWidth - 64", 18, 40,
@@ -476,7 +484,7 @@ def screen_detail():
     ]
     right = [
         ("Pathologie", val(f"{sel}.{C_PATHO}.Value")),
-        ("Nom demandeur", val(f"{sel}.{C_DEMANDEUR}")),
+        ("Nom demandeur", val(f"{sel}.{C_DEMANDEUR}.DisplayName")),
         ("Date enregistrement demande",
          f'If(IsBlank({sel}.{C_DATE}), "—", Text({sel}.{C_DATE}, "dd/mm/yyyy"))'),
     ]

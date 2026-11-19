@@ -245,7 +245,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =32
             Size: =14
-            Text: =If(IsBlank(Gallery1.Selected.'Nom demandeur'), "—", Text(Gallery1.Selected.'Nom demandeur'))
+            Text: =If(IsBlank(Gallery1.Selected.'Nom demandeur'.DisplayName), "—", Text(Gallery1.Selected.'Nom demandeur'.DisplayName))
             Width: =(Parent.Width - 64 - 48 - 32) / 2
             X: =32 + 24 + (Parent.Width - 64 - 48 - 32) / 2 + 32
             Y: =262

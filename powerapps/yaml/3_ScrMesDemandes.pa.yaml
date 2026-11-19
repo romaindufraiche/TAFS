@@ -231,7 +231,7 @@ Screens:
                   Height: =24
                   OnSelect: =Select(Parent)
                   Size: =11
-                  Text: =ThisItem.'Nom demandeur'
+                  Text: =ThisItem.'Nom demandeur'.DisplayName
                   Width: =220
                   X: =Parent.TemplateWidth - 300
                   Y: =38
