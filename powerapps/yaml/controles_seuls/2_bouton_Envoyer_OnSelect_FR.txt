@@ -1,0 +1,46 @@
+Notify("Envoi de " & CountRows(nd_galEchantillons.AllItems) & " échantillon(s) en cours…"; NotificationType.Information);;
+Set(varTentative; true);;
+If(
+    CountRows(Filter(nd_galEchantillons.AllItems; IsBlank(Trim(nd_txtNom.Text)))) > 0;
+    Notify("Chaque échantillon doit avoir un nom."; NotificationType.Error);
+    Set(varEnvoiEnCours; true);;
+    Clear(colCrees);;
+    ForAll(
+        nd_galEchantillons.AllItems;
+        Collect(
+            colCrees;
+            Patch(
+                'X_Portail_CODECOH';
+                Defaults('X_Portail_CODECOH');
+                {
+                    Titre: Trim(nd_txtNom.Text);
+                    'Ref commerciale': nd_txtRef.Text;
+                    'Type de substance': nd_txtType.Text;
+                    'Tissue source': nd_txtSource.Text;
+                    Pathologie: nd_txtPatho.Text;
+                    'Coordonnées fournisseur': nd_txtFourn.Text;
+                    'Nom demandeur': User().FullName;
+                    'Date enregistrement demande': Text(Today(); "dd/mm/yyyy")
+                }
+            )
+        )
+    );;
+    If(
+        IsEmpty(Errors('X_Portail_CODECOH')) && !IsEmpty(nd_attPJ.Attachments);
+        Notify("Ajout des pièces jointes…"; NotificationType.Information);;
+        ForAll(
+            colCrees As E;
+            ForAll(
+                nd_attPJ.Attachments As F;
+                AjoutPJ_CODECOH.Run(E.ID; {file: {contentBytes: F.Value; name: F.Name}})
+            )
+        )
+    );;
+    Set(varEnvoiEnCours; false);;
+    If(
+        IsEmpty(Errors('X_Portail_CODECOH'));
+        Notify(CountRows(colCrees) & " échantillon(s) déclaré(s) avec succès."; NotificationType.Success);;
+        Navigate(ScrMesDemandes; ScreenTransition.Fade);
+        Notify("Erreur SharePoint : " & First(Errors('X_Portail_CODECOH')).Message; NotificationType.Error)
+    )
+)

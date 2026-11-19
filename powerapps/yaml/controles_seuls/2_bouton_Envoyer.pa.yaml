@@ -39,9 +39,19 @@
                             Pathologie: nd_txtPatho.Text,
                             'Coordonnées fournisseur': nd_txtFourn.Text,
                             'Nom demandeur': User().FullName,
-                            'Date enregistrement demande': Text(Today(), "dd/mm/yyyy"),
-                            'Pièces jointes': nd_attPJ.Attachments
+                            'Date enregistrement demande': Text(Today(), "dd/mm/yyyy")
                         }
+                    )
+                )
+            );
+            If(
+                IsEmpty(Errors('X_Portail_CODECOH')) && !IsEmpty(nd_attPJ.Attachments),
+                Notify("Ajout des pièces jointes…", NotificationType.Information);
+                ForAll(
+                    colCrees As E,
+                    ForAll(
+                        nd_attPJ.Attachments As F,
+                        AjoutPJ_CODECOH.Run(E.ID, {file: {contentBytes: F.Value, name: F.Name}})
                     )
                 )
             );

@@ -209,7 +209,8 @@ C_PATHO = "Pathologie"                          # texte
 C_DEMANDEUR = "'Nom demandeur'"                 # texte -> rempli automatiquement
 C_DATE = "'Date enregistrement demande'"        # texte -> rempli automatiquement (jj/mm/aaaa)
 C_FOURN = "'Coordonnées fournisseur'"           # texte
-C_PJ = "'Pièces jointes'"                       # pièces jointes de l'élément
+C_PJ = "'Pièces jointes'"                       # pièces jointes de l'élément (lecture)
+FLOW_PJ = "AjoutPJ_CODECOH"                     # flux Power Automate qui ajoute les pièces jointes
 
 EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: "", Fourn: ""}'
 
@@ -394,9 +395,19 @@ If(
                     {C_PATHO}: nd_txtPatho.Text,
                     {C_FOURN}: nd_txtFourn.Text,
                     {C_DEMANDEUR}: User().FullName,
-                    {C_DATE}: Text(Today(), "dd/mm/yyyy"),
-                    {C_PJ}: nd_attPJ.Attachments
+                    {C_DATE}: Text(Today(), "dd/mm/yyyy")
                 }}
+            )
+        )
+    );
+    If(
+        IsEmpty(Errors({DS})) && !IsEmpty(nd_attPJ.Attachments),
+        Notify("Ajout des pièces jointes…", NotificationType.Information);
+        ForAll(
+            colCrees As E,
+            ForAll(
+                nd_attPJ.Attachments As F,
+                {FLOW_PJ}.Run(E.ID, {{file: {{contentBytes: F.Value, name: F.Name}}}})
             )
         )
     );
