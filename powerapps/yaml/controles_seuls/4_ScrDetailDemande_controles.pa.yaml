@@ -312,7 +312,7 @@
       Height: =32
       Size: =14
       Text: ="—"
-      Visible: =IsEmpty(Gallery1.Selected.Attachments)
+      Visible: =IsEmpty(Gallery1.Selected.'Pièces jointes')
       Width: =(Parent.Width - 64 - 48 - 32) / 2
       X: =32 + 24 + (Parent.Width - 64 - 48 - 32) / 2 + 32
       Y: =406
@@ -323,7 +323,7 @@
       AccessibleLabel: ="Pièces jointes"
       Fill: =RGBA(0, 0, 0, 0)
       Height: =100
-      Items: =Gallery1.Selected.Attachments
+      Items: =Gallery1.Selected.'Pièces jointes'
       TemplatePadding: =0
       TemplateSize: =30
       Width: =(Parent.Width - 64 - 48 - 32) / 2

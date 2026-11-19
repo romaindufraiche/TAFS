@@ -209,7 +209,7 @@ C_PATHO = "Pathologie"                          # texte
 C_DEMANDEUR = "'Nom demandeur'"                 # Personne -> rempli automatiquement
 C_DATE = "'Date enregistrement demande'"        # date   -> rempli automatiquement
 C_FOURN = "'Coordonnées fournisseur'"           # texte
-C_PJ = "Attachments"                            # pièces jointes de l'élément (nom interne)
+C_PJ = "'Pièces jointes'"                       # pièces jointes de l'élément
 
 EMPTY_ROW = '{Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: "", Fourn: ""}'
 

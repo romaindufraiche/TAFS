@@ -48,7 +48,7 @@
                                 Picture: ""
                             },
                             'Date enregistrement demande': Today(),
-                            Attachments: ForAll(nd_attPJ.Attachments, {DisplayName: ThisRecord.Name, Id: ThisRecord.Name, Value: ThisRecord.Value})
+                            'Pièces jointes': ForAll(nd_attPJ.Attachments, {DisplayName: ThisRecord.Name, Id: ThisRecord.Name, Value: ThisRecord.Value})
                         }
                     )
                 )
