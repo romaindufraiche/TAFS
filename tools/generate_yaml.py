@@ -198,16 +198,16 @@ def screen_accueil():
 
 
 # =============================================================================
-# Liste SharePoint « x_Déclaration_CODECOH » : noms des colonnes tels qu'affichés
+# Liste SharePoint « X_Portail_CODECOH » : noms des colonnes tels qu'affichés
 # =============================================================================
-DS = "'x_Déclaration_CODECOH'"
-C_NOM = "'Nom échantillon'"                     # texte
+DS = "'X_Portail_CODECOH'"
+C_NOM = "Titre"                                 # texte (colonne Titre = nom de l'échantillon)
 C_REF = "'Ref commerciale'"                    # texte
 C_TYPE = "'Type de substance'"                  # texte
 C_TISSU = "'Tissue source'"                     # texte
 C_PATHO = "Pathologie"                          # texte
-C_DEMANDEUR = "'Nom demandeur'"                 # Personne -> rempli automatiquement
-C_DATE = "'Date enregistrement demande'"        # date   -> rempli automatiquement
+C_DEMANDEUR = "'Nom demandeur'"                 # texte -> rempli automatiquement
+C_DATE = "'Date enregistrement demande'"        # texte -> rempli automatiquement (jj/mm/aaaa)
 C_FOURN = "'Coordonnées fournisseur'"           # texte
 C_PJ = "'Pièces jointes'"                       # pièces jointes de l'élément
 
@@ -392,16 +392,8 @@ If(
                     {C_TISSU}: nd_txtSource.Text,
                     {C_PATHO}: nd_txtPatho.Text,
                     {C_FOURN}: nd_txtFourn.Text,
-                    {C_DEMANDEUR}: {{
-                        '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
-                        Claims: "i:0#.f|membership|" & Lower(User().Email),
-                        Department: "",
-                        DisplayName: User().FullName,
-                        Email: User().Email,
-                        JobTitle: "",
-                        Picture: ""
-                    }},
-                    {C_DATE}: Today(),
+                    {C_DEMANDEUR}: User().FullName,
+                    {C_DATE}: Text(Today(), "dd/mm/yyyy"),
                     {C_PJ}: ForAll(nd_attPJ.Attachments, {{DisplayName: ThisRecord.Name, Id: ThisRecord.Name, Value: ThisRecord.Value}})
                 }}
             )
@@ -450,10 +442,10 @@ def screen_mes_demandes():
               size=14, color=NAVY, bold=True, OnSelect="Select(Parent)"),
         label("Subtitle1", sub, 24, 40, "Parent.TemplateWidth - 340", 24, size=12,
               color=TEXT, OnSelect="Select(Parent)"),
-        label("md_lblDate", f'"Enregistrée le " & Text(ThisItem.{C_DATE}, "dd/mm/yyyy")',
+        label("md_lblDate", f'"Enregistrée le " & ThisItem.{C_DATE}',
               "Parent.TemplateWidth - 300", 10, 220, 24, size=11, color=INDIGO500,
               Align="Align.Right", OnSelect="Select(Parent)"),
-        label("md_lblDemandeur", f"ThisItem.{C_DEMANDEUR}.DisplayName",
+        label("md_lblDemandeur", f"ThisItem.{C_DEMANDEUR}",
               "Parent.TemplateWidth - 300", 38, 220, 24, size=11, color=NAVY, bold=True,
               Align="Align.Right", OnSelect="Select(Parent)"),
         icon("NextArrow1", "Icon.ChevronRight", "Parent.TemplateWidth - 64", 18, 40,
@@ -513,9 +505,9 @@ def screen_detail():
     ]
     right = [
         ("Pathologie", val(f"{sel}.{C_PATHO}")),
-        ("Nom demandeur", val(f"{sel}.{C_DEMANDEUR}.DisplayName")),
+        ("Nom demandeur", val(f"{sel}.{C_DEMANDEUR}")),
         ("Date enregistrement demande",
-         f'If(IsBlank({sel}.{C_DATE}), "—", Text({sel}.{C_DATE}, "dd/mm/yyyy"))'),
+         val(f"{sel}.{C_DATE}")),
     ]
     top = 112
     col_w = "(Parent.Width - 64 - 48 - 32) / 2"

@@ -166,9 +166,9 @@ Screens:
             Items: |-
               =SortByColumns(
                   Filter(
-                      'x_Déclaration_CODECOH',
+                      'X_Portail_CODECOH',
                       Author.Email = User().Email,
-                      IsBlank(md_txtRecherche.Text) || StartsWith('Nom échantillon', md_txtRecherche.Text)
+                      IsBlank(md_txtRecherche.Text) || StartsWith(Titre, md_txtRecherche.Text)
                   ),
                   "ID",
                   SortOrder.Descending
@@ -190,7 +190,7 @@ Screens:
                   Height: =28
                   OnSelect: =Select(Parent)
                   Size: =14
-                  Text: =ThisItem.'Nom échantillon'
+                  Text: =ThisItem.Titre
                   Width: =Parent.TemplateWidth - 340
                   X: =24
                   Y: =10
@@ -217,7 +217,7 @@ Screens:
                   Height: =24
                   OnSelect: =Select(Parent)
                   Size: =11
-                  Text: ="Enregistrée le " & Text(ThisItem.'Date enregistrement demande', "dd/mm/yyyy")
+                  Text: ="Enregistrée le " & ThisItem.'Date enregistrement demande'
                   Width: =220
                   X: =Parent.TemplateWidth - 300
                   Y: =10
@@ -231,7 +231,7 @@ Screens:
                   Height: =24
                   OnSelect: =Select(Parent)
                   Size: =11
-                  Text: =ThisItem.'Nom demandeur'.DisplayName
+                  Text: =ThisItem.'Nom demandeur'
                   Width: =220
                   X: =Parent.TemplateWidth - 300
                   Y: =38

@@ -1,7 +1,7 @@
 # Portail CODECOH (app « ABC ») : refonte charte Servier et déclaration multi-échantillons
 
 Source : l'export Power Apps du dossier Drive `transfert` (package `.zip` décompressé : `manifest.json` + `N11f08592-…-document.msapp`).
-Sources de données (inchangées) : liste SharePoint `x_Déclaration_CODECOH` du site *ABC-ANIMALSBIOLOGICSCOMPLIANCE*.
+Sources de données (inchangées) : liste SharePoint `X_Portail_CODECOH` du site *ABC-ANIMALSBIOLOGICSCOMPLIANCE*.
 
 ## Ce qui change
 
@@ -91,7 +91,7 @@ Sélectionnez `ScrDetailDemande` puis :
 
 ### 6. Tester puis publier
 1. Appuyez sur **F5** (aperçu). Testez : Accueil → Nouvelle demande → ajoutez 2 ou 3 lignes (bouton *Ajouter*, icône *Dupliquer*) → **Envoyer**. Vous devez arriver sur *Mes demandes* avec les nouvelles lignes.
-2. Vérifiez dans la liste SharePoint `x_Déclaration_CODECOH` qu'il y a bien **une ligne par échantillon**.
+2. Vérifiez dans la liste SharePoint `X_Portail_CODECOH` qu'il y a bien **une ligne par échantillon**.
 3. Si le **vérificateur d'application** (icône stéthoscope) ne signale aucune erreur : **Fichier → Enregistrer → Publier**.
 
 ---
@@ -102,8 +102,8 @@ Sélectionnez `ScrDetailDemande` puis :
 - **Ajouter** fait un `Collect` d'une ligne vide. **Dupliquer** recopie la ligne en ajoutant « (copie) » au nom. **Supprimer** fait un `Remove`, et reste désactivé s'il ne reste qu'une ligne.
 - **Envoyer** :
   1. vérifie que chaque ligne a un nom (sinon, la bordure passe en corail et un message s'affiche) ;
-  2. fait `ForAll(nd_galEchantillons.AllItems, Patch('x_Déclaration_CODECOH', Defaults(...), {...}))`, c'est-à-dire une ligne SharePoint par échantillon, avec les informations communes recopiées sur chaque ligne ;
-  3. colonnes remplies : *Nom échantillon*, *Référence commerciale*, *Type de substance*, *Tissue source*, *Pathologie* (texte libre), plus *Nom demandeur* = l'utilisateur connecté (colonne Personne) et *Date enregistrement demande* = `Today()` ;
+  2. fait `ForAll(nd_galEchantillons.AllItems, Patch('X_Portail_CODECOH', Defaults(...), {...}))`, c'est-à-dire une ligne SharePoint par échantillon, avec les informations communes recopiées sur chaque ligne ;
+  3. colonnes remplies : *Nom échantillon*, *Référence commerciale*, *Type de substance*, *Tissue source*, *Pathologie* (texte libre), plus *Nom demandeur* = nom de l'utilisateur connecté et *Date enregistrement demande* = `Today()` ;
   4. affiche un message de succès, ou le message d'erreur SharePoint.
 
 ### Régénérer le YAML

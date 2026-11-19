@@ -9,7 +9,7 @@ Durée : 20 à 30 minutes. Aucune installation n'est nécessaire, tout se fait d
 | Les 4 fichiers de contrôles | `yaml/controles_seuls/1_…` à `4_…_controles.pa.yaml` |
 | Les propriétés des écrans | `yaml/controles_seuls/…_proprietes_ecran.txt` |
 | Le logo | `logo ABC.png` (**gardez exactement ce nom de fichier**) |
-| Un accès en modification à la liste SharePoint `x_Déclaration_CODECOH` | site *ABC-ANIMALSBIOLOGICSCOMPLIANCE* |
+| Un accès en modification à la liste SharePoint `X_Portail_CODECOH` | site *ABC-ANIMALSBIOLOGICSCOMPLIANCE* |
 
 Résultat final : 4 écrans.
 
@@ -22,20 +22,20 @@ ScrAccueil  ──►  ScrNouvelleDemande  (déclarer plusieurs échantillons)
 
 ---
 
-## Étape 0 : préparer la liste SharePoint `x_Déclaration_CODECOH`
+## Étape 0 : préparer la liste SharePoint `X_Portail_CODECOH`
 
 ### Colonnes attendues par l'app
 
 | Colonne (nom exact) | Type SharePoint | Rempli par |
 |---|---|---|
-| Nom échantillon | Une seule ligne de texte (colonne *Titre* renommée) | l'utilisateur (obligatoire) |
+| Titre | Une seule ligne de texte (colonne par défaut, contient le **nom de l'échantillon**) | l'utilisateur (obligatoire) |
 | Ref commerciale | Une seule ligne de texte | l'utilisateur |
 | Type de substance | Une seule ligne de texte | l'utilisateur |
 | Tissue source | Une seule ligne de texte | l'utilisateur |
 | Pathologie | Une seule ligne de texte | l'utilisateur |
 | Coordonnées fournisseur | Une seule ligne de texte | l'utilisateur |
-| Nom demandeur | Personne | automatique (personne connectée) |
-| Date enregistrement demande | Date et heure (date seule) | automatique (date du jour) |
+| Nom demandeur | Une seule ligne de texte | automatique (nom de la personne connectée) |
+| Date enregistrement demande | Une seule ligne de texte | automatique (date du jour, format jj/mm/aaaa) |
 | *Pièces jointes* | intégrées à la liste, pas une colonne | l'utilisateur (zone 📎) |
 
 ### Créer une colonne sans piège (exemple : *Coordonnées fournisseur*)
@@ -52,7 +52,7 @@ Les pièces jointes ne sont pas une colonne : c'est une option de la liste, acti
 2. Vérifiez que **Pièces jointes à des éléments de la liste = Activé**, puis cliquez sur **OK**.
 
 ### Après toute modification de la liste
-Dans Power Apps Studio, ouvrez le panneau **Données**, puis `…` à côté de `x_Déclaration_CODECOH` → **Actualiser**. Sans cela, Power Apps ne voit pas les nouvelles colonnes.
+Dans Power Apps Studio, ouvrez le panneau **Données**, puis `…` à côté de `X_Portail_CODECOH` → **Actualiser**. Sans cela, Power Apps ne voit pas les nouvelles colonnes.
 
 ## Étape 1 : créer l'application vide
 1. Allez sur **https://make.powerapps.com**.
@@ -66,8 +66,8 @@ Dans Power Apps Studio, ouvrez le panneau **Données**, puis `…` à côté de 
 2. Cherchez **SharePoint** et sélectionnez votre connexion (ou créez-la avec **Connexion directe**).
 3. Collez l'adresse du site :
    `https://serviergroup.sharepoint.com/sites/ABC-ANIMALSBIOLOGICSCOMPLIANCE`
-4. Cochez la liste **`x_Déclaration_CODECOH`**, puis **Connecter**.
-5. Vérifiez que le panneau Données affiche bien `x_Déclaration_CODECOH`.
+4. Cochez la liste **`X_Portail_CODECOH`**, puis **Connecter**.
+5. Vérifiez que le panneau Données affiche bien `X_Portail_CODECOH`.
 
 ## Étape 3 : ajouter le logo
 1. Dans la barre de gauche, cliquez sur **Médias** (l'icône image), puis **+ Charger**.
@@ -126,7 +126,7 @@ Pour chaque écran, ouvrez le fichier `…_proprietes_ecran.txt` correspondant. 
 ## Étape 8 : enregistrer, publier, partager
 1. **Fichier → Enregistrer**, puis **Publier → Publier cette version**.
 2. **Partager** : ajoutez les utilisateurs.
-   Ils doivent aussi avoir le droit **Modification** sur la liste SharePoint `x_Déclaration_CODECOH`, sinon ils ne pourront pas envoyer de demande.
+   Ils doivent aussi avoir le droit **Modification** sur la liste SharePoint `X_Portail_CODECOH`, sinon ils ne pourront pas envoyer de demande.
 
 ---
 
@@ -134,12 +134,12 @@ Pour chaque écran, ouvrez le fichier `…_proprietes_ecran.txt` correspondant. 
 
 | Symptôme | Cause probable / solution |
 |---|---|
-| Croix rouges sur de nombreuses formules | Un nom ne correspond pas. Vérifiez les noms des 4 écrans, de la source `x_Déclaration_CODECOH` et du média `logo ABC` |
+| Croix rouges sur de nombreuses formules | Un nom ne correspond pas. Vérifiez les noms des 4 écrans, de la source `X_Portail_CODECOH` et du média `logo ABC` |
 | Erreur sur `Navigate(ScrDetailDemande…)` ou `Gallery1` | `ScrDetailDemande` n'existe pas encore, ou la galerie a été renommée `Gallery1_1` : renommez-la `Gallery1` |
 | Erreur sur une colonne (« La colonne … n'existe pas ») | Le nom dans SharePoint diffère d'un caractère (espace en double, majuscule, accent). Le message propose le nom le plus proche : corrigez le nom de la colonne dans SharePoint, puis Données → `…` → **Actualiser**. Noms attendus : voir l'étape 0. Si renommer ne suffit pas, supprimez la colonne et recréez-la (étape 0) |
 | L'envoi échoue avec « champ obligatoire » | Une colonne de la liste que l'app ne remplit pas (par ex. la colonne *Titre* masquée) est obligatoire. Paramètres de la liste → la colonne → *Exiger que cette colonne contienne des informations* = **Non** |
 | Le tableau des échantillons est vide (aucune ligne) | La propriété `OnVisible` de `ScrNouvelleDemande` n'a pas été collée (étape 6) |
 | Le menu « Coller le code » n'apparaît pas | Rechargez Studio sur Edge ou Chrome à jour, puis essayez **Ctrl+V** sur l'écran sélectionné |
-| « Le type de cet argument … ne correspond pas » | Le type d'une colonne SharePoint ne correspond pas à ce que l'app envoie. Types attendus : *Nom demandeur* = **Personne** ; toutes les autres = **Une seule ligne de texte** (voir l'étape 0) ; *Date enregistrement demande* = **Date et heure** |
-| La zone « Pièces jointes » n'apparaît pas ou affiche une erreur après le collage | Insérez un **Formulaire d'édition** relié à `x_Déclaration_CODECOH` et ajoutez-y le champ *Pièces jointes*. Sélectionnez le contrôle de pièces jointes dans la carte, faites **Couper**, puis **Coller** sur l'écran. Renommez-le `nd_attPJ`, placez-le dans le bandeau et supprimez le formulaire |
+| « Le type de cet argument … ne correspond pas » | Le type d'une colonne SharePoint ne correspond pas à ce que l'app envoie. Types attendus : toutes les colonnes = **Une seule ligne de texte** (voir l'étape 0) ; *Date enregistrement demande* = **Date et heure** |
+| La zone « Pièces jointes » n'apparaît pas ou affiche une erreur après le collage | Insérez un **Formulaire d'édition** relié à `X_Portail_CODECOH` et ajoutez-y le champ *Pièces jointes*. Sélectionnez le contrôle de pièces jointes dans la carte, faites **Couper**, puis **Coller** sur l'écran. Renommez-le `nd_attPJ`, placez-le dans le bandeau et supprimez le formulaire |
 | Pièce jointe refusée à l'envoi | Pièces jointes désactivées sur la liste (étape 0), fichier de plus de 10 Mo, ou plus de 10 fichiers |
