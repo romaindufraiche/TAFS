@@ -148,6 +148,7 @@
       Fill: =RGBA(235, 235, 249, 1)
       Font: =Font.Arial
       Height: =94
+      Items: =Defaults('X_Portail_CODECOH').'Pièces jointes'
       MaxAttachmentSize: =10
       MaxAttachments: =10
       NoAttachmentsText: ="Aucun fichier joint"
@@ -598,7 +599,7 @@
                             'Coordonnées fournisseur': nd_txtFourn.Text,
                             'Nom demandeur': User().FullName,
                             'Date enregistrement demande': Text(Today(), "dd/mm/yyyy"),
-                            'Pièces jointes': ForAll(nd_attPJ.Attachments, {DisplayName: ThisRecord.Name, Id: ThisRecord.Name, Value: ThisRecord.Value})
+                            'Pièces jointes': nd_attPJ.Attachments
                         }
                     )
                 )

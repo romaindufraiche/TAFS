@@ -40,7 +40,7 @@
                             'Coordonnées fournisseur': nd_txtFourn.Text,
                             'Nom demandeur': User().FullName,
                             'Date enregistrement demande': Text(Today(), "dd/mm/yyyy"),
-                            'Pièces jointes': ForAll(nd_attPJ.Attachments, {DisplayName: ThisRecord.Name, Id: ThisRecord.Name, Value: ThisRecord.Value})
+                            'Pièces jointes': nd_attPJ.Attachments
                         }
                     )
                 )

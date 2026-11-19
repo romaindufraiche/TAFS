@@ -268,6 +268,7 @@ def screen_nouvelle():
         ctrl(f"{p}_attPJ", "Attachments@2.3.0", {
             "X": f"Parent.Width - {M + 24 + att_w}", "Y": c1_y + 36,
             "Width": att_w, "Height": c1_h - 46,
+            "Items": f"Defaults({DS}).{C_PJ}",
             "DisplayMode": "DisplayMode.Edit", "MaxAttachments": 10,
             "MaxAttachmentSize": 10,
             "AddAttachmentText": '"Joindre un fichier"',
@@ -394,7 +395,7 @@ If(
                     {C_FOURN}: nd_txtFourn.Text,
                     {C_DEMANDEUR}: User().FullName,
                     {C_DATE}: Text(Today(), "dd/mm/yyyy"),
-                    {C_PJ}: ForAll(nd_attPJ.Attachments, {{DisplayName: ThisRecord.Name, Id: ThisRecord.Name, Value: ThisRecord.Value}})
+                    {C_PJ}: nd_attPJ.Attachments
                 }}
             )
         )
