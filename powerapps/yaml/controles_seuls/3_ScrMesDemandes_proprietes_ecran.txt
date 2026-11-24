@@ -1,5 +1,5 @@
 ### Propriété Fill (à coller dans la barre de formule)
-RGBA(235, 235, 249, 1)
+RGBA(235; 235; 249; 1)
 
 ### Propriété LoadingSpinnerColor (à coller dans la barre de formule)
-RGBA(36, 34, 106, 1)
+RGBA(36; 34; 106; 1)

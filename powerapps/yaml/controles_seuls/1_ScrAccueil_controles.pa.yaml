@@ -56,8 +56,8 @@
       Height: =40
       Size: =22
       Text: ="Bonjour " & User().FullName
-      Width: =968
-      X: =(Parent.Width - 968) / 2
+      Width: =1220
+      X: =(Parent.Width - 1220) / 2
       Y: =140
 - acc_lblIntro:
     Control: Label@2.5.1
@@ -67,10 +67,74 @@
       FontWeight: =FontWeight.Normal
       Height: =30
       Size: =13
-      Text: ="Que souhaitez-vous faire ?"
-      Width: =968
-      X: =(Parent.Width - 968) / 2
+      Text: ="Commencez par vérifier si l'échantillon existe déjà dans la bibliothèque."
+      Width: =1220
+      X: =(Parent.Width - 1220) / 2
       Y: =182
+- acc_btnBibliotheque:
+    Control: Classic/Button@2.2.0
+    Properties:
+      BorderColor: =RGBA(36, 34, 106, 1)
+      BorderStyle: =BorderStyle.Solid
+      BorderThickness: =1
+      Color: =RGBA(255, 255, 255, 1)
+      DisabledBorderColor: =RGBA(212, 222, 242, 1)
+      DisabledColor: =RGBA(255, 255, 255, 1)
+      DisabledFill: =RGBA(212, 222, 242, 1)
+      Fill: =RGBA(36, 34, 106, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Bold
+      Height: =230
+      HoverBorderColor: =RGBA(112, 136, 182, 1)
+      HoverColor: =RGBA(255, 255, 255, 1)
+      HoverFill: =RGBA(112, 136, 182, 1)
+      OnSelect: =Navigate(ScrBibliotheque, ScreenTransition.Cover)
+      PaddingTop: =40
+      PressedColor: =RGBA(255, 255, 255, 1)
+      PressedFill: =RGBA(36, 34, 106, 1)
+      RadiusBottomLeft: =8
+      RadiusBottomRight: =8
+      RadiusTopLeft: =8
+      RadiusTopRight: =8
+      Size: =22
+      Text: ="Bibliothèque des échantillons"
+      VerticalAlign: =VerticalAlign.Middle
+      Width: =380
+      X: =(Parent.Width - 1220) / 2
+      Y: =250
+- acc_icoBibliotheque:
+    Control: Classic/Icon@2.5.0
+    Properties:
+      AccessibleLabel: =Self.Tooltip
+      Color: =RGBA(255, 255, 255, 1)
+      Height: =64
+      Icon: =Icon.Search
+      OnSelect: =Navigate(ScrBibliotheque, ScreenTransition.Cover)
+      Tooltip: ="Bibliothèque des échantillons"
+      Width: =64
+      X: =(Parent.Width - 1220) / 2 + 158
+      Y: =290
+- acc_rectBibliotheque:
+    Control: Rectangle@2.3.0
+    Properties:
+      Fill: =RGBA(212, 66, 51, 1)
+      Height: =4
+      Width: =60
+      X: =(Parent.Width - 1220) / 2 + 160
+      Y: =452
+- acc_lblBibliothequeDesc:
+    Control: Label@2.5.1
+    Properties:
+      Align: =Align.Center
+      Color: =RGBA(49, 49, 49, 1)
+      Font: =Font.Arial
+      FontWeight: =FontWeight.Normal
+      Height: =60
+      Size: =12
+      Text: ="Rechercher si un échantillon est déjà déclaré"
+      Width: =380
+      X: =(Parent.Width - 1220) / 2
+      Y: =492
 - acc_btnNouvelle:
     Control: Classic/Button@2.2.0
     Properties:
@@ -84,7 +148,7 @@
       Fill: =RGBA(36, 34, 106, 1)
       Font: =Font.Arial
       FontWeight: =FontWeight.Bold
-      Height: =240
+      Height: =230
       HoverBorderColor: =RGBA(112, 136, 182, 1)
       HoverColor: =RGBA(255, 255, 255, 1)
       HoverFill: =RGBA(112, 136, 182, 1)
@@ -99,8 +163,8 @@
       Size: =22
       Text: ="Nouvelle demande"
       VerticalAlign: =VerticalAlign.Middle
-      Width: =460
-      X: =(Parent.Width - 968) / 2
+      Width: =380
+      X: =(Parent.Width - 1220) / 2 + 420
       Y: =250
 - acc_icoNouvelle:
     Control: Classic/Icon@2.5.0
@@ -112,7 +176,7 @@
       OnSelect: =Navigate(ScrNouvelleDemande, ScreenTransition.Cover)
       Tooltip: ="Nouvelle demande"
       Width: =64
-      X: =(Parent.Width - 968) / 2 + 198
+      X: =(Parent.Width - 1220) / 2 + 420 + 158
       Y: =290
 - acc_rectNouvelle:
     Control: Rectangle@2.3.0
@@ -120,8 +184,8 @@
       Fill: =RGBA(212, 66, 51, 1)
       Height: =4
       Width: =60
-      X: =(Parent.Width - 968) / 2 + 200
-      Y: =462
+      X: =(Parent.Width - 1220) / 2 + 420 + 160
+      Y: =452
 - acc_lblNouvelleDesc:
     Control: Label@2.5.1
     Properties:
@@ -129,12 +193,12 @@
       Color: =RGBA(49, 49, 49, 1)
       Font: =Font.Arial
       FontWeight: =FontWeight.Normal
-      Height: =44
+      Height: =60
       Size: =12
-      Text: ="Déclarer un ou plusieurs échantillons en une seule fois"
-      Width: =460
-      X: =(Parent.Width - 968) / 2
-      Y: =502
+      Text: ="Déclarer un ou plusieurs échantillons absents de la bibliothèque"
+      Width: =380
+      X: =(Parent.Width - 1220) / 2 + 420
+      Y: =492
 - acc_btnMesDemandes:
     Control: Classic/Button@2.2.0
     Properties:
@@ -148,7 +212,7 @@
       Fill: =RGBA(36, 34, 106, 1)
       Font: =Font.Arial
       FontWeight: =FontWeight.Bold
-      Height: =240
+      Height: =230
       HoverBorderColor: =RGBA(112, 136, 182, 1)
       HoverColor: =RGBA(255, 255, 255, 1)
       HoverFill: =RGBA(112, 136, 182, 1)
@@ -163,8 +227,8 @@
       Size: =22
       Text: ="Mes demandes"
       VerticalAlign: =VerticalAlign.Middle
-      Width: =460
-      X: =(Parent.Width - 968) / 2 + 508
+      Width: =380
+      X: =(Parent.Width - 1220) / 2 + 840
       Y: =250
 - acc_icoMesDemandes:
     Control: Classic/Icon@2.5.0
@@ -176,7 +240,7 @@
       OnSelect: =Navigate(ScrMesDemandes, ScreenTransition.Cover)
       Tooltip: ="Mes demandes"
       Width: =64
-      X: =(Parent.Width - 968) / 2 + 508 + 198
+      X: =(Parent.Width - 1220) / 2 + 840 + 158
       Y: =290
 - acc_rectMesDemandes:
     Control: Rectangle@2.3.0
@@ -184,8 +248,8 @@
       Fill: =RGBA(212, 66, 51, 1)
       Height: =4
       Width: =60
-      X: =(Parent.Width - 968) / 2 + 508 + 200
-      Y: =462
+      X: =(Parent.Width - 1220) / 2 + 840 + 160
+      Y: =452
 - acc_lblMesDemandesDesc:
     Control: Label@2.5.1
     Properties:
@@ -193,12 +257,12 @@
       Color: =RGBA(49, 49, 49, 1)
       Font: =Font.Arial
       FontWeight: =FontWeight.Normal
-      Height: =44
+      Height: =60
       Size: =12
       Text: ="Suivre l'état de mes déclarations CODECOH"
-      Width: =460
-      X: =(Parent.Width - 968) / 2 + 508
-      Y: =502
+      Width: =380
+      X: =(Parent.Width - 1220) / 2 + 840
+      Y: =492
 - acc_lblPied:
     Control: Label@2.5.1
     Properties:

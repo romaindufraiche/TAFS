@@ -1,0 +1,373 @@
+Screens:
+  ScrBibliotheque:
+    Properties:
+      Fill: =RGBA(235, 235, 249, 1)
+      LoadingSpinnerColor: =RGBA(36, 34, 106, 1)
+    Children:
+      - bib_rectHeader:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =88
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+      - bib_rectAccent:
+          Control: Rectangle@2.3.0
+          Properties:
+            Fill: =RGBA(212, 66, 51, 1)
+            Height: =4
+            Width: =Parent.Width
+            X: =0
+            Y: =88
+      - bib_imgLogo:
+          Control: Image@2.2.3
+          Properties:
+            Height: =64
+            Image: ='logo ABC'
+            ImagePosition: =ImagePosition.Fit
+            Width: =96
+            X: =32
+            Y: =12
+      - bib_lblTitre:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(36, 34, 106, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =36
+            Size: =20
+            Text: ="Bibliothèque des échantillons"
+            Width: =900
+            X: =148
+            Y: =14
+      - bib_lblSousTitre:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(112, 136, 182, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Normal
+            Height: =26
+            Size: =12
+            Text: ="Vérifiez si un échantillon est déjà déclaré avant de faire une demande"
+            Width: =900
+            X: =148
+            Y: =50
+      - bib_btnAccueil:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(36, 34, 106, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Color: =RGBA(36, 34, 106, 1)
+            DisabledBorderColor: =RGBA(212, 222, 242, 1)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(212, 222, 242, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =38
+            HoverBorderColor: =RGBA(36, 34, 106, 1)
+            HoverColor: =RGBA(36, 34, 106, 1)
+            HoverFill: =RGBA(235, 235, 249, 1)
+            OnSelect: =Navigate(ScrAccueil, ScreenTransition.UnCover)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(36, 34, 106, 1)
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =13
+            Text: ="←  Accueil"
+            Width: =180
+            X: =Parent.Width - 212
+            Y: =26
+      - bib_txtRecherche:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="Rechercher par nom ou référence commerciale…"
+            BorderColor: =RGBA(212, 222, 242, 1)
+            BorderThickness: =1
+            Color: =RGBA(49, 49, 49, 1)
+            Default: =""
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =RGBA(36, 34, 106, 1)
+            FocusedBorderThickness: =2
+            Font: =Font.Arial
+            Height: =44
+            HintText: ="Rechercher par nom ou référence commerciale…"
+            HoverBorderColor: =RGBA(112, 136, 182, 1)
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =14
+            Width: =560
+            X: =32
+            Y: =112
+      - bib_icoRecherche:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            AccessibleLabel: =Self.Tooltip
+            Color: =RGBA(112, 136, 182, 1)
+            Height: =24
+            Icon: =Icon.Search
+            Tooltip: =""
+            Width: =24
+            X: =552
+            Y: =122
+      - bib_btnEffacer:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(36, 34, 106, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Color: =RGBA(36, 34, 106, 1)
+            DisabledBorderColor: =RGBA(212, 222, 242, 1)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(212, 222, 242, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =40
+            HoverBorderColor: =RGBA(36, 34, 106, 1)
+            HoverColor: =RGBA(36, 34, 106, 1)
+            HoverFill: =RGBA(235, 235, 249, 1)
+            OnSelect: =Reset(bib_txtRecherche)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(36, 34, 106, 1)
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =13
+            Text: ="Effacer"
+            Visible: =!IsBlank(bib_txtRecherche.Text)
+            Width: =110
+            X: =608
+            Y: =114
+      - bib_btnNouvelle:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(212, 66, 51, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(212, 222, 242, 1)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(212, 222, 242, 1)
+            Fill: =RGBA(212, 66, 51, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =40
+            HoverBorderColor: =RGBA(170, 50, 38, 1)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =RGBA(170, 50, 38, 1)
+            OnSelect: |-
+              =Set(varNomPrefill, Trim(bib_txtRecherche.Text));
+              Navigate(ScrNouvelleDemande, ScreenTransition.Cover)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(36, 34, 106, 1)
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =13
+            Text: ="Échantillon absent ?  →  Nouvelle demande"
+            Width: =380
+            X: =Parent.Width - 412
+            Y: =114
+      - bib_cardListe:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(212, 222, 242, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 208
+            Width: =Parent.Width - 64
+            X: =32
+            Y: =176
+      - bib_galEch:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            AccessibleLabel: ="Bibliothèque des échantillons"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =Parent.Height - 210
+            Items: |-
+              =SortByColumns(
+                  Filter(
+                      'X_Portail_CODECOH',
+                      IsBlank(bib_txtRecherche.Text)
+                          || StartsWith(Titre, bib_txtRecherche.Text)
+                          || StartsWith('Ref commerciale', bib_txtRecherche.Text)
+                  ),
+                  "Title",
+                  SortOrder.Ascending
+              )
+            ShowScrollbar: =true
+            TemplateFill: =RGBA(255, 255, 255, 1)
+            TemplatePadding: =0
+            TemplateSize: =72
+            Width: =Parent.Width - 66
+            X: =33
+            Y: =177
+          Children:
+            - bib_lblNom:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(36, 34, 106, 1)
+                  Font: =Font.Arial
+                  FontWeight: =FontWeight.Bold
+                  Height: =28
+                  OnSelect: |-
+                    =Set(varSel, ThisItem);
+                    Navigate(ScrDetailDemande, ScreenTransition.Cover)
+                  Size: =14
+                  Text: =ThisItem.Titre
+                  Width: =Parent.TemplateWidth - 360
+                  X: =24
+                  Y: =10
+            - bib_lblSub:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(49, 49, 49, 1)
+                  Font: =Font.Arial
+                  FontWeight: =FontWeight.Normal
+                  Height: =24
+                  OnSelect: |-
+                    =Set(varSel, ThisItem);
+                    Navigate(ScrDetailDemande, ScreenTransition.Cover)
+                  Size: =12
+                  Text: =Concatenate(If(IsBlank(ThisItem.'Ref commerciale'), "", "Réf. " & ThisItem.'Ref commerciale' & "   "), If(IsBlank(ThisItem.'Type de substance'), "", ThisItem.'Type de substance' & "   "), If(IsBlank(ThisItem.'Tissue source'), "", "· " & ThisItem.'Tissue source' & "   "), If(IsBlank(ThisItem.Pathologie), "", "· " & ThisItem.Pathologie))
+                  Width: =Parent.TemplateWidth - 360
+                  X: =24
+                  Y: =40
+            - bib_lblDecl:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(112, 136, 182, 1)
+                  Font: =Font.Arial
+                  FontWeight: =FontWeight.Normal
+                  Height: =24
+                  OnSelect: |-
+                    =Set(varSel, ThisItem);
+                    Navigate(ScrDetailDemande, ScreenTransition.Cover)
+                  Size: =11
+                  Text: ="Déclaré le " & ThisItem.'Date enregistrement demande' & If(CountRows(ThisItem.'Pièces jointes') > 0, "   📎 " & CountRows(ThisItem.'Pièces jointes'), "")
+                  Width: =240
+                  X: =Parent.TemplateWidth - 320
+                  Y: =10
+            - bib_lblDemandeur:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Right
+                  Color: =RGBA(36, 34, 106, 1)
+                  Font: =Font.Arial
+                  FontWeight: =FontWeight.Bold
+                  Height: =24
+                  OnSelect: |-
+                    =Set(varSel, ThisItem);
+                    Navigate(ScrDetailDemande, ScreenTransition.Cover)
+                  Size: =11
+                  Text: ="par " & ThisItem.'Nom demandeur'
+                  Width: =240
+                  X: =Parent.TemplateWidth - 320
+                  Y: =38
+            - bib_icoDetail:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  AccessibleLabel: =Self.Tooltip
+                  Color: =RGBA(36, 34, 106, 1)
+                  Height: =40
+                  Icon: =Icon.ChevronRight
+                  OnSelect: |-
+                    =Set(varSel, ThisItem);
+                    Navigate(ScrDetailDemande, ScreenTransition.Cover)
+                  Tooltip: ="Afficher le détail"
+                  Width: =40
+                  X: =Parent.TemplateWidth - 64
+                  Y: =18
+            - bib_rectSep:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Fill: =RGBA(212, 222, 242, 1)
+                  Height: =1
+                  Width: =Parent.TemplateWidth
+                  X: =0
+                  Y: =Parent.TemplateHeight - 1
+      - bib_icoVide:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            AccessibleLabel: =Self.Tooltip
+            Color: =RGBA(212, 66, 51, 1)
+            Height: =48
+            Icon: =Icon.Warning
+            Tooltip: =""
+            Visible: =IsEmpty(bib_galEch.AllItems)
+            Width: =48
+            X: =(Parent.Width - 48) / 2
+            Y: =246
+      - bib_lblVide:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =RGBA(36, 34, 106, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =36
+            Size: =16
+            Text: =If(IsBlank(bib_txtRecherche.Text), "La bibliothèque est vide.", "Aucun échantillon ne correspond à « " & bib_txtRecherche.Text & " ».")
+            Visible: =IsEmpty(bib_galEch.AllItems)
+            Width: =Parent.Width - 64
+            X: =32
+            Y: =306
+      - bib_lblVide2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            Color: =RGBA(112, 136, 182, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Normal
+            Height: =28
+            Size: =12
+            Text: |-
+              ="Cet échantillon n'est pas encore déclaré : vous pouvez le déclarer maintenant."
+            Visible: =IsEmpty(bib_galEch.AllItems)
+            Width: =Parent.Width - 64
+            X: =32
+            Y: =344
+      - bib_btnDeclarer:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =RGBA(212, 66, 51, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =1
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(212, 222, 242, 1)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(212, 222, 242, 1)
+            Fill: =RGBA(212, 66, 51, 1)
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Bold
+            Height: =48
+            HoverBorderColor: =RGBA(170, 50, 38, 1)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =RGBA(170, 50, 38, 1)
+            OnSelect: |-
+              =Set(varNomPrefill, Trim(bib_txtRecherche.Text));
+              Navigate(ScrNouvelleDemande, ScreenTransition.Cover)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(36, 34, 106, 1)
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =13
+            Text: =If(IsBlank(bib_txtRecherche.Text), "+  Déclarer un échantillon", "+  Déclarer « " & bib_txtRecherche.Text & " »")
+            Visible: =IsEmpty(bib_galEch.AllItems)
+            Width: =420
+            X: =(Parent.Width - 420) / 2
+            Y: =390

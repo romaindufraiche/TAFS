@@ -7,7 +7,8 @@ Screens:
         =Set(varTentative, false);
         Set(varEnvoiEnCours, false);
         Set(varNextId, 1);
-        ClearCollect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: "", Fourn: ""});
+        ClearCollect(colEchantillons, {Id: 1, Nom: Coalesce(varNomPrefill, ""), Ref: "", TypeSub: "", Source: "", Patho: "", Fourn: ""});
+        Set(varNomPrefill, "");
         Set(varNextId, 2)
     Children:
       - nd_rectHeader:

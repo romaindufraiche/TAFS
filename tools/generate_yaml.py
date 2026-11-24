@@ -129,7 +129,8 @@ def icon(name, ico, x, y, size, color, onselect=None, tooltip="", **extra):
     return ctrl(name, "Classic/Icon@2.5.0", p)
 
 
-def header(prefix, title, subtitle, back=True, back_to="ScrAccueil", back_text="←  Accueil"):
+def header(prefix, title, subtitle, back=True, back_to="ScrAccueil", back_text="←  Accueil",
+           back_action=None):
     items = [
         rect(f"{prefix}_rectHeader", 0, 0, "Parent.Width", HEADER_H, WHITE),
         rect(f"{prefix}_rectAccent", 0, HEADER_H, "Parent.Width", 4, CORAL),
@@ -144,7 +145,7 @@ def header(prefix, title, subtitle, back=True, back_to="ScrAccueil", back_text="
     if back:
         items.append(button(f"{prefix}_btnAccueil", f'"{back_text}"',
                             "Parent.Width - 212", 26, 180, 38,
-                            f"Navigate({back_to}, ScreenTransition.UnCover)",
+                            back_action or f"Navigate({back_to}, ScreenTransition.UnCover)",
                             primary=False))
     return items
 
@@ -158,9 +159,11 @@ def card(name, x, y, w, h):
 # 1. Écran d'accueil : deux boutons, plus d'administration
 # =============================================================================
 def screen_accueil():
-    tile_w, tile_h, gap = 460, 240, 48
-    x1 = f"(Parent.Width - {2 * tile_w + gap}) / 2"
+    tile_w, tile_h, gap = 380, 230, 40
+    total = 3 * tile_w + 2 * gap
+    x1 = f"(Parent.Width - {total}) / 2"
     x2 = f"{x1} + {tile_w + gap}"
+    x3 = f"{x1} + {2 * (tile_w + gap)}"
     y = 250
 
     def tile(prefix, x, title, desc, ico, target):
@@ -177,22 +180,25 @@ def screen_accueil():
             rect(f"acc_rect{prefix}", f"{x} + {tile_w // 2 - 30}", y + tile_h - 28,
                  60, 4, CORAL),
             label(f"acc_lbl{prefix}Desc", f'"{desc}"', x, y + tile_h + 12, tile_w,
-                  44, size=12, color=TEXT, Align="Align.Center"),
+                  60, size=12, color=TEXT, Align="Align.Center"),
         ]
 
     children = header("acc", '"Portail CODECOH"',
                       "\"Gestion des demandes d'échantillons\"", back=False)
     children += [
         label("acc_lblBonjour", '"Bonjour " & User().FullName', x1, 140,
-              2 * tile_w + gap, 40, size=22, color=NAVY, bold=True),
+              total, 40, size=22, color=NAVY, bold=True),
         label("acc_lblIntro",
-              '"Que souhaitez-vous faire ?"', x1, 182, 2 * tile_w + gap, 30,
-              size=13, color=INDIGO500),
+              '"Commencez par vérifier si l\'échantillon existe déjà dans la bibliothèque."',
+              x1, 182, total, 30, size=13, color=INDIGO500),
     ]
-    children += tile("Nouvelle", x1, "Nouvelle demande",
-                     "Déclarer un ou plusieurs échantillons en une seule fois",
+    children += tile("Bibliotheque", x1, "Bibliothèque des échantillons",
+                     "Rechercher si un échantillon est déjà déclaré",
+                     "Icon.Search", "ScrBibliotheque")
+    children += tile("Nouvelle", x2, "Nouvelle demande",
+                     "Déclarer un ou plusieurs échantillons absents de la bibliothèque",
                      "Icon.Add", "ScrNouvelleDemande")
-    children += tile("MesDemandes", x2, "Mes demandes",
+    children += tile("MesDemandes", x3, "Mes demandes",
                      "Suivre l'état de mes déclarations CODECOH",
                      "Icon.DetailList", "ScrMesDemandes")
     children.append(label("acc_lblPied", '"Servier – Animals & Biologics Compliance"',
@@ -410,7 +416,8 @@ If(
     on_visible = f"""Set(varTentative, false);
 Set(varEnvoiEnCours, false);
 Set(varNextId, 1);
-ClearCollect(colEchantillons, {EMPTY_ROW});
+ClearCollect(colEchantillons, {{Id: 1, Nom: Coalesce(varNomPrefill, ""), Ref: "", TypeSub: "", Source: "", Patho: "", Fourn: ""}});
+Set(varNomPrefill, "");
 Set(varNextId, 2)"""
     return render_screen("ScrNouvelleDemande",
                          {"Fill": INDIGO50, "LoadingSpinnerColor": NAVY,
@@ -438,7 +445,7 @@ def screen_mes_demandes():
               "Parent.TemplateWidth - 300", 38, 220, 24, size=11, color=NAVY, bold=True,
               Align="Align.Right", OnSelect="Select(Parent)"),
         icon("NextArrow1", "Icon.ChevronRight", "Parent.TemplateWidth - 64", 18, 40,
-             NAVY, onselect="Navigate(ScrDetailDemande, ScreenTransition.Cover)",
+             NAVY, onselect="Set(varSel, ThisItem);\nNavigate(ScrDetailDemande, ScreenTransition.Cover)",
              tooltip="Afficher le détail"),
         rect("Rectangle1", 0, 0, 4, "Parent.TemplateHeight - 1", CORAL,
              Visible="ThisItem.IsSelected", OnSelect="Select(Parent)"),
@@ -468,7 +475,7 @@ def screen_mes_demandes():
             "Fill": TRANSPARENT,
             "TemplateFill": f"If(ThisItem.IsSelected, {INDIGO50}, {WHITE})",
             "AccessibleLabel": '"Liste de mes demandes"',
-            "OnSelect": "Navigate(ScrDetailDemande, ScreenTransition.Cover)"},
+            "OnSelect": "Set(varSel, ThisItem);\nNavigate(ScrDetailDemande, ScreenTransition.Cover)"},
             children=cells, variant="Vertical"),
     ]
     return render_screen("ScrMesDemandes", {"Fill": INDIGO50,
@@ -480,7 +487,7 @@ def screen_mes_demandes():
 # =============================================================================
 def screen_detail():
     M = 32
-    sel = "Gallery1.Selected"
+    sel = "varSel"
 
     def val(expr):
         return f'If(IsBlank({expr}), "—", Text({expr}))'
@@ -503,7 +510,7 @@ def screen_detail():
     x1 = f"{M} + 24"
     x2 = f"{M} + 24 + {col_w} + 32"
     children = header("dd", '"Détail de la demande"', f"{sel}.{C_NOM}",
-                      back_to="ScrMesDemandes", back_text="←  Mes demandes")
+                      back_text="←  Retour", back_action="Back()")
     children += [
         card("dd_card", M, top, "Parent.Width - 64", 440),
         label("dd_lblTitreBloc", '"Échantillon"', x1, top + 14, 400, 30, size=15,
@@ -538,7 +545,7 @@ def screen_detail():
     ]
     children.append(button("dd_btnPJ", '"📎  Ajouter / modifier les pièces jointes"',
                            f"{M}", top + 460, 360, 44,
-                           "ClearCollect(colCrees, Gallery1.Selected);\nNavigate(ScrPiecesJointes, ScreenTransition.Cover)",
+                           "ClearCollect(colCrees, varSel);\nNavigate(ScrPiecesJointes, ScreenTransition.Cover)",
                            primary=False))
     return render_screen("ScrDetailDemande", {"Fill": INDIGO50,
                                               "LoadingSpinnerColor": NAVY}, children)
@@ -647,6 +654,105 @@ def screen_pieces_jointes():
                          children)
 
 
+# =============================================================================
+# 6. Bibliothèque des échantillons : tous les échantillons déclarés (tous demandeurs)
+# =============================================================================
+def screen_bibliotheque():
+    M = 32
+    sub = (f'Concatenate(If(IsBlank(ThisItem.{C_REF}), "", "Réf. " & ThisItem.{C_REF} & "   "), '
+           f'If(IsBlank(ThisItem.{C_TYPE}), "", ThisItem.{C_TYPE} & "   "), '
+           f'If(IsBlank(ThisItem.{C_TISSU}), "", "· " & ThisItem.{C_TISSU} & "   "), '
+           f'If(IsBlank(ThisItem.{C_PATHO}), "", "· " & ThisItem.{C_PATHO}))')
+    nav_detail = "Set(varSel, ThisItem);\nNavigate(ScrDetailDemande, ScreenTransition.Cover)"
+    nav_new = ("Set(varNomPrefill, Trim(bib_txtRecherche.Text));\n"
+               "Navigate(ScrNouvelleDemande, ScreenTransition.Cover)")
+    cells = [
+        label("bib_lblNom", f"ThisItem.{C_NOM}", 24, 10, "Parent.TemplateWidth - 360", 28,
+              size=14, color=NAVY, bold=True, OnSelect=nav_detail),
+        label("bib_lblSub", sub, 24, 40, "Parent.TemplateWidth - 360", 24, size=12,
+              color=TEXT, OnSelect=nav_detail),
+        label("bib_lblDecl",
+              f'"Déclaré le " & ThisItem.{C_DATE} & '
+              f'If(CountRows(ThisItem.{C_PJ}) > 0, "   📎 " & CountRows(ThisItem.{C_PJ}), "")',
+              "Parent.TemplateWidth - 320", 10, 240, 24, size=11, color=INDIGO500,
+              Align="Align.Right", OnSelect=nav_detail),
+        label("bib_lblDemandeur", f'"par " & ThisItem.{C_DEMANDEUR}',
+              "Parent.TemplateWidth - 320", 38, 240, 24, size=11, color=NAVY, bold=True,
+              Align="Align.Right", OnSelect=nav_detail),
+        icon("bib_icoDetail", "Icon.ChevronRight", "Parent.TemplateWidth - 64", 18, 40,
+             NAVY, onselect=nav_detail, tooltip="Afficher le détail"),
+        rect("bib_rectSep", 0, "Parent.TemplateHeight - 1", "Parent.TemplateWidth", 1,
+             INDIGO200),
+    ]
+    search_y = 112
+    list_y = search_y + 64
+    children = header("bib", '"Bibliothèque des échantillons"',
+                      '"Vérifiez si un échantillon est déjà déclaré avant de faire une demande"')
+    children += [
+        text_input("bib_txtRecherche", '""', M, search_y, 560, h=44,
+                   hint="Rechercher par nom ou référence commerciale…", Size=14),
+        icon("bib_icoRecherche", "Icon.Search", M + 520, search_y + 10, 24, INDIGO500),
+        button("bib_btnEffacer", '"Effacer"', M + 576, search_y + 2, 110, 40,
+               "Reset(bib_txtRecherche)", primary=False,
+               Visible="!IsBlank(bib_txtRecherche.Text)"),
+        button("bib_btnNouvelle", '"Échantillon absent ?  →  Nouvelle demande"',
+               "Parent.Width - 412", search_y + 2, 380, 40, nav_new),
+        card("bib_cardListe", M, list_y, "Parent.Width - 64", f"Parent.Height - {list_y + 32}"),
+        ctrl("bib_galEch", "Gallery@2.15.0", {
+            "Items": f"""SortByColumns(
+    Filter(
+        {DS},
+        IsBlank(bib_txtRecherche.Text)
+            || StartsWith({C_NOM}, bib_txtRecherche.Text)
+            || StartsWith({C_REF}, bib_txtRecherche.Text)
+    ),
+    "Title",
+    SortOrder.Ascending
+)""",
+            "X": M + 1, "Y": list_y + 1, "Width": "Parent.Width - 66",
+            "Height": f"Parent.Height - {list_y + 34}", "TemplateSize": 72,
+            "TemplatePadding": 0, "Fill": TRANSPARENT, "TemplateFill": WHITE,
+            "ShowScrollbar": "true",
+            "AccessibleLabel": '"Bibliothèque des échantillons"'},
+            children=cells, variant="Vertical"),
+        # --- aucun résultat : proposer la déclaration
+        icon("bib_icoVide", "Icon.Warning", "(Parent.Width - 48) / 2", list_y + 70, 48,
+             CORAL, Visible="IsEmpty(bib_galEch.AllItems)"),
+        label("bib_lblVide",
+              'If(IsBlank(bib_txtRecherche.Text), "La bibliothèque est vide.", '
+              '"Aucun échantillon ne correspond à « " & bib_txtRecherche.Text & " ».")',
+              M, list_y + 130, "Parent.Width - 64", 36, size=16, color=NAVY, bold=True,
+              Align="Align.Center", Visible="IsEmpty(bib_galEch.AllItems)"),
+        label("bib_lblVide2",
+              '"Cet échantillon n\'est pas encore déclaré : vous pouvez le déclarer maintenant."',
+              M, list_y + 168, "Parent.Width - 64", 28, size=12, color=INDIGO500,
+              Align="Align.Center", Visible="IsEmpty(bib_galEch.AllItems)"),
+        button("bib_btnDeclarer",
+               'If(IsBlank(bib_txtRecherche.Text), "+  Déclarer un échantillon", '
+               '"+  Déclarer « " & bib_txtRecherche.Text & " »")',
+               "(Parent.Width - 420) / 2", list_y + 214, 420, 48, nav_new,
+               Visible="IsEmpty(bib_galEch.AllItems)"),
+    ]
+    return render_screen("ScrBibliotheque", {"Fill": INDIGO50,
+                                             "LoadingSpinnerColor": NAVY}, children)
+
+
+# Formule OnSelect du bouton Envoyer en syntaxe française (« ; » et « ;; »)
+def fr(src):
+    out, instr, inq = [], False, False
+    for ch in src:
+        if ch == '"' and not inq:
+            instr = not instr
+        elif ch == "'" and not instr:
+            inq = not inq
+        elif not instr and not inq and ch == ';':
+            out.append(';;'); continue
+        elif not instr and not inq and ch == ',':
+            out.append(';'); continue
+        out.append(ch)
+    return ''.join(out)
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     files = {
@@ -655,24 +761,12 @@ def main():
         "3_ScrMesDemandes.pa.yaml": screen_mes_demandes(),
         "4_ScrDetailDemande.pa.yaml": screen_detail(),
         "5_ScrPiecesJointes.pa.yaml": screen_pieces_jointes(),
+        "6_ScrBibliotheque.pa.yaml": screen_bibliotheque(),
     }
     for name, content in files.items():
         (OUT / name).write_text(content, encoding="utf-8")
         print("écrit", OUT / name)
-    # Formule OnSelect du bouton Envoyer en syntaxe française (« ; » et « ;; »)
-    def fr(src):
-        out, instr, inq = [], False, False
-        for ch in src:
-            if ch == '"' and not inq:
-                instr = not instr
-            elif ch == "'" and not instr:
-                inq = not inq
-            elif not instr and not inq and ch == ';':
-                out.append(';;'); continue
-            elif not instr and not inq and ch == ',':
-                out.append(';'); continue
-            out.append(ch)
-        return ''.join(out)
+
     for c in SCREENS["ScrNouvelleDemande"][1]:
         if c["name"] == "nd_btnEnvoyer":
             (OUT / "controles_seuls" / "2_bouton_Envoyer_OnSelect_FR.txt").write_text(
@@ -690,7 +784,7 @@ def main():
         (OUT / "controles_seuls" / f"{i}_{name}_controles.pa.yaml").parent.mkdir(exist_ok=True)
         (OUT / "controles_seuls" / f"{i}_{name}_controles.pa.yaml").write_text(
             "\n".join(lines) + "\n", encoding="utf-8")
-        props_txt = "\n\n".join(f"### Propriété {k} (à coller dans la barre de formule)\n{v}" for k, v in sorted(props.items()))
+        props_txt = "\n\n".join(f"### Propriété {k} (à coller dans la barre de formule)\n{fr(str(v))}" for k, v in sorted(props.items()))
         (OUT / "controles_seuls" / f"{i}_{name}_proprietes_ecran.txt").write_text(
             props_txt + "\n", encoding="utf-8")
 

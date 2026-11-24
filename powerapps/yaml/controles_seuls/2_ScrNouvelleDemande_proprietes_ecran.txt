@@ -1,12 +1,13 @@
 ### Propriété Fill (à coller dans la barre de formule)
-RGBA(235, 235, 249, 1)
+RGBA(235; 235; 249; 1)
 
 ### Propriété LoadingSpinnerColor (à coller dans la barre de formule)
-RGBA(36, 34, 106, 1)
+RGBA(36; 34; 106; 1)
 
 ### Propriété OnVisible (à coller dans la barre de formule)
-Set(varTentative, false);
-Set(varEnvoiEnCours, false);
-Set(varNextId, 1);
-ClearCollect(colEchantillons, {Id: varNextId, Nom: "", Ref: "", TypeSub: "", Source: "", Patho: "", Fourn: ""});
-Set(varNextId, 2)
+Set(varTentative; false);;
+Set(varEnvoiEnCours; false);;
+Set(varNextId; 1);;
+ClearCollect(colEchantillons; {Id: 1; Nom: Coalesce(varNomPrefill; ""); Ref: ""; TypeSub: ""; Source: ""; Patho: ""; Fourn: ""});;
+Set(varNomPrefill; "");;
+Set(varNextId; 2)

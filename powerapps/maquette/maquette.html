@@ -11,11 +11,11 @@
 .btn{border-radius:4px;font-weight:bold;font-size:16px;padding:0 18px;height:40px;border:1px solid var(--navy);background:#fff;color:var(--navy);display:inline-flex;align-items:center;justify-content:center}
 .btn.pri{background:var(--coral);border-color:var(--coral);color:#fff}
 .back{position:absolute;right:32px;top:26px;width:140px}
-.tiles{display:flex;gap:48px;justify-content:center;margin-top:36px}
-.tile{width:460px}.tile .t{height:240px;background:var(--navy);border-radius:8px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:28px;font-weight:bold;position:relative}
+.tiles{display:flex;gap:40px;justify-content:center;margin-top:36px}
+.tile{width:380px}.tile .t{height:230px;text-align:center;font-size:26px;background:var(--navy);border-radius:8px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:28px;font-weight:bold;position:relative}
 .tile .t .ic{font-size:56px;line-height:1;margin-bottom:18px}.tile .t:after{content:"";position:absolute;bottom:24px;width:60px;height:4px;background:var(--coral)}
 .tile p{text-align:center;font-size:15px;margin:14px 0}
-.hello{width:968px;margin:48px auto 0}.hello h2{margin:0;color:var(--navy);font-size:28px}.hello p{margin:6px 0 0;color:var(--i500);font-size:17px}
+.hello{width:1220px;margin:48px auto 0}.hello h2{margin:0;color:var(--navy);font-size:28px}.hello p{margin:6px 0 0;color:var(--i500);font-size:17px}
 .foot{position:absolute;bottom:10px;width:100%;text-align:center;color:var(--i500);font-size:13px}
 .card{background:#fff;border:1px solid var(--i200);margin:16px 32px 0;padding:12px 24px}
 .card h3{margin:0 0 10px;color:var(--navy);font-size:18px;display:flex;justify-content:space-between;align-items:center}
@@ -37,12 +37,13 @@ td{height:56px;padding:0 5px;border-bottom:1px solid var(--i200)}td .in{width:10
 .chev{font-size:28px;color:var(--navy);margin-left:24px}
 </style></head><body>
 
-<div class="cap">1 · Accueil — deux boutons, plus d'administration</div>
+<div class="cap">1 · Accueil — Bibliothèque, Nouvelle demande, Mes demandes</div>
 <div class="screen">
  <div class="hdr"><div class="logo">logo ABC</div><div><h1>Portail CODECOH</h1><p>Gestion des demandes d'échantillons</p></div></div>
- <div class="hello"><h2>Bonjour Romain Dufraiche</h2><p>Que souhaitez-vous faire ?</p></div>
+ <div class="hello"><h2>Bonjour Romain Dufraiche</h2><p>Commencez par vérifier si l'échantillon existe déjà dans la bibliothèque.</p></div>
  <div class="tiles">
-  <div class="tile"><div class="t"><div class="ic">＋</div>Nouvelle demande</div><p>Déclarer un ou plusieurs échantillons en une seule fois</p></div>
+  <div class="tile"><div class="t"><div class="ic">🔍</div>Bibliothèque des échantillons</div><p>Rechercher si un échantillon est déjà déclaré</p></div>
+  <div class="tile"><div class="t"><div class="ic">＋</div>Nouvelle demande</div><p>Déclarer un ou plusieurs échantillons absents de la bibliothèque</p></div>
   <div class="tile"><div class="t"><div class="ic">☰</div>Mes demandes</div><p>Suivre l'état de mes déclarations CODECOH</p></div>
  </div>
  <div class="foot">Servier – Animals &amp; Biologics Compliance</div>
@@ -89,5 +90,29 @@ td{height:56px;padding:0 5px;border-bottom:1px solid var(--i200)}td .in{width:10
    <div style="color:var(--i500);font-size:14px;margin-top:150px">Astuce : un fichier commun à plusieurs échantillons doit être joint à chacun d'eux.</div>
   </div></div>
  <div class="footer" style="justify-content:flex-end"><div class="btn pri" style="width:300px;height:44px">Enregistrer les pièces jointes</div><div class="btn" style="width:240px;height:44px">Terminer  →</div></div>
+</div>
+
+<div class="cap">5 · Bibliothèque des échantillons — recherche + liste complète</div>
+<div class="screen">
+ <div class="hdr"><div class="logo">logo ABC</div><div><h1>Bibliothèque des échantillons</h1><p>Vérifiez si un échantillon est déjà déclaré avant de faire une demande</p></div><div class="btn back">←  Accueil</div></div>
+ <div style="display:flex;justify-content:space-between;margin:20px 32px 0"><div class="in" style="width:560px;height:44px;font-size:17px">Rechercher par nom ou référence commerciale…  🔍</div><div class="btn pri" style="width:380px">Échantillon absent ?  →  Nouvelle demande</div></div>
+ <div class="card list" style="padding:0;height:540px">
+  <div class="row"><div class="l"><b>HEK293</b><div>Réf. CRL-1573 &nbsp; Lignée cellulaire &nbsp; · Rein</div></div><div class="r"><div class="d">Déclaré le 19/11/2026 &nbsp; 📎 2</div><div style="color:var(--navy);font-weight:bold">par Romain Dufraiche</div></div><div class="chev">›</div></div>
+  <div class="row"><div class="l"><b>HeLa</b><div>Réf. CCL-2 &nbsp; Lignée cellulaire &nbsp; · Col utérin &nbsp; · Adénocarcinome</div></div><div class="r"><div class="d">Déclaré le 19/11/2026 &nbsp; 📎 2</div><div style="color:var(--navy);font-weight:bold">par Romain Dufraiche</div></div><div class="chev">›</div></div>
+  <div class="row"><div class="l"><b>Jurkat</b><div>Réf. TIB-152 &nbsp; Lignée cellulaire &nbsp; · Sang &nbsp; · Leucémie T</div></div><div class="r"><div class="d">Déclaré le 12/11/2026</div><div style="color:var(--navy);font-weight:bold">par Marie Lambert</div></div><div class="chev">›</div></div>
+  <div class="row"><div class="l"><b>Sérum de lapin</b><div>Sérum &nbsp; · Sang</div></div><div class="r"><div class="d">Déclaré le 19/11/2026</div><div style="color:var(--navy);font-weight:bold">par Romain Dufraiche</div></div><div class="chev">›</div></div>
+ </div>
+</div>
+
+<div class="cap">6 · Bibliothèque — échantillon introuvable</div>
+<div class="screen">
+ <div class="hdr"><div class="logo">logo ABC</div><div><h1>Bibliothèque des échantillons</h1><p>Vérifiez si un échantillon est déjà déclaré avant de faire une demande</p></div><div class="btn back">←  Accueil</div></div>
+ <div style="display:flex;justify-content:space-between;margin:20px 32px 0"><div style="display:flex;gap:16px"><div class="in v" style="width:560px;height:44px;font-size:17px">MCF-7</div><div class="btn" style="width:110px">Effacer</div></div><div class="btn pri" style="width:380px">Échantillon absent ?  →  Nouvelle demande</div></div>
+ <div class="card" style="height:540px;text-align:center;padding-top:60px">
+  <div style="font-size:44px;color:var(--coral)">⚠</div>
+  <div style="color:var(--navy);font-weight:bold;font-size:20px;margin-top:12px">Aucun échantillon ne correspond à « MCF-7 ».</div>
+  <div style="color:var(--i500);font-size:15px;margin-top:10px">Cet échantillon n'est pas encore déclaré : vous pouvez le déclarer maintenant.</div>
+  <div class="btn pri" style="width:420px;height:48px;margin-top:24px">+  Déclarer « MCF-7 »</div>
+ </div>
 </div>
 </body></html>

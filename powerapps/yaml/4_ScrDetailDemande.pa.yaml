@@ -49,7 +49,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =26
             Size: =12
-            Text: =Gallery1.Selected.Titre
+            Text: =varSel.Titre
             Width: =900
             X: =148
             Y: =50
@@ -70,7 +70,7 @@ Screens:
             HoverBorderColor: =RGBA(36, 34, 106, 1)
             HoverColor: =RGBA(36, 34, 106, 1)
             HoverFill: =RGBA(235, 235, 249, 1)
-            OnSelect: =Navigate(ScrMesDemandes, ScreenTransition.UnCover)
+            OnSelect: =Back()
             PressedColor: =RGBA(255, 255, 255, 1)
             PressedFill: =RGBA(36, 34, 106, 1)
             RadiusBottomLeft: =4
@@ -78,7 +78,7 @@ Screens:
             RadiusTopLeft: =4
             RadiusTopRight: =4
             Size: =13
-            Text: ="←  Mes demandes"
+            Text: ="←  Retour"
             Width: =180
             X: =Parent.Width - 212
             Y: =26
@@ -125,7 +125,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =32
             Size: =14
-            Text: =If(IsBlank(Gallery1.Selected.Titre), "—", Text(Gallery1.Selected.Titre))
+            Text: =If(IsBlank(varSel.Titre), "—", Text(varSel.Titre))
             Width: =(Parent.Width - 64 - 48 - 32) / 2
             X: =32 + 24
             Y: =190
@@ -149,7 +149,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =32
             Size: =14
-            Text: =If(IsBlank(Gallery1.Selected.'Ref commerciale'), "—", Text(Gallery1.Selected.'Ref commerciale'))
+            Text: =If(IsBlank(varSel.'Ref commerciale'), "—", Text(varSel.'Ref commerciale'))
             Width: =(Parent.Width - 64 - 48 - 32) / 2
             X: =32 + 24
             Y: =262
@@ -173,7 +173,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =32
             Size: =14
-            Text: =If(IsBlank(Gallery1.Selected.'Type de substance'), "—", Text(Gallery1.Selected.'Type de substance'))
+            Text: =If(IsBlank(varSel.'Type de substance'), "—", Text(varSel.'Type de substance'))
             Width: =(Parent.Width - 64 - 48 - 32) / 2
             X: =32 + 24
             Y: =334
@@ -197,7 +197,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =32
             Size: =14
-            Text: =If(IsBlank(Gallery1.Selected.'Tissue source'), "—", Text(Gallery1.Selected.'Tissue source'))
+            Text: =If(IsBlank(varSel.'Tissue source'), "—", Text(varSel.'Tissue source'))
             Width: =(Parent.Width - 64 - 48 - 32) / 2
             X: =32 + 24
             Y: =406
@@ -221,7 +221,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =32
             Size: =14
-            Text: =If(IsBlank(Gallery1.Selected.'Coordonnées fournisseur'), "—", Text(Gallery1.Selected.'Coordonnées fournisseur'))
+            Text: =If(IsBlank(varSel.'Coordonnées fournisseur'), "—", Text(varSel.'Coordonnées fournisseur'))
             Width: =(Parent.Width - 64 - 48 - 32) / 2
             X: =32 + 24
             Y: =478
@@ -245,7 +245,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =32
             Size: =14
-            Text: =If(IsBlank(Gallery1.Selected.Pathologie), "—", Text(Gallery1.Selected.Pathologie))
+            Text: =If(IsBlank(varSel.Pathologie), "—", Text(varSel.Pathologie))
             Width: =(Parent.Width - 64 - 48 - 32) / 2
             X: =32 + 24 + (Parent.Width - 64 - 48 - 32) / 2 + 32
             Y: =190
@@ -269,7 +269,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =32
             Size: =14
-            Text: =If(IsBlank(Gallery1.Selected.'Nom demandeur'), "—", Text(Gallery1.Selected.'Nom demandeur'))
+            Text: =If(IsBlank(varSel.'Nom demandeur'), "—", Text(varSel.'Nom demandeur'))
             Width: =(Parent.Width - 64 - 48 - 32) / 2
             X: =32 + 24 + (Parent.Width - 64 - 48 - 32) / 2 + 32
             Y: =262
@@ -293,7 +293,7 @@ Screens:
             FontWeight: =FontWeight.Normal
             Height: =32
             Size: =14
-            Text: =If(IsBlank(Gallery1.Selected.'Date enregistrement demande'), "—", Text(Gallery1.Selected.'Date enregistrement demande'))
+            Text: =If(IsBlank(varSel.'Date enregistrement demande'), "—", Text(varSel.'Date enregistrement demande'))
             Width: =(Parent.Width - 64 - 48 - 32) / 2
             X: =32 + 24 + (Parent.Width - 64 - 48 - 32) / 2 + 32
             Y: =334
@@ -318,7 +318,7 @@ Screens:
             Height: =32
             Size: =14
             Text: ="—"
-            Visible: =IsEmpty(Gallery1.Selected.'Pièces jointes')
+            Visible: =IsEmpty(varSel.'Pièces jointes')
             Width: =(Parent.Width - 64 - 48 - 32) / 2
             X: =32 + 24 + (Parent.Width - 64 - 48 - 32) / 2 + 32
             Y: =406
@@ -329,7 +329,7 @@ Screens:
             AccessibleLabel: ="Pièces jointes"
             Fill: =RGBA(0, 0, 0, 0)
             Height: =100
-            Items: =Gallery1.Selected.'Pièces jointes'
+            Items: =varSel.'Pièces jointes'
             TemplatePadding: =0
             TemplateSize: =30
             Width: =(Parent.Width - 64 - 48 - 32) / 2
@@ -369,7 +369,7 @@ Screens:
             HoverColor: =RGBA(36, 34, 106, 1)
             HoverFill: =RGBA(235, 235, 249, 1)
             OnSelect: |-
-              =ClearCollect(colCrees, Gallery1.Selected);
+              =ClearCollect(colCrees, varSel);
               Navigate(ScrPiecesJointes, ScreenTransition.Cover)
             PressedColor: =RGBA(255, 255, 255, 1)
             PressedFill: =RGBA(36, 34, 106, 1)
